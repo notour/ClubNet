@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  clubnet.website:
+    image: ${DOCKER_REGISTRY}clubnetwebsite
+    build:
+      context: .
+      dockerfile: Site\ClubNet.WebSite\Dockerfile

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>aspnet-ClubNet.WebSite-DC3ED895-2125-4568-9B72-DE226D2AA867</UserSecretsId>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\ClubNet.Shared.Api\ClubNet.Shared.Api.csproj" />
+    <ProjectReference Include="..\ClubNet.WebSite.BusinessLayer\ClubNet.WebSite.BusinessLayer.csproj" />
+    <ProjectReference Include="..\ClubNet.WebSite.Common\ClubNet.WebSite.Common.csproj" />
+    <ProjectReference Include="..\ClubNet.WebSite.Services\ClubNet.WebSite.Services.csproj" />
+  </ItemGroup>
+
+</Project>
