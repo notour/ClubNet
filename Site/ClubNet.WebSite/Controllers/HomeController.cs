@@ -6,16 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ClubNet.WebSite.Models;
 using ClubNet.WebSite.DataLayer;
+using Microsoft.Extensions.Configuration;
 
 namespace ClubNet.WebSite.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(IStorageServiceProvider provider)
-        {
-            var storage = provider.GetStorageService<Domain.User.UserInfo>();
-        }
-
         public IActionResult Index()
         {
             return View();

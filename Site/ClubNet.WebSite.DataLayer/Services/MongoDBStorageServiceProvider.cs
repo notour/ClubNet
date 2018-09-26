@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using ClubNet.WebSite.DataLayer.Configurations;
+using ClubNet.WebSite.DataLayer.Tools;
+using ClubNet.WebSite.Domain.User;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace ClubNet.WebSite.DataLayer.Services
@@ -45,16 +49,21 @@ namespace ClubNet.WebSite.DataLayer.Services
         /// <summary>
         /// Initialized a new instance of the class <see cref="MongoDBStorageServiceProvider"/>
         /// </summary>
-        public MongoDBStorageServiceProvider(IConfiguration configuration)
+        public MongoDBStorageServiceProvider(IOptions<MongoDBConfiguration> configuration)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
-            _mongoConfig = configuration.GetConfig<MongoDBConfiguration>(MongoDBConfiguration.ConfigurationSectionKey);
-            _collectionNames = _mongoConfig.CollectionNames.SelectMany(c => c.Value)
-                                                           .ToImmutableDictionary(k => k, v => _mongoConfig.CollectionNames.First(t => t.Value.Contains(v)).Key);
+            _mongoConfig = configuration.Value;
 
-            _mongoClient = new MongoClient($"mongodb://${_mongoConfig.Host}:${_mongoConfig.Port}/${_mongoConfig.DataBase}");
+            _storageLocker = new ReaderWriterLockSlim();
+            _storageServices = ImmutableDictionary<Type, IStorageService>.Empty;
+
+            _collectionNames = _mongoConfig.CollectionNames.SelectMany(c => c.Value)
+                                                           .ToImmutableDictionary(k => Type.GetType(k), 
+                                                                                  v => _mongoConfig.CollectionNames.First(t => t.Value.Contains(v)).Key);
+
+            _mongoClient = new MongoClient($"mongodb://{_mongoConfig.Host}:{_mongoConfig.Port}/{_mongoConfig.DataBase}");
 
             _mongoDB = _mongoClient.GetDatabase(_mongoConfig.DataBase, s_mongoSettings);
         }
@@ -72,7 +81,7 @@ namespace ClubNet.WebSite.DataLayer.Services
         public IStorageService<TEntity> GetStorageService<TEntity>()
         {
             var key = typeof(TEntity);
-            using (_storageLocker.LockRead())
+            using (_storageLocker.LockRead())           
             {
                 if (this._storageServices.TryGetValue(key, out var storageService))
                     return (IStorageService<TEntity>)storageService;
@@ -87,6 +96,9 @@ namespace ClubNet.WebSite.DataLayer.Services
 
                 if (_collectionNames.TryGetValue(key, out var configKey))
                     collectionName = configKey;
+
+                // Ensure the mongo drive can map the current entity equired
+                DomainMongoMapper.Map<TEntity>();
 
                 var newStorageService = new MongoDBStorageService<TEntity>(_mongoDB.GetCollection<TEntity>(collectionName));
                 this._storageServices = this._storageServices.Add(key, newStorageService);

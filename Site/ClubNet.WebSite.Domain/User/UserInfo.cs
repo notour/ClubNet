@@ -2,24 +2,30 @@
 
 using ClubNet.WebSite.Common;
 
+using Microsoft.AspNetCore.Identity;
+
 namespace ClubNet.WebSite.Domain.User
 {
     /// <summary>
     /// Define all the user informations
     /// </summary>
-    public class UserInfo : UserMinimalInfo, IUserInfo
+    public class UserInfo : IdentityUser<Guid>, IUserInfo
     {
         #region Ctor
 
         /// <summary>
         /// Initialize a new instance of the class <see cref="UserInfo"/>
         /// </summary>
-        public UserInfo(Guid id, string displayName, string login, string email, string passwordHash)
-            : base(id, displayName)
+        public UserInfo()
         {
-            Login = login;
-            Email = email;
-            PasswordHash = passwordHash;
+        }
+
+        /// <summary>
+        /// Initialize a new instance of the class <see cref="UserInfo"/>
+        /// </summary>
+        public UserInfo(string userName)
+            : base(userName)
+        {
         }
 
         #endregion
@@ -27,19 +33,9 @@ namespace ClubNet.WebSite.Domain.User
         #region Properties
 
         /// <summary>
-        /// Gets the user login
+        /// Gets the simple display information we should use on display
         /// </summary>
-        public string Login { get; }
-
-        /// <summary>
-        /// Get the user email informations
-        /// </summary>
-        public string Email { get; }
-
-        /// <summary>
-        /// Gets the user password hash
-        /// </summary>
-        public string PasswordHash { get; }
+        public string DisplayName { get; set; }
 
         #endregion
     }

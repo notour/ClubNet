@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.Configuration
         /// </summary>
         public static TConfig GetConfig<TConfig>(this IConfiguration config, string sectionKey)
         {
-            var section = config.GetSection(sectionKey);
+            var section = config.GetSection(sectionKey + ":*");
 
             throw new NotImplementedException();
 

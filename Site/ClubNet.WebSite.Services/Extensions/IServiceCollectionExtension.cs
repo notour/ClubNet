@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         public static IServiceCollection AddClubNetToolsServices(this IServiceCollection services)
         {
-            services.AddSingleton<IPasswordHasher<IUserInfo>, Sha1PasswodHasher>();
+            services.AddSingleton<IPasswordHasher<UserInfo>, Sha1PasswodHasher>();
             return services;
         }
 
@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         public static IServiceCollection AddClubNetUserServices(this IServiceCollection service)
         {
-            service.AddDefaultIdentity<IUserInfo>(cfg =>
+            service.AddDefaultIdentity<UserInfo>(cfg =>
             {
                 // Password rules
                 cfg.Password.RequireUppercase = true;
@@ -43,7 +43,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 cfg.Lockout.MaxFailedAccessAttempts = 5;
 
             })
-            .AddUserManager<ClubNetUserManager>();
+            .AddUserManager<UserManager<UserInfo>>();
 
             return service;
         }

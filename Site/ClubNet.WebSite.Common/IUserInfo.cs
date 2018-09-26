@@ -1,4 +1,6 @@
-﻿namespace ClubNet.WebSite.Common
+﻿using System;
+
+namespace ClubNet.WebSite.Common
 {
     /// <summary>
     /// Contains that expose only the basic user information needed
@@ -8,14 +10,24 @@
         #region Properties
 
         /// <summary>
+        /// Gets the user unique id
+        /// </summary>
+        Guid Id { get; }
+
+        /// <summary>
         /// Gets the login user informartion
         /// </summary>
-        string Login { get; }
+        string UserName { get; }
 
         /// <summary>
         /// Gets the user email address
         /// </summary>
         string Email { get; }
+
+        /// <summary>
+        /// Gets the simple display information we should use on display
+        /// </summary>
+        string DisplayName { get; }
 
         #endregion
     }

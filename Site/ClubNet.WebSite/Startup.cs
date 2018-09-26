@@ -1,4 +1,8 @@
-﻿using ClubNet.WebSite.BusinessLayer.Extensions;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using ClubNet.Framework.Attributes;
+using ClubNet.WebSite.BusinessLayer.Extensions;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,7 +57,7 @@ namespace ClubNet.WebSite
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddBusinessLayerServices();
+            services.AddBusinessLayerServices(Configuration);
 
             services.AddClubNetToolsServices()
                     .AddClubNetUserServices();
