@@ -28,6 +28,14 @@ namespace ClubNet.WebSite.DataLayer.Services
         #region Ctor
 
         /// <summary>
+        /// Initialize the class <see cref="MongoDBStorageService{TEntity}"/>
+        /// </summary>
+        static MongoDBStorageService()
+        {
+            s_projectionLocker = new ReaderWriterLockSlim();
+        }
+
+        /// <summary>
         /// Initialize a new instance of the class <see cref="MongoDBStorageService"/>
         /// </summary>
         /// <param name="mongoDBCollection"></param>
@@ -39,6 +47,8 @@ namespace ClubNet.WebSite.DataLayer.Services
         #endregion
 
         #region Methods
+
+        #region Find
 
         /// <summary>
         /// Find the first result that match the filter
@@ -71,6 +81,45 @@ namespace ClubNet.WebSite.DataLayer.Services
         {
             return await OnFind<TProjection>(filter).ToListAsync(cancellationToken);
         }
+
+        #endregion
+
+        #region Save/Update
+
+        /// <summary>
+        /// Create a new entity in the system
+        /// </summary>
+        public Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken)
+        {
+            return CreateAsync(entity, null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Create a new item it an existing one exist with the unicity selector then return it except if the parameter thownOnConflict is set to true
+        /// </summary>
+        public async Task<TEntity> CreateAsync(TEntity entity, Expression<Func<TEntity, bool>> unicitySelector, CancellationToken cancellationToken, bool thownOnConflict = false)
+        {
+            if (unicitySelector != null)
+            {
+                var exist = await OnFind(unicitySelector).Limit(1).FirstOrDefaultAsync(cancellationToken);
+                if (EqualityComparer<TEntity>.Equals(exist, EqualityComparer<TEntity>.Default))
+                {
+                    if (thownOnConflict)
+                        throw new NotImplementedException("Exception type and management not implemented yet in case of conflict");
+                    return exist;
+                }
+            }
+            this._mongoDBCollection.InsertOne(entity, null, cancellationToken);
+
+            return entity;
+        }
+
+        public Task<TEntity> Save(TEntity user, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         #region Tools
 

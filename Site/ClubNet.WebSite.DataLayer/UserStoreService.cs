@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ClubNet.Framework.Memory;
 using ClubNet.WebSite.Common;
+using ClubNet.WebSite.Common.Contracts;
+using ClubNet.WebSite.Common.Errors;
 using ClubNet.WebSite.Domain.User;
 using Microsoft.AspNetCore.Identity;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ClubNet.WebSite.DataLayer
 {
@@ -17,7 +23,8 @@ namespace ClubNet.WebSite.DataLayer
         #region Fields
 
         private readonly IStorageService<UserInfo> _userStorage;
-        
+        private readonly IServiceProvider _serviceProvider;
+
         #endregion
 
         #region Ctor
@@ -25,8 +32,10 @@ namespace ClubNet.WebSite.DataLayer
         /// <summary>
         /// Initialize a new instance of the class <see cref="UserStoreService"/>
         /// </summary>
-        public UserStoreService(IStorageServiceProvider storageServiceProvider)
+        public UserStoreService(IStorageServiceProvider storageServiceProvider, IServiceProvider serviceProvider)
         {
+            
+            _serviceProvider = serviceProvider;
             _userStorage = storageServiceProvider.GetStorageService<UserInfo>();
         }
 
@@ -34,9 +43,40 @@ namespace ClubNet.WebSite.DataLayer
 
         #region Methods
 
-        public Task<IdentityResult> CreateAsync(UserInfo user, CancellationToken cancellationToken)
+        /// <summary>
+        /// Create a new user in the ClubNet system
+        /// </summary>
+        public async Task<IdentityResult> CreateAsync(UserInfo user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var errorService = new Lazy<IErrorService>(() => this._serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IErrorService>());
+            IdentityResult identity = null;
+            try
+            {
+                user.Id = Guid.NewGuid();
+                var userSaved = await _userStorage.CreateAsync(user, u => u.NormalizedEmail == user.NormalizedEmail, cancellationToken);
+
+                if (userSaved != null && user.Id == userSaved.Id)
+                    identity = IdentityResult.Success;
+                else
+                    identity = IdentityResult.Failed(new IdentityError()
+                    {
+                        Code = InternalErrorCodes.Conflict.GetCodeString(),
+                        Description = errorService.Value.GetErrorDescription(ErrorCategory.User, InternalErrorCodes.Conflict, nameof(CreateAsync), user.NormalizedEmail)
+                    });
+            }
+            catch (Exception ex)
+            {
+                var errorLoggedId = errorService.Value.LogError(ErrorCategory.User, InternalErrorCodes.InternalError, nameof(CreateAsync), ex, user.ToDiagnosticJson());
+                identity = IdentityResult.Failed(new IdentityError()
+                {
+                    Code = InternalErrorCodes.InternalError.GetCodeString(),
+                    Description = errorService.Value.GetErrorDescription(ErrorCategory.User, InternalErrorCodes.InternalError, errorLoggedId)
+                });
+            }
+
+            return identity;
         }
 
         public Task<IdentityResult> DeleteAsync(UserInfo user, CancellationToken cancellationToken)
@@ -44,7 +84,7 @@ namespace ClubNet.WebSite.DataLayer
             throw new System.NotImplementedException();
         }
 
-        public Task<UserInfo> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+        public async Task<UserInfo> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 

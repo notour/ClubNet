@@ -18,4 +18,28 @@
     <ProjectReference Include="..\ClubNet.WebSite.Services\ClubNet.WebSite.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\GlobalRes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GlobalRes.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\UserRes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UserRes.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\GlobalRes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GlobalRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UserRes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

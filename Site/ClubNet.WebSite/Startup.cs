@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("ClubNet.Website.ClubNet.WebSite.UTest")]
+
 namespace ClubNet.WebSite
 {
     /// <summary>
@@ -56,6 +59,8 @@ namespace ClubNet.WebSite
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            services.AddClubNetViewServices();
 
             services.AddBusinessLayerServices(Configuration);
 
