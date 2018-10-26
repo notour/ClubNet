@@ -15,6 +15,7 @@
     <ProjectReference Include="..\..\Shared\ClubNet.Shared.Api\ClubNet.Shared.Api.csproj" />
     <ProjectReference Include="..\ClubNet.WebSite.BusinessLayer\ClubNet.WebSite.BusinessLayer.csproj" />
     <ProjectReference Include="..\ClubNet.WebSite.Common\ClubNet.WebSite.Common.csproj" />
+    <ProjectReference Include="..\ClubNet.WebSite.Interface.Domain\ClubNet.WebSite.ViewModel.csproj" />
     <ProjectReference Include="..\ClubNet.WebSite.Services\ClubNet.WebSite.Services.csproj" />
   </ItemGroup>
 
