@@ -25,7 +25,7 @@ namespace ClubNet.WebSite.Managers
         /// </summary>
         public MenuManager(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
+            //_serviceProvider = serviceProvider;
         }
 
         #endregion
