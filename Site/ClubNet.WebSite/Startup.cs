@@ -63,7 +63,7 @@ namespace ClubNet.WebSite
             services.AddClubNetToolsServices()
                     .AddClubNetUserServices();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         /// <summary>

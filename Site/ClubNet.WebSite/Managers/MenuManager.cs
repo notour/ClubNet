@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
-using ClubNet.WebSite.Interface.Domain;
+
+using ClubNet.WebSite.ViewModel;
 
 namespace ClubNet.WebSite.Managers
 {

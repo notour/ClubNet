@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ClubNet.WebSite.Interface.Domain
+namespace ClubNet.WebSite.ViewModel
 {
     public class MenuVM : MenuItemVM
     {
