@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using ClubNet.WebSite.BusinessLayer.Contracts;
 using ClubNet.WebSite.Containers;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -59,7 +61,9 @@ namespace ClubNet.WebSite.ViewModels
         [TempData]
         public string ErrorMessage { get; set; }
 
-#end
+        #endregion
+
+        #region Methods
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -111,5 +115,7 @@ namespace ClubNet.WebSite.ViewModels
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
+        #endregion
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using ClubNet.Framework.Attributes;
-using ClubNet.WebSite.BusinessLayer.Extensions;
+﻿using ClubNet.WebSite.BusinessLayer.Extensions;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
