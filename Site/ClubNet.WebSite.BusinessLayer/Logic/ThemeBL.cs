@@ -12,13 +12,9 @@ using System.Text;
 
 namespace ClubNet.WebSite.BusinessLayer.Logic
 {
-    class ThemeBL : IThemeBL
+    class ThemeBL : BaseBL, IThemeBL
     {
         #region Fields
-
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly IConfigService _configService;
-
         #endregion
 
         #region Ctor
@@ -27,9 +23,8 @@ namespace ClubNet.WebSite.BusinessLayer.Logic
         /// Initialize a new instance of the class <see cref="ThemeBL"/>
         /// </summary>
         public ThemeBL(IHttpContextAccessor contextAccessor, IConfigService configService)
+            : base(contextAccessor, configService)
         {
-            _contextAccessor = contextAccessor;
-            _configService = configService;
         }
 
         #endregion
@@ -43,11 +38,11 @@ namespace ClubNet.WebSite.BusinessLayer.Logic
         {
             get
             {
-                if (_contextAccessor != null && _contextAccessor.HttpContext != null)
+                if (ContextAccessor != null && ContextAccessor.HttpContext != null)
                 {
 
                 }
-                return _configService.DefaultTheme;
+                return ConfigService.DefaultTheme;
             }
         }
 

@@ -1,16 +1,114 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ClubNet.Framework.Helpers;
 using ClubNet.WebSite.BusinessLayer.Contracts;
+using ClubNet.WebSite.Common.Contracts;
+using ClubNet.WebSite.DataLayer;
+using ClubNet.WebSite.Domain;
+using ClubNet.WebSite.Domain.Configs.Menu;
+using ClubNet.WebSite.ViewModel.Menus;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ClubNet.WebSite.BusinessLayer.Logic
 {
     /// <summary>
     /// Business layer implementation of the contract <see cref="IMenuBL"/> in charge of the club net menu managment
     /// </summary>
-    class MenuBL : IMenuBL
+    class MenuBL : BaseBL, IMenuBL
     {
+        #region Fields
+
+        private readonly IStorageService<MenuItem> _serviceProvider;
+        private readonly ISecurityBL _securityBL;
+
+        #endregion
+
         #region Ctor
+
+        /// <summary>
+        /// Initialize a new instance of the class <see cref="MenuBL"/>
+        /// </summary>
+        public MenuBL(IHttpContextAccessor contextAccessor, IConfigService configService, IStorageServiceProvider serviceProvider, ISecurityBL securityBL)
+            : base(contextAccessor, configService)
+        {
+            _serviceProvider = serviceProvider.GetStorageService<MenuItem>();
+            _securityBL = securityBL;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets the menu view models by name
+        /// </summary>
+        public async Task<IEnumerable<MenuItemVM>> GetMenuAsync(string menuName)
+        {
+            try
+            {
+                using (var timeout = GetTimeoutToken())
+                {
+                    var menu = await this._serviceProvider.FindFirstAsync(m => m.EntityType == Domain.Configs.ConfigType.Menu && m.Name == menuName, timeout.Token);
+
+                    if (menu == null)
+                        return EnumerableHelper<MenuItemVM>.Empty;
+
+                    var allowedItems = await this._securityBL.FilterEntityAsync(ExtractMenuItems(menu), ContextAccessor.HttpContext);
+
+                    var menuVM = FormatMenu(menu, allowedItems.Select(i => i.Id).ToHashSet()) as MenuVM;
+                    return menuVM.Items;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // TODO : Log error
+                return EnumerableHelper<MenuItemVM>.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Generate view models from menu
+        /// </summary>
+        private MenuItemVM FormatMenu(MenuItem menuItem, HashSet<Guid> allowedItems)
+        {
+            if (menuItem == null || !allowedItems.Contains(menuItem.Id))
+                return null;
+
+            if (menuItem is Menu menu)
+            {
+                var childrens = menu.Items?.Select(i => FormatMenu(i, allowedItems))
+                                           .Where(vm => vm != null)
+                                           .ToArray();
+                return new MenuVM(menu, childrens);
+            }
+
+            if (menuItem is LinkedMenuItem link)
+                return new MenuLinkItemVM(link);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Navigate through the menu to extract all the menu items
+        /// </summary>
+        private IEnumerable<ISecurityEntity> ExtractMenuItems(MenuItem menuItem)
+        {
+            yield return menuItem;
+
+            if (menuItem is Menu menu)
+            {
+                foreach (var item in menu.Items)
+                {
+                    var items = ExtractMenuItems(item);
+                    foreach (var subItem in items)
+                        yield return subItem;
+                }
+            }
+        }
+
         #endregion
     }
 }

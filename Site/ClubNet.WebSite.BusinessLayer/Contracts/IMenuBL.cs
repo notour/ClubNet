@@ -1,6 +1,7 @@
-﻿using System;
+﻿using ClubNet.WebSite.ViewModel.Menus;
+
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace ClubNet.WebSite.BusinessLayer.Contracts
 {
@@ -9,5 +10,9 @@ namespace ClubNet.WebSite.BusinessLayer.Contracts
     /// </summary>
     public interface IMenuBL
     {
+        /// <summary>
+        /// Get the menu name view model
+        /// </summary>
+        Task<IEnumerable<MenuItemVM>> GetMenuAsync(string menuName);
     }
 }

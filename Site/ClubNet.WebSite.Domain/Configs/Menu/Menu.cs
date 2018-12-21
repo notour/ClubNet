@@ -1,13 +1,16 @@
 ﻿namespace ClubNet.WebSite.Domain.Configs.Menu
 {
+    using ClubNet.WebSite.Domain.Security;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Define a specific menu
     /// </summary>
-    /// <seealso cref="ClubNet.WebSite.Domain.Config.Menu.MenuItem" />
+    /// <seealso cref="Domain.Config.Menu.MenuItem" />
+    [DataContract]
     public sealed class Menu : MenuItem
     {
         #region Ctor
@@ -15,19 +18,25 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Menu"/> class.
         /// </summary>
-        public Menu(Guid id, string name, string description, IEnumerable<MenuItem> items)
+        public Menu(Guid id, string name, string description, IEnumerable<MenuItem> items, SecurityCriteria securityCriteria)
             : base(id,
                    new LocalizedString(CultureInfo.InvariantCulture.TwoLetterISOLanguageName, name),
                    new LocalizedString(CultureInfo.InvariantCulture.TwoLetterISOLanguageName, name),
-                   Configs.ConfigType.Menu)
+                   ConfigType.Menu,
+                   securityCriteria)
         {
+            Items = items;
         }
 
-        protected Menu(Guid id, LocalizedString label, LocalizedString description)
-            : base(id, label, description, ConfigType.Menu)
+        #endregion
 
-        {
-        }
+        #region Properties
+
+        /// <summary>
+        /// Gets the menu items
+        /// </summary>
+        [DataMember]
+        public IEnumerable<MenuItem> Items { get; }
 
         #endregion
     }

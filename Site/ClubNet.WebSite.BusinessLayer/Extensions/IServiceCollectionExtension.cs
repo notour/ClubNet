@@ -26,9 +26,9 @@ namespace ClubNet.WebSite.BusinessLayer.Extensions
 
             services.Configure<DefaultConfiguration>(configuration.GetSection(DefaultConfiguration.ConfigurationSectionKey));
 
-
             services.AddSingleton<IConfigService, ConfigService>();
 
+            services.AddSingleton<ISecurityBL, SecurityBL>();
             services.AddScoped<IMenuBL, MenuBL>();
             services.AddScoped<IThemeBL, ThemeBL>();
 
