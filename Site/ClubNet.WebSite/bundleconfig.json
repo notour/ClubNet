@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/js/clubnet.min.js",
+    "inputFiles": [
+      "wwwroot/js/clubnet.js"
+    ]
+  }
+]

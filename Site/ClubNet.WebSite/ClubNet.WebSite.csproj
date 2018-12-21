@@ -4,7 +4,13 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-ClubNet.WebSite-DC3ED895-2125-4568-9B72-DE226D2AA867</UserSecretsId>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -43,9 +49,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Themes\Kronak\css\" />
     <Folder Include="wwwroot\Themes\Kronak\js\" />
     <Folder Include="wwwroot\Themes\Kronak\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\js\clubnet.ts" />
   </ItemGroup>
 
 </Project>

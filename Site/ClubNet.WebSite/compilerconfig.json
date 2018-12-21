@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "wwwroot/Themes/Kronak/css/Kronak.css",
+    "inputFile": "wwwroot/Themes/Kronak/scss/Kronak.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/clubnet.css",
+    "inputFile": "wwwroot/scss/clubnet.scss"
+  }
+]
