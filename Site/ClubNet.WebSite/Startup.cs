@@ -1,9 +1,10 @@
 ﻿using ClubNet.WebSite.BusinessLayer.Extensions;
-
+using ClubNet.WebSite.Tools;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -56,6 +57,11 @@ namespace ClubNet.WebSite
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.ViewLocationExpanders.Add(new TenantViewLocationExpander());
+            });
+
             services.AddClubNetViewServices();
 
             services.AddBusinessLayerServices(Configuration);
@@ -63,7 +69,10 @@ namespace ClubNet.WebSite
             services.AddClubNetToolsServices()
                     .AddClubNetUserServices();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddHttpContextAccessor();
         }
 
         /// <summary>

@@ -6,6 +6,7 @@
     public enum ConfigType
     {
         None,
+        Global,
         Menu,
         MenuLink,
 

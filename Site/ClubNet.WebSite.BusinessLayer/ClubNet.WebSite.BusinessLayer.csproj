@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Shared\ClubNet.Shared.Api\ClubNet.Shared.Api.csproj" />
     <ProjectReference Include="..\ClubNet.WebSite.Common\ClubNet.WebSite.Common.csproj" />
     <ProjectReference Include="..\ClubNet.WebSite.DataLayer\ClubNet.WebSite.DataLayer.csproj" />

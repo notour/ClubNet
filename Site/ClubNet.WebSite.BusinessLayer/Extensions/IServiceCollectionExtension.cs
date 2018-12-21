@@ -1,5 +1,10 @@
-﻿using ClubNet.WebSite.BusinessLayer.Contracts;
+﻿using ClubNet.WebSite.BusinessLayer.Configurations;
+using ClubNet.WebSite.BusinessLayer.Contracts;
+using ClubNet.WebSite.BusinessLayer.Logic;
+using ClubNet.WebSite.BusinessLayer.Services;
+using ClubNet.WebSite.Common.Contracts;
 using ClubNet.WebSite.DataLayer.Extensions;
+using ClubNet.WebSite.Domain.Configs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,15 +24,13 @@ namespace ClubNet.WebSite.BusinessLayer.Extensions
         {
             services.AddDataLayerServices(configuration);
 
-            return services;
-        }
+            services.Configure<DefaultConfiguration>(configuration.GetSection(DefaultConfiguration.ConfigurationSectionKey));
 
-        /// <summary>
-        /// Add all the business layer instances into the dependency injection system
-        /// </summary>
-        public static IServiceCollection AddBusinessLayer(this IServiceCollection services)
-        {
-            services.AddSingleton<IMenuBL, MenuBL>();
+
+            services.AddSingleton<IConfigService, ConfigService>();
+
+            services.AddScoped<IMenuBL, MenuBL>();
+            services.AddScoped<IThemeBL, ThemeBL>();
 
             return services;
         }

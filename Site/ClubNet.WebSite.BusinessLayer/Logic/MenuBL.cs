@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using ClubNet.WebSite.BusinessLayer.Contracts;
 
-namespace ClubNet.WebSite.BusinessLayer
+namespace ClubNet.WebSite.BusinessLayer.Logic
 {
     /// <summary>
     /// Business layer implementation of the contract <see cref="IMenuBL"/> in charge of the club net menu managment
     /// </summary>
     class MenuBL : IMenuBL
     {
+        #region Ctor
+        #endregion
     }
 }

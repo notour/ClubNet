@@ -27,8 +27,7 @@ namespace ClubNet.WebSite.DataLayer.Extensions
             services.AddSingleton<IStorageServiceProvider, MongoDBStorageServiceProvider>();
 
             services.Configure<MongoDBConfiguration>(configuration.GetSection(MongoDBConfiguration.ConfigurationSectionKey));
-
-
+            
 
             return services;
         }
