@@ -11,14 +11,18 @@
     {
         #region Ctor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SecurityRight"/> class.
-        /// </summary>
-        public SecurityRight(Guid id, string name, string description)
-            : base(id, name, description, SecurityEntityType.Rigth)
-        {
-        }
+        ///// <summary>
+        ///// Initializes a new instance of the <see cref="SecurityRight"/> class.
+        ///// </summary>
+        //public SecurityRight(Guid id, string name, string description)
+        //    : base(id, name, description, SecurityEntityType.Rigth)
+        //{
+        //}
 
         #endregion
+        public SecurityRight(SecurityEntityType entityType) : base(entityType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,8 +1,9 @@
-﻿using ClubNet.WebSite.Domain.Configs.Menu;
-using System.Collections.Generic;
-
-namespace ClubNet.WebSite.ViewModel.Menus
+﻿namespace ClubNet.WebSite.ViewModel.Menus
 {
+    using ClubNet.WebSite.Domain.Configs.Menus;
+    using Microsoft.AspNetCore.Http;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Define a menu thaht contains children items
     /// </summary>
@@ -15,10 +16,10 @@ namespace ClubNet.WebSite.ViewModel.Menus
         #region Ctor
 
         /// <summary>
-        /// 
+        /// Initialize a new instance of the class <see cref="MenuVM"/>
         /// </summary>
-        internal MenuVM(Menu menu, IEnumerable<MenuItemVM> items) 
-            : base(menu)
+        internal MenuVM(Menu menu, IEnumerable<MenuItemVM> items, HttpContext httpContext) 
+            : base(menu, httpContext)
         {
             this.Items = items;
         }

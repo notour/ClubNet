@@ -10,27 +10,32 @@
     [DataContract]
     public sealed class SecurityUser : Entity<SecurityEntityType>
     {
-        #region Ctor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SecurityUser"/> class.
-        /// </summary>
-        public SecurityUser(Guid id, IEnumerable<Guid> groupIds)
-            : base(id, SecurityEntityType.User)
+        //#region Ctor
+
+        ///// <summary>
+        ///// Initializes a new instance of the <see cref="SecurityUser"/> class.
+        ///// </summary>
+        //public SecurityUser(Guid id, IEnumerable<Guid> groupIds)
+        //    : base(id, SecurityEntityType.User)
+        //{
+        //    GroupIds = groupIds;
+        //}
+
+        //#endregion
+
+        //#region Properties
+
+        ///// <summary>
+        ///// Gets the group ids.
+        ///// </summary>
+        //[DataMember]
+        //public IEnumerable<Guid> GroupIds { get; }
+
+        //#endregion
+        public SecurityUser(SecurityEntityType entityType) : base(entityType)
         {
-            GroupIds = groupIds;
+            throw new NotImplementedException();
         }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the group ids.
-        /// </summary>
-        [DataMember]
-        public IEnumerable<Guid> GroupIds { get; }
-
-        #endregion
     }
 }

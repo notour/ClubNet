@@ -114,7 +114,7 @@ namespace ClubNet.WebSite.DataLayer.Services
             return entity;
         }
 
-        public Task<TEntity> Save(TEntity user, CancellationToken cancellationToken)
+        public Task<TEntity> SaveAsync(TEntity user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

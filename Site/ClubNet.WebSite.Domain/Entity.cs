@@ -1,8 +1,8 @@
 ﻿namespace ClubNet.WebSite.Domain
 {
     using ClubNet.WebSite.Domain.Security;
+    using MongoDB.Bson.Serialization.Attributes;
     using System;
-
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -14,13 +14,11 @@
         #region Ctor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Entity{TEntityType}"/> class.
+        /// Initialize a new instance of the class <see cref="Entity"/>
         /// </summary>
-        protected Entity(Guid id, TEntityType entityType, SecurityCriteria securityCriteria = null)
+        protected Entity(TEntityType entityType)
         {
-            Id = id;
             EntityType = entityType;
-            SecurityCriteria = securityCriteria;
         }
 
         #endregion
@@ -30,20 +28,54 @@
         /// <summary>
         /// Gets the right unique identifier.
         /// </summary>
+        [BsonId]
         [DataMember(IsRequired = true)]
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
 
         /// <summary>
         /// Gets the type of the entity.
         /// </summary>
+        [BsonElement]
+        [BsonRequired]
         [DataMember(IsRequired = true)]
         public TEntityType EntityType { get; }
 
         /// <summary>
         /// Gets the entity security criteria
         /// </summary>
+        [BsonElement]
+        [BsonIgnoreIfDefault]
         [DataMember(EmitDefaultValue = false)]
-        public SecurityCriteria SecurityCriteria { get; }
+        public SecurityCriteria SecurityCriteria { get; private set; }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Update the current entity
+        /// </summary>
+        protected void Create(SecurityCriteria securityCriteria)
+        {
+            SetData(Guid.NewGuid(), securityCriteria);
+        }
+
+        /// <summary>
+        /// Update the current entity
+        /// </summary>
+        protected void Update(SecurityCriteria securityCriteria)
+        {
+            SetData(this.Id, securityCriteria);
+        }
+
+        /// <summary>
+        /// Initialize the entity data
+        /// </summary>
+        private void SetData(Guid id, SecurityCriteria securityCriteria)
+        {
+            Id = id;
+            SecurityCriteria = securityCriteria;
+        }
 
         #endregion
     }

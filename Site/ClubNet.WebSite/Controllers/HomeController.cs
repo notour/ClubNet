@@ -7,11 +7,35 @@ using Microsoft.AspNetCore.Mvc;
 using ClubNet.WebSite.Models;
 using ClubNet.WebSite.DataLayer;
 using Microsoft.Extensions.Configuration;
+using ClubNet.WebSite.Middleware;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+using ClubNet.WebSite.BusinessLayer.Contracts;
 
 namespace ClubNet.WebSite.Controllers
 {
+    [MiddlewareFilter(typeof(LocalizationPipeline))]
     public class HomeController : Controller
     {
+        #region Fields
+
+        private readonly IConfigService _configService;
+        
+        #endregion
+
+        #region Ctor
+
+        /// <summary>
+        /// Initialize a new instance of the class <see cref="HomeController"/>
+        /// </summary>
+        public HomeController(IConfigService configService) 
+        {
+            _configService = configService;
+        }
+
+        #endregion
+        #region Methods
+
         public IActionResult Index()
         {
             return View();
@@ -41,5 +65,19 @@ namespace ClubNet.WebSite.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        /// <summary>
+        /// Redirect to the home index in the good language
+        /// </summary>
+        public IActionResult RedirectToDefaultLanguage()
+        {
+            var feature = HttpContext.Features.Get<IRequestCultureFeature>();
+            var currentLanguage = feature.RequestCulture.Culture.TwoLetterISOLanguageName.ToLower();
+
+            return RedirectToAction("Index", new { lang = currentLanguage });
+        }
+
+
+        #endregion
     }
 }

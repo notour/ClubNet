@@ -3,11 +3,15 @@ using ClubNet.WebSite.Tools;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using System.Collections.Generic;
+using System.Globalization;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("ClubNet.Website.ClubNet.WebSite.UTest")]
 
@@ -62,6 +66,11 @@ namespace ClubNet.WebSite
                 options.ViewLocationExpanders.Add(new TenantViewLocationExpander());
             });
 
+            services.Configure<RouteOptions>(options =>
+            {
+                options.ConstraintMap.Add("lang", typeof(LanguageRouteConstraint));
+            });
+
             services.AddClubNetViewServices();
 
             services.AddBusinessLayerServices(Configuration);
@@ -90,7 +99,7 @@ namespace ClubNet.WebSite
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("en/Home/Error");
                 app.UseHsts();
             }
 
@@ -99,12 +108,13 @@ namespace ClubNet.WebSite
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{lang=en-us}/{controller=Home}/{action=Index}/{id?}");
+                    template: "{lang}/{controller}/{action}/{id?}",
+                    defaults: new { lang = "en", controller = "Home", action = "Index" });
             });
         }
 

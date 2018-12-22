@@ -1,8 +1,6 @@
 ﻿using ClubNet.Framework.Attributes;
-using ClubNet.WebSite.Domain.Configs.Menu;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Globalization;
 
 namespace ClubNet.WebSite.BusinessLayer.Configurations
 {
@@ -35,6 +33,16 @@ namespace ClubNet.WebSite.BusinessLayer.Configurations
         /// Gets the default theme name
         /// </summary>
         public string Theme { get; set; }
+
+        /// <summary>
+        /// Gets the default language 
+        /// </summary>
+        public CultureInfo DefaultLanguage { get; set; }
+
+        /// <summary>
+        /// Gets all the managed languaged
+        /// </summary>
+        public IList<CultureInfo> MangagedLanguage { get; set; }
 
         #endregion
     }

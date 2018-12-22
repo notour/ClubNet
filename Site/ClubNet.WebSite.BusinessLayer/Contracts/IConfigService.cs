@@ -1,8 +1,10 @@
-﻿using ClubNet.WebSite.Domain.Configs.Menu;
-using System;
-
-namespace ClubNet.WebSite.BusinessLayer.Contracts
+﻿namespace ClubNet.WebSite.BusinessLayer.Contracts
 {
+    using ClubNet.WebSite.Domain.Configs.Menus;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+
     /// <summary>
     /// Define a configuration
     /// </summary>
@@ -19,6 +21,16 @@ namespace ClubNet.WebSite.BusinessLayer.Contracts
         /// Gets the default default timeout
         /// </summary>
         TimeSpan DefaultTimeout { get; }
+
+        /// <summary>
+        /// Gets the default language 
+        /// </summary>
+        CultureInfo DefaultLanguage { get; }
+
+        /// <summary>
+        /// Gets all the managed languaged
+        /// </summary>
+        IReadOnlyCollection<CultureInfo> MangagedLanguage { get; }
 
         #endregion
     }

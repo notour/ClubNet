@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -19,7 +20,8 @@ namespace ClubNet.WebSite.DataLayer.Tools
         private const string DefaultIdProperty = "Id";
 
         #endregion
-#region Methods
+
+        #region Methods
 
         /// <summary>
         /// Map the current entity type
@@ -29,10 +31,14 @@ namespace ClubNet.WebSite.DataLayer.Tools
         /// </remarks>
         public static void Map<TEntity>()
         {
-            var map = GenerateEntityMap(typeof(TEntity));
+            var entityType = typeof(TEntity);
+            var map = GenerateEntityMap(entityType);
 
-            if (!BsonClassMap.IsClassMapRegistered(typeof(TEntity)))
-                BsonClassMap.RegisterClassMap(map);
+            if (entityType.IsAbstract)
+            {
+                foreach (var attr in entityType.GetCustomAttributes<KnownTypeAttribute>())
+                    GenerateEntityMap(attr.Type);
+            }
         }
 
         /// <summary>
@@ -55,6 +61,12 @@ namespace ClubNet.WebSite.DataLayer.Tools
             var map = new BsonClassMap(entityType, baseClassMap);
             map.SetIgnoreExtraElements(true);
 
+            if (entityType.IsAbstract)
+            {
+                foreach (var attr in entityType.GetCustomAttributes<KnownTypeAttribute>())
+                    map.AddKnownType(attr.Type);
+            }
+
             var mapProperties = (from prop in entityType.GetProperties()
                                  where prop.DeclaringType == entityType
                                  let propDataMember = prop.GetCustomAttribute<DataMemberAttribute>()
@@ -64,6 +76,7 @@ namespace ClubNet.WebSite.DataLayer.Tools
 
             foreach (var mapProperty in mapProperties)
             {
+                var propType = mapProperty.prop.PropertyType;
                 if (mapProperty.prop.DeclaringType != entityType)
                     continue;
 
@@ -74,17 +87,35 @@ namespace ClubNet.WebSite.DataLayer.Tools
                 }
                 else if (mapProperty.ignoreAttr == null)
                 {
+                    if (typeof(IEnumerable).IsAssignableFrom(propType))
+                    {
+                        var collectionType = (from i in propType.GetInterfaces().Append(propType)
+                                              where i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+                                              select i)
+                                              .FirstOrDefault()
+                                              ?.GetGenericArguments().FirstOrDefault();
+
+                        if (collectionType != null && propType != collectionType)
+                        {
+                            GenerateEntityMap(collectionType);
+                        }
+                    }
+
                     var prop = map.MapProperty(mapProperty.prop.Name);
 
                     if (mapProperty.propDataMember != null)
-                    { 
-                       prop.SetIsRequired(mapProperty.propDataMember.IsRequired)
-                           .SetIgnoreIfDefault(!mapProperty.propDataMember.EmitDefaultValue);
+                    {
+                        prop.SetIsRequired(mapProperty.propDataMember.IsRequired)
+                            .SetIgnoreIfDefault(!mapProperty.propDataMember.EmitDefaultValue);
                     }
                 }
             }
 
-            return map.Freeze();
+            map = map.Freeze();
+            if (!BsonClassMap.IsClassMapRegistered(entityType))
+                BsonClassMap.RegisterClassMap(map);
+
+            return map;
         }
 
         #endregion

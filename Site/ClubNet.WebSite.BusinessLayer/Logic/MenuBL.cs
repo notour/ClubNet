@@ -3,7 +3,7 @@ using ClubNet.WebSite.BusinessLayer.Contracts;
 using ClubNet.WebSite.Common.Contracts;
 using ClubNet.WebSite.DataLayer;
 using ClubNet.WebSite.Domain;
-using ClubNet.WebSite.Domain.Configs.Menu;
+using ClubNet.WebSite.Domain.Configs.Menus;
 using ClubNet.WebSite.ViewModel.Menus;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -21,7 +21,7 @@ namespace ClubNet.WebSite.BusinessLayer.Logic
     {
         #region Fields
 
-        private readonly IStorageService<MenuItem> _serviceProvider;
+        private readonly IStorageService<Menu> _serviceProvider;
         private readonly ISecurityBL _securityBL;
 
         #endregion
@@ -34,7 +34,7 @@ namespace ClubNet.WebSite.BusinessLayer.Logic
         public MenuBL(IHttpContextAccessor contextAccessor, IConfigService configService, IStorageServiceProvider serviceProvider, ISecurityBL securityBL)
             : base(contextAccessor, configService)
         {
-            _serviceProvider = serviceProvider.GetStorageService<MenuItem>();
+            _serviceProvider = serviceProvider.GetStorageService<Menu>();
             _securityBL = securityBL;
         }
 
@@ -58,7 +58,7 @@ namespace ClubNet.WebSite.BusinessLayer.Logic
 
                     var allowedItems = await this._securityBL.FilterEntityAsync(ExtractMenuItems(menu), ContextAccessor.HttpContext);
 
-                    var menuVM = FormatMenu(menu, allowedItems.Select(i => i.Id).ToHashSet()) as MenuVM;
+                    var menuVM = FormatMenu(menu, allowedItems.Select(i => i.Id).ToHashSet(), ContextAccessor.HttpContext) as MenuVM;
                     return menuVM.Items;
                 }
             }
@@ -72,21 +72,21 @@ namespace ClubNet.WebSite.BusinessLayer.Logic
         /// <summary>
         /// Generate view models from menu
         /// </summary>
-        private MenuItemVM FormatMenu(MenuItem menuItem, HashSet<Guid> allowedItems)
+        private MenuItemVM FormatMenu(MenuItem menuItem, HashSet<Guid> allowedItems, HttpContext httpContext)
         {
             if (menuItem == null || !allowedItems.Contains(menuItem.Id))
                 return null;
 
             if (menuItem is Menu menu)
             {
-                var childrens = menu.Items?.Select(i => FormatMenu(i, allowedItems))
+                var childrens = menu.Items?.Select(i => FormatMenu(i, allowedItems, httpContext))
                                            .Where(vm => vm != null)
                                            .ToArray();
-                return new MenuVM(menu, childrens);
+                return new MenuVM(menu, childrens, httpContext);
             }
 
-            if (menuItem is LinkedMenuItem link)
-                return new MenuLinkItemVM(link);
+            if (menuItem is MenuLinkItem link)
+                return new MenuLinkItemVM(link, httpContext);
 
             throw new NotImplementedException();
         }

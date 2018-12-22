@@ -44,7 +44,7 @@ namespace ClubNet.WebSite.DataLayer
         /// <summary>
         /// Save an existing item
         /// </summary>
-        Task<TEntity> Save(TEntity user, CancellationToken cancellationToken);
+        Task<TEntity> SaveAsync(TEntity user, CancellationToken cancellationToken);
 
         /// <summary>
         /// Find all the occurence that math the expression

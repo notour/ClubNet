@@ -8,6 +8,7 @@ using ClubNet.WebSite.DataLayer.Tools;
 using ClubNet.WebSite.Domain.User;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 namespace ClubNet.WebSite.DataLayer.Services
@@ -66,6 +67,13 @@ namespace ClubNet.WebSite.DataLayer.Services
             _mongoClient = new MongoClient($"mongodb://{_mongoConfig.Host}:{_mongoConfig.Port}/{_mongoConfig.DataBase}");
 
             _mongoDB = _mongoClient.GetDatabase(_mongoConfig.DataBase, s_mongoSettings);
+
+            var missingCollection = _collectionNames.Select(c => c.Value)
+                                                    .Distinct() 
+                                                    .Except(_mongoDB.ListCollectionNames().ToList());
+
+            foreach (var missing in missingCollection)
+                _mongoDB.CreateCollection(missing);
         }
 
         #endregion
@@ -98,7 +106,7 @@ namespace ClubNet.WebSite.DataLayer.Services
                     collectionName = configKey;
 
                 // Ensure the mongo drive can map the current entity equired
-                DomainMongoMapper.Map<TEntity>();
+                //DomainMongoMapper.Map<TEntity>();
 
                 var newStorageService = new MongoDBStorageService<TEntity>(_mongoDB.GetCollection<TEntity>(collectionName));
                 this._storageServices = this._storageServices.Add(key, newStorageService);

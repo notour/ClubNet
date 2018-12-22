@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace ClubNet.WebSite.Domain
+﻿namespace ClubNet.WebSite.Domain
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+
     /// <summary>
     /// Define a localized string
     /// </summary>
@@ -16,6 +18,31 @@ namespace ClubNet.WebSite.Domain
         public LocalizedString(string key, string value)
         {
             Add(key, value);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LocalizedString"/> class.
+        /// </summary>
+        public LocalizedString()
+        {
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets the current value in function of the current language configurated
+        /// </summary>
+        public string GetLocalizedValue(string lang)
+        {
+            if (TryGetValue(lang.ToUpperInvariant(), out var value))
+                return value;
+
+            if (TryGetValue(CultureInfo.InvariantCulture.TwoLetterISOLanguageName.ToUpperInvariant(), out var defaultValue))
+                return defaultValue;
+
+            return string.Empty;
         }
 
         #endregion
