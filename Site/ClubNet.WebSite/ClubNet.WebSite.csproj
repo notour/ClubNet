@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -30,6 +30,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GlobalRes.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Controllers\AccountController.en.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AccountController.en.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\SharedResources.en.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SharedResources.en.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\UserRes.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -38,9 +48,31 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\Controllers\AccountController.nl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Controllers\AccountController.fr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+
+    <EmbeddedResource Update="Resources\SharedResources.nl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SharedResources.fr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    
     <EmbeddedResource Update="Resources\GlobalRes.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GlobalRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Controllers\AccountController.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountController.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SharedResources.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SharedResources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\UserRes.resx">
       <Generator>ResXFileCodeGenerator</Generator>

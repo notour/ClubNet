@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Globalization;
-using System.Resources;
-
-using ClubNet.WebSite.Common.Contracts;
-using ClubNet.WebSite.Common.Errors;
-using ClubNet.WebSite.Resources;
-
-namespace ClubNet.WebSite.Services
+﻿namespace ClubNet.WebSite.Services
 {
+    using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using System.Globalization;
+    using System.Resources;
+
+    using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.Common.Errors;
+    using ClubNet.WebSite.Resources;
+
     /// <summary>
     /// Implement the resource service
     /// </summary>

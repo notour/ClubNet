@@ -11,9 +11,11 @@ using ClubNet.WebSite.Middleware;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using ClubNet.WebSite.BusinessLayer.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClubNet.WebSite.Controllers
 {
+    [AllowAnonymous]
     [MiddlewareFilter(typeof(LocalizationPipeline))]
     public class HomeController : Controller
     {

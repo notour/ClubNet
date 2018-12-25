@@ -1,4 +1,5 @@
 ﻿using ClubNet.WebSite.BusinessLayer.Extensions;
+using ClubNet.WebSite.Services;
 using ClubNet.WebSite.Tools;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -70,7 +72,6 @@ namespace ClubNet.WebSite
             {
                 options.ConstraintMap.Add("lang", typeof(LanguageRouteConstraint));
             });
-            
 
             services.AddClubNetViewServices();
 
@@ -80,15 +81,13 @@ namespace ClubNet.WebSite
                     .AddClubNetUserServices();
 
             services.AddMvc()
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                    .AddRazorPagesOptions(options =>
-                    {
-                        options.AllowAreas = false;
-                        options.Conventions.AuthorizeFolder("/Account");
-                        options.Conventions.AuthorizePage("/Logout");
-                        //options.Conventions.AuthorizeFolder("Identity", "/Account/Manage");
-                        //options.Conventions.AuthorizePage("Identity", "/Account/Logout");
-                    });
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddLocalization(o =>
+            {
+                // We will put our translations in a folder called Resources
+                o.ResourcesPath = "Resources";
+            });
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -97,6 +96,8 @@ namespace ClubNet.WebSite
                 options.AccessDeniedPath = $"/Account/AccessDenied";
             });
 
+            services.AddSingleton<IStringLocalizerFactory, StringLocalizerFactoryImpl>();
+            //services.AddScoped<IStringLocalizer>((s) => s.GetRequiredService<IStringLocalizerFactory>().Create())
             services.AddHttpContextAccessor();
         }
 
@@ -124,7 +125,7 @@ namespace ClubNet.WebSite
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
