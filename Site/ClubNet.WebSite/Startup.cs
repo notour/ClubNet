@@ -70,6 +70,7 @@ namespace ClubNet.WebSite
             {
                 options.ConstraintMap.Add("lang", typeof(LanguageRouteConstraint));
             });
+            
 
             services.AddClubNetViewServices();
 
@@ -79,7 +80,22 @@ namespace ClubNet.WebSite
                     .AddClubNetUserServices();
 
             services.AddMvc()
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                    .AddRazorPagesOptions(options =>
+                    {
+                        options.AllowAreas = false;
+                        options.Conventions.AuthorizeFolder("/Account");
+                        options.Conventions.AuthorizePage("/Logout");
+                        //options.Conventions.AuthorizeFolder("Identity", "/Account/Manage");
+                        //options.Conventions.AuthorizePage("Identity", "/Account/Logout");
+                    });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Account/Login";
+                options.LogoutPath = $"/Account/Logout";
+                options.AccessDeniedPath = $"/Account/AccessDenied";
+            });
 
             services.AddHttpContextAccessor();
         }

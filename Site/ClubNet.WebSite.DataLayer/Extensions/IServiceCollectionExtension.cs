@@ -1,6 +1,7 @@
 ﻿using ClubNet.WebSite.Common;
 using ClubNet.WebSite.DataLayer.Configurations;
 using ClubNet.WebSite.DataLayer.Services;
+using ClubNet.WebSite.Domain.Security;
 using ClubNet.WebSite.Domain.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,8 @@ namespace ClubNet.WebSite.DataLayer.Extensions
             services.AddSingleton<IUserStore<UserInfo>, UserStoreService>();
             services.AddSingleton<IUserEmailStore<UserInfo>>(i => (IUserEmailStore<UserInfo>)i.GetService<IUserStore<UserInfo>>());
             services.AddSingleton<IUserPasswordStore<UserInfo>>(i => (IUserPasswordStore<UserInfo>)i.GetService<IUserStore<UserInfo>>());
+
+            services.AddSingleton<IRoleStore<UserRole>, UserRoleStoreService>();
 
             services.AddSingleton<IStorageServiceProvider, MongoDBStorageServiceProvider>();
 

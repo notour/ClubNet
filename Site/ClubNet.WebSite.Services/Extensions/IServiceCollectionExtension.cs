@@ -1,4 +1,5 @@
 ﻿using ClubNet.WebSite.Common.Contracts;
+using ClubNet.WebSite.Domain.Security;
 using ClubNet.WebSite.Domain.User;
 using ClubNet.WebSite.Services;
 using ClubNet.WebSite.Services.Impl;
@@ -32,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         public static IServiceCollection AddClubNetUserServices(this IServiceCollection service)
         {
-            service.AddDefaultIdentity<UserInfo>(cfg =>
+            service.AddIdentity<UserInfo, UserRole>(cfg =>
             {
                 // Password rules
                 cfg.Password.RequireUppercase = true;
@@ -47,7 +48,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 cfg.Lockout.MaxFailedAccessAttempts = 5;
 
             })
-            .AddUserManager<UserManager<UserInfo>>();
+            .AddUserManager<UserManager<UserInfo>>()
+            .AddRoleManager<RoleManager<UserRole>>()
+            .AddDefaultTokenProviders();
 
             return service;
         }
