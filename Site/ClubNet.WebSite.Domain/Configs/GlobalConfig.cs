@@ -32,6 +32,12 @@ namespace ClubNet.WebSite.Domain.Configs
         [DataMember]
         public string Theme { get; private set; }
 
+        /// <summary>
+        /// Gets the configuration public name
+        /// </summary>
+        [DataMember]
+        public string ConfigName { get; private set; }
+
         #endregion
 
         #region Methods
@@ -39,37 +45,38 @@ namespace ClubNet.WebSite.Domain.Configs
         /// <summary>
         /// Create a new <see cref="GlobalConfig"/>
         /// </summary>
-        public static GlobalConfig Create(string theme, SecurityCriteria securityCriteria)
+        public static GlobalConfig Create(string theme, string configName, SecurityCriteria securityCriteria)
         {
             var cfg = new GlobalConfig();
-            cfg.ImplCreate(theme, securityCriteria);
+            cfg.ImplCreate(theme, configName, securityCriteria);
             return cfg;
         }
 
         /// <summary>
         /// Update the current entity
         /// </summary>
-        private void ImplCreate(string theme, SecurityCriteria securityCriteria)
+        private void ImplCreate(string theme, string configName, SecurityCriteria securityCriteria)
         {
-            SetData(theme);
+            SetData(theme, configName);
             base.Create(securityCriteria);
         }
 
         /// <summary>
         /// Update the current entity
         /// </summary>
-        public void Update(string theme, SecurityCriteria securityCriteria)
+        public void Update(string theme, string configName, SecurityCriteria securityCriteria)
         {
-            SetData(theme);
+            SetData(theme, configName);
             base.Update(securityCriteria);
         }
 
         /// <summary>
         /// Initialize the entity data
         /// </summary>
-        private void SetData(string theme)
+        private void SetData(string theme, string configName)
         {
             this.Theme = theme;
+            this.ConfigName = configName;
         }
 
         #endregion

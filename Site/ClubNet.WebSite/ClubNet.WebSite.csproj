@@ -5,6 +5,7 @@
     <UserSecretsId>aspnet-ClubNet.WebSite-DC3ED895-2125-4568-9B72-DE226D2AA867</UserSecretsId>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
     <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
   <ItemGroup>
@@ -83,6 +84,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\Themes\Kronak\js\" />
     <Folder Include="wwwroot\Themes\Kronak\images\" />
+    <Folder Include="wwwroot\Themes\Kronak\content\" />
   </ItemGroup>
 
   <ItemGroup>

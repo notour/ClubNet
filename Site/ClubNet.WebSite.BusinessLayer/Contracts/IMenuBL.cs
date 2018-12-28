@@ -1,10 +1,9 @@
-﻿using ClubNet.WebSite.ViewModel.Menus;
-
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace ClubNet.WebSite.BusinessLayer.Contracts
+﻿namespace ClubNet.WebSite.BusinessLayer.Contracts
 {
+    using ClubNet.WebSite.ViewModels.Menus;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Define the business layer instance responsible of the menu managments
     /// </summary>

@@ -1,9 +1,7 @@
-﻿namespace ClubNet.WebSite.ViewModel.Menus
+﻿namespace ClubNet.WebSite.ViewModels.Menus
 {
-    using ClubNet.WebSite.BusinessLayer.ViewModels;
+    using ClubNet.WebSite.BusinessLayer.Contracts;
     using ClubNet.WebSite.Domain.Configs.Menus;
-    using Microsoft.AspNetCore.Http;
-    using System;
 
     /// <summary>
     /// Define the view model of an item part of a menu
@@ -16,8 +14,8 @@
         /// Initialize a new instance of the class <see cref="MenuItemVM"/>
         /// </summary>
         /// <param name="menuItem"></param>
-        protected MenuItemVM(MenuItem menuItem, HttpContext httpContext)
-            : base(httpContext)
+        protected MenuItemVM(MenuItem menuItem, IRequestService requestService)
+            : base(requestService)
         {
             Label = menuItem.Label?.GetLocalizedValue(CurrentLanguage);
             Name = menuItem.Name;
@@ -36,7 +34,6 @@
         /// Gets the menu label name
         /// </summary>
         public string Label { get; }
-
 
         #endregion
     }

@@ -1,12 +1,12 @@
-﻿using ClubNet.WebSite.Common.Contracts;
-using ClubNet.WebSite.Domain.User;
-using ClubNet.WebSite.Services;
-using ClubNet.WebSite.Services.Tools;
-
-using Microsoft.AspNetCore.Identity;
-
-namespace Microsoft.Extensions.DependencyInjection
+﻿namespace Microsoft.Extensions.DependencyInjection
 {
+    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.NusinessLayer.Extensions;
+    using ClubNet.WebSite.Services;
+
+    using Microsoft.AspNetCore.Http;
+
     /// <summary>
     /// Extension methods on the <see cref="IServiceCollection"/>
     /// </summary>
@@ -20,6 +20,14 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddClubNetViewServices(this IServiceCollection services)
         {
             services.AddSingleton<IResourceService, ResourceServicesImpl>();
+
+            services.AddScoped<IRequestService>((s) =>
+            {
+                var ctxAccessor = s.GetRequiredService<IHttpContextAccessor>();
+                return ctxAccessor.CurrentRequestService();
+            });
+
+            services.AddSingleton<IFileService, FileServiceImpl>();
 
             return services;
         }

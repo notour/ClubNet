@@ -1,7 +1,8 @@
-﻿namespace ClubNet.WebSite.ViewModel.Menus
+﻿namespace ClubNet.WebSite.ViewModels.Menus
 {
+    using ClubNet.WebSite.BusinessLayer.Contracts;
     using ClubNet.WebSite.Domain.Configs.Menus;
-    using Microsoft.AspNetCore.Http;
+
     using System.Collections.Generic;
 
     /// <summary>
@@ -18,8 +19,8 @@
         /// <summary>
         /// Initialize a new instance of the class <see cref="MenuVM"/>
         /// </summary>
-        internal MenuVM(Menu menu, IEnumerable<MenuItemVM> items, HttpContext httpContext) 
-            : base(menu, httpContext)
+        public MenuVM(Menu menu, IEnumerable<MenuItemVM> items, IRequestService requestService) 
+            : base(menu, requestService)
         {
             this.Items = items;
         }
@@ -32,7 +33,6 @@
         /// Gets the childrent items
         /// </summary>
         public IEnumerable<MenuItemVM> Items { get; }
-
 
         #endregion
     }

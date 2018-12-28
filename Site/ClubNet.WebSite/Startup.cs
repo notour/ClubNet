@@ -1,29 +1,39 @@
-﻿using ClubNet.WebSite.BusinessLayer.Extensions;
-using ClubNet.WebSite.Services;
-using ClubNet.WebSite.Tools;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Localization.Routing;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
-using System.Collections.Generic;
-using System.Globalization;
-
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("ClubNet.Website.ClubNet.WebSite.UTest")]
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("ClubNet.Website.ClubNet.WebSite.UTest")]
 
 namespace ClubNet.WebSite
 {
+    using ClubNet.WebSite.BusinessLayer.Extensions;
+    using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.Services;
+    using ClubNet.WebSite.Tools;
+
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Razor;
+    using Microsoft.AspNetCore.Routing;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.FileProviders;
+    using Microsoft.Extensions.Localization;
+
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+
     /// <summary>
     /// Define all the start and configuration process
     /// </summary>
     public class Startup
     {
+        #region Fields
+
+        private readonly IClubDescriptor _clubDescriptor;
+
+        #endregion
+
         #region Ctor
 
         /// <summary>
@@ -33,6 +43,23 @@ namespace ClubNet.WebSite
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            var clubSelection = Configuration.GetValue<string>("Club");
+
+            if (!string.IsNullOrEmpty(clubSelection))
+            {
+                var assembly = Assembly.LoadFile(Path.Combine(Path.GetDirectoryName(typeof(Startup).Assembly.Location),
+                                                              "Clubs",
+                                                              clubSelection, nameof(ClubNet) + "." + clubSelection + ".dll"));
+
+                var descriptors = (from type in assembly.GetTypes()
+                                   where typeof(IClubDescriptor).IsAssignableFrom(type)
+                                   select type).ToArray();
+
+                if (!descriptors.Any() || descriptors.Length > 1)
+                    throw new InvalidDataException("None or multiple " + nameof(IClubDescriptor));
+
+                _clubDescriptor = (IClubDescriptor)Activator.CreateInstance(descriptors.Single());
+            }
         }
 
         #endregion
@@ -56,6 +83,9 @@ namespace ClubNet.WebSite
         /// </remarks>
         public void ConfigureServices(IServiceCollection services)
         {
+            if (_clubDescriptor != null)
+                services.AddSingleton(_clubDescriptor);
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -63,9 +93,14 @@ namespace ClubNet.WebSite
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            var clubAssembly = _clubDescriptor.GetType().GetTypeInfo().Assembly;
+
             services.Configure<RazorViewEngineOptions>(options =>
             {
                 options.ViewLocationExpanders.Add(new TenantViewLocationExpander());
+
+                if (_clubDescriptor != null) // important to keep string.Empty as second parameters to allow path solving
+                    options.FileProviders.Add(new EmbeddedFileProvider(clubAssembly, string.Empty));
             });
 
             services.Configure<RouteOptions>(options =>
@@ -97,7 +132,6 @@ namespace ClubNet.WebSite
             });
 
             services.AddSingleton<IStringLocalizerFactory, StringLocalizerFactoryImpl>();
-            //services.AddScoped<IStringLocalizer>((s) => s.GetRequiredService<IStringLocalizerFactory>().Create())
             services.AddHttpContextAccessor();
         }
 
@@ -133,6 +167,9 @@ namespace ClubNet.WebSite
                     template: "{lang}/{controller}/{action}/{id?}",
                     defaults: new { lang = "en", controller = "Home", action = "Index" });
             });
+
+            if (_clubDescriptor != null)
+                this._clubDescriptor.Configure(app);
         }
 
         #endregion

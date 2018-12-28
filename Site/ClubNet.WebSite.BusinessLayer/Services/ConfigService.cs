@@ -56,7 +56,7 @@ namespace ClubNet.WebSite.BusinessLayer.Services
         /// <summary>
         /// Gets the default application timeout
         /// </summary>
-        public TimeSpan DefaultTimeout
+        public TimeSpan DefaultRequestTimeout
         {
             get { return s_defaultTimeout; }
         }
@@ -75,6 +75,22 @@ namespace ClubNet.WebSite.BusinessLayer.Services
         public IReadOnlyCollection<CultureInfo> MangagedLanguage
         {
             get { return (IReadOnlyCollection<CultureInfo>)_defaultConfiguration.Value.MangagedLanguage; }
+        }
+
+        public Guid ProjectId
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string ProjectContentFolder
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         #endregion

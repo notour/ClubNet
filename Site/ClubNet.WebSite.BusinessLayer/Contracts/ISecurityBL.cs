@@ -15,6 +15,6 @@
         /// <summary>
         /// Filter the allowed entities
         /// </summary>
-        Task<IEnumerable<ISecurityEntity>> FilterEntityAsync(IEnumerable<ISecurityEntity> entities, HttpContext httpContext);
+        Task<IEnumerable<ISecurityEntity>> FilterEntityAsync(IEnumerable<ISecurityEntity> entities, IRequestService requestService);
     }
 }

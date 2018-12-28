@@ -1,28 +1,24 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-using ClubNet.WebSite.BusinessLayer.Contracts;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-
-namespace ClubNet.WebSite.ViewModels
+﻿namespace ClubNet.WebSite.ViewModels.Forms
 {
+    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Mvc;
+
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     /// Define the view model dedicated to the login page
     /// </summary>
-    public class LoginPageVM : PageModel
+    public sealed class LoginFormVM : BaseFormVM
     {
         #region Ctor
 
         /// <summary>
         /// Initialize a new instance of the class <see cref="LoginPageVM"/>
         /// </summary>
-        public LoginPageVM()
+        public LoginFormVM(IRequestService requestService)
+            : base(requestService)
         {
         }
 
@@ -42,6 +38,11 @@ namespace ClubNet.WebSite.ViewModels
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the current authentication profile must be saved
+        /// </summary>
+        public bool RememberMe { get; set; }
 
         /// <summary>
         /// Gets or sets the external login scheme availabled

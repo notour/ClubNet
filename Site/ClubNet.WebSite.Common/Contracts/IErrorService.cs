@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ClubNet.WebSite.Common.Errors;
-
-namespace ClubNet.WebSite.Common.Contracts
+﻿namespace ClubNet.WebSite.Common.Contracts
 {
+    using ClubNet.WebSite.Common.Errors;
+
+    using System;
+
     /// <summary>
     /// Define a service able to managed all the kind of error in the system
     /// </summary>

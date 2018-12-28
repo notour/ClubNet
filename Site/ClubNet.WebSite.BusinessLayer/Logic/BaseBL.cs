@@ -1,26 +1,33 @@
-﻿using ClubNet.Framework.Memory;
-using ClubNet.WebSite.BusinessLayer.Contracts;
-
-using Microsoft.AspNetCore.Http;
-using System.Diagnostics;
-using System.Threading;
-
-namespace ClubNet.WebSite.BusinessLayer.Logic
+﻿namespace ClubNet.WebSite.BusinessLayer.Logic
 {
+    using ClubNet.Framework.Memory;
+    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.NusinessLayer.Extensions;
+
+    using Microsoft.AspNetCore.Http;
+
     /// <summary>
     /// Base class of the business layer classes
     /// </summary>
     abstract class BaseBL : Disposable
     {
+        #region Fields
+
+        private readonly IHttpContextAccessor _contextAccessor;
+        
+        #endregion
+
         #region Ctor
 
         /// <summary>
         /// Initialize a new instance of the class <see cref="ThemeBL"/>
         /// </summary>
-        protected BaseBL(IHttpContextAccessor contextAccessor, IConfigService configService)
+        protected BaseBL(IHttpContextAccessor contextAccessor, ISecurityBL securityBL, IConfigService configService)
         {
-           ContextAccessor = contextAccessor;
-           ConfigService = configService;
+           _contextAccessor = contextAccessor;
+            ConfigService = configService;
+            SecurityBL = securityBL;
         }
 
         #endregion
@@ -28,30 +35,23 @@ namespace ClubNet.WebSite.BusinessLayer.Logic
         #region Properties
 
         /// <summary>
-        /// Get the accessor to the HttpContext
-        /// </summary>
-        protected IHttpContextAccessor ContextAccessor { get; }
-
-        /// <summary>
         /// Gets the configuration service
         /// </summary>
-        protected IConfigService ConfigService { get; }
-
-        #endregion
-
-        #region Methods
+        protected IRequestService RequestService
+        {
+            get { return _contextAccessor.CurrentRequestService(); }
+        }
 
         /// <summary>
-        /// Gets the cancellation timeout
+        /// Gets the current config service
         /// </summary>
-        protected CancellationTokenSource GetTimeoutToken()
-        {
-#if DEBUG
-            //if (Debugger.IsAttached)
-            //    return new CancellationTokenSource();
-#endif
-            return new CancellationTokenSource(ConfigService.DefaultTimeout);
-        }
+        public IConfigService ConfigService { get; }
+
+        /// <summary>
+        /// Gets the business layer in charge of the security
+        /// </summary>
+        public ISecurityBL SecurityBL { get; }
+
 
         #endregion
     }

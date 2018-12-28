@@ -2,10 +2,8 @@
 {
     using ClubNet.WebSite.BusinessLayer.Contracts;
     using ClubNet.WebSite.Domain;
-    using Microsoft.AspNetCore.Http;
-    using System;
+
     using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -18,7 +16,7 @@
         /// <summary>
         /// Filter the allowed entities in function of the security user
         /// </summary>
-        public Task<IEnumerable<ISecurityEntity>> FilterEntityAsync(IEnumerable<ISecurityEntity> entities, HttpContext httpContext)
+        public Task<IEnumerable<ISecurityEntity>> FilterEntityAsync(IEnumerable<ISecurityEntity> entities, IRequestService requestService)
         {
             return Task<IEnumerable<ISecurityEntity>>.FromResult(entities);
         }

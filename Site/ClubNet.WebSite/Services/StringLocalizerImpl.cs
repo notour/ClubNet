@@ -1,5 +1,6 @@
 ﻿namespace ClubNet.WebSite.Services
 {
+    using ClubNet.WebSite.NusinessLayer.Extensions;
     using ClubNet.WebSite.Resources;
     using ClubNet.WebSite.Resources.Controllers;
 
@@ -52,8 +53,11 @@
             this._contextAccessor = contextAccessor;
             var resourceDotNetType = Type.GetType("ClubNet.WebSite.Resources.Controllers." + resourceType.Name);
 
-            this._resourceManager = new ResourceManager(resourceDotNetType.FullName, typeof(StringLocalizerImpl).Assembly);
-            this._resourceStringsKeys = ExtractResourceKeys(resourceDotNetType);
+            if (resourceDotNetType != null)
+            {
+                this._resourceManager = new ResourceManager(resourceDotNetType.FullName, typeof(StringLocalizerImpl).Assembly);
+                this._resourceStringsKeys = ExtractResourceKeys(resourceDotNetType);
+            }
         }
 
         /// <summary>
@@ -120,11 +124,14 @@
             var culture = GetCurrentCulture();
             string value = null;
 
-            if (this._resourceStringsKeys.Contains(name))
+            if (this._resourceStringsKeys != null && this._resourceStringsKeys.Contains(name))
                 value = this._resourceManager.GetString(name, culture);
 
             if (s_sharedResourceKeys.Contains(name))
                 value = s_sharedResourceManager.GetString(name, GetCurrentCulture());
+
+            if (string.IsNullOrEmpty(value))
+                value = name;
 
             return value;
         }
@@ -136,8 +143,7 @@
         {
             if (this._fixedCulture != null)
                 return this._fixedCulture;
-            var reqCultureService = this._contextAccessor.HttpContext.Features.Get<IRequestCultureFeature>();
-            return reqCultureService.RequestCulture.Culture;
+            return this._contextAccessor.CurrentRequestService().CurrentLanguage;
         }
 
         #region Tools

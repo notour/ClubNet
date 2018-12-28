@@ -1,0 +1,6 @@
+﻿@using ClubNet.WebSite.Common.Contracts;
+@using ClubNet.WebSite.Common.Enums;
+
+@inject IFileService _fileService;
+
+<img src="@_fileService.GetHtmlPath(SiteResources.BrandLogo)" asp-append-version="true" />

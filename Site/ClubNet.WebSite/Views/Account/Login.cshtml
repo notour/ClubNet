@@ -1,5 +1,79 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@inject IStringLocalizer<AccountController>  _localizer;
+@inject IFileService _fileService;
+
+@model PageViewModel<LoginFormVM>
+@{
+    var VM = Model.ViewModel;
 }
 
-<p>Login</p>
+<div class="row">
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <img class="big-logo" src="@_fileService.GetHtmlPath(SiteResources.SquareLogo)" />
+        </section>
+    </div>
+    <div class="col-md-4">
+        <section>
+            <div>
+                <form method="post">
+                    <h4>@_localizer["LoginTitle"]</h4>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="@VM.Login"></label>
+                        <input asp-for="@VM.Login" class="form-control" />
+                        <span asp-validation-for="@VM.Login" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@VM.Password"></label>
+                        <input asp-for="@VM.Password" class="form-control" />
+                        <span asp-validation-for="@VM.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label asp-for="@VM.RememberMe">
+                                <input asp-for="@VM.RememberMe" />
+                                @Html.DisplayNameFor(m => m.ViewModel.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-default">@_localizer["Login"]</button>
+                    </div>
+                    <div class="form-group">
+                        <p>
+                            <a asp-controller="Account" asp-action="ForgotPassword" >@_localizer["PasswordForgotten"]</a>
+                        </p>
+                        <p>
+                            <a asp-controller="Account" asp-action="Register" asp-route-returnUrl="@VM.ReturnUrl">@_localizer["RegisterNewUser"]</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+            <div>
+
+                @{
+                    if ((VM.ExternalLogins?.Count ?? 0) > 0)
+                    {
+                        <form asp-page="./ExternalLogin" asp-route-returnUrl="@VM.ReturnUrl" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach (var provider in VM.ExternalLogins)
+                                    {
+                                        <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }
+            </div>
+
+        </section>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

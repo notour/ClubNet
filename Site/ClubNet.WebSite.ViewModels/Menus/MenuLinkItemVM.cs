@@ -1,7 +1,7 @@
-﻿namespace ClubNet.WebSite.ViewModel.Menus
+﻿namespace ClubNet.WebSite.ViewModels.Menus
 {
+    using ClubNet.WebSite.BusinessLayer.Contracts;
     using ClubNet.WebSite.Domain.Configs.Menus;
-    using Microsoft.AspNetCore.Http;
 
     /// <summary>
     /// Define the view model of an item part of a menu
@@ -14,8 +14,8 @@
         /// Initialize a new instance of the class <see cref="MenuLinkItemVM"/>
         /// </summary>
         /// <param name="menuItem"></param>
-        internal MenuLinkItemVM(MenuLinkItem menuItem, HttpContext httpContext)
-            : base(menuItem, httpContext)
+        public MenuLinkItemVM(MenuLinkItem menuItem, IRequestService requestService)
+            : base(menuItem, requestService)
         {
             Controller = menuItem.Controller;
             Action = menuItem.Action;

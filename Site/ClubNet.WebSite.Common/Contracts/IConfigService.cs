@@ -1,6 +1,5 @@
-﻿namespace ClubNet.WebSite.BusinessLayer.Contracts
+﻿namespace ClubNet.WebSite.Common.Contracts
 {
-    using ClubNet.WebSite.Domain.Configs.Menus;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -13,14 +12,24 @@
         #region Properties
 
         /// <summary>
+        /// Gets the current project id
+        /// </summary>
+        Guid ProjectId { get; }
+
+        /// <summary>
         /// Gets the default theme name
         /// </summary>
         string DefaultTheme { get; }
 
         /// <summary>
+        /// Gets the current project content folder
+        /// </summary>
+        string ProjectContentFolder { get; }
+
+        /// <summary>
         /// Gets the default default timeout
         /// </summary>
-        TimeSpan DefaultTimeout { get; }
+        TimeSpan DefaultRequestTimeout { get; }
 
         /// <summary>
         /// Gets the default language 

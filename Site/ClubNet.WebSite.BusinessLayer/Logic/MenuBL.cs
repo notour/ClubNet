@@ -1,19 +1,19 @@
-﻿using ClubNet.Framework.Helpers;
-using ClubNet.WebSite.BusinessLayer.Contracts;
-using ClubNet.WebSite.Common.Contracts;
-using ClubNet.WebSite.DataLayer;
-using ClubNet.WebSite.Domain;
-using ClubNet.WebSite.Domain.Configs.Menus;
-using ClubNet.WebSite.ViewModel.Menus;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace ClubNet.WebSite.BusinessLayer.Logic
+﻿namespace ClubNet.WebSite.BusinessLayer.Logic
 {
+    using ClubNet.Framework.Helpers;
+    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.DataLayer;
+    using ClubNet.WebSite.Domain;
+    using ClubNet.WebSite.Domain.Configs.Menus;
+    using ClubNet.WebSite.ViewModels.Menus;
+    using Microsoft.AspNetCore.Http;
+
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Business layer implementation of the contract <see cref="IMenuBL"/> in charge of the club net menu managment
     /// </summary>
@@ -32,7 +32,7 @@ namespace ClubNet.WebSite.BusinessLayer.Logic
         /// Initialize a new instance of the class <see cref="MenuBL"/>
         /// </summary>
         public MenuBL(IHttpContextAccessor contextAccessor, IConfigService configService, IStorageServiceProvider serviceProvider, ISecurityBL securityBL)
-            : base(contextAccessor, configService)
+            : base(contextAccessor, securityBL, configService)
         {
             _serviceProvider = serviceProvider.GetStorageService<Menu>();
             _securityBL = securityBL;
@@ -49,18 +49,15 @@ namespace ClubNet.WebSite.BusinessLayer.Logic
         {
             try
             {
-                using (var timeout = GetTimeoutToken())
-                {
-                    var menu = await this._serviceProvider.FindFirstAsync(m => m.EntityType == Domain.Configs.ConfigType.Menu && m.Name == menuName, timeout.Token);
+                var menu = await this._serviceProvider.FindFirstAsync(m => m.EntityType == Domain.Configs.ConfigType.Menu && m.Name == menuName, RequestService.CancellationToken);
 
-                    if (menu == null)
-                        return EnumerableHelper<MenuItemVM>.Empty;
+                if (menu == null)
+                    return EnumerableHelper<MenuItemVM>.Empty;
 
-                    var allowedItems = await this._securityBL.FilterEntityAsync(ExtractMenuItems(menu), ContextAccessor.HttpContext);
+                var allowedItems = await this._securityBL.FilterEntityAsync(ExtractMenuItems(menu), RequestService);
 
-                    var menuVM = FormatMenu(menu, allowedItems.Select(i => i.Id).ToHashSet(), ContextAccessor.HttpContext) as MenuVM;
-                    return menuVM.Items;
-                }
+                var menuVM = FormatMenu(menu, allowedItems.Select(i => i.Id).ToHashSet()) as MenuVM;
+                return menuVM.Items;
             }
             catch (OperationCanceledException)
             {
@@ -72,21 +69,21 @@ namespace ClubNet.WebSite.BusinessLayer.Logic
         /// <summary>
         /// Generate view models from menu
         /// </summary>
-        private MenuItemVM FormatMenu(MenuItem menuItem, HashSet<Guid> allowedItems, HttpContext httpContext)
+        private MenuItemVM FormatMenu(MenuItem menuItem, HashSet<Guid> allowedItems)
         {
             if (menuItem == null || !allowedItems.Contains(menuItem.Id))
                 return null;
 
             if (menuItem is Menu menu)
             {
-                var childrens = menu.Items?.Select(i => FormatMenu(i, allowedItems, httpContext))
+                var childrens = menu.Items?.Select(i => FormatMenu(i, allowedItems))
                                            .Where(vm => vm != null)
                                            .ToArray();
-                return new MenuVM(menu, childrens, httpContext);
+                return new MenuVM(menu, childrens, RequestService);
             }
 
             if (menuItem is MenuLinkItem link)
-                return new MenuLinkItemVM(link, httpContext);
+                return new MenuLinkItemVM(link, RequestService);
 
             throw new NotImplementedException();
         }

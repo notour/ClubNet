@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using ClubNet.WebSite.Models;
-using ClubNet.WebSite.DataLayer;
-using Microsoft.Extensions.Configuration;
-using ClubNet.WebSite.Middleware;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Options;
-using ClubNet.WebSite.BusinessLayer.Contracts;
-using Microsoft.AspNetCore.Authorization;
-
-namespace ClubNet.WebSite.Controllers
+﻿namespace ClubNet.WebSite.Controllers
 {
+    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.ViewModels;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
+    using System;
+
+    /// <summary>
+    /// Controller of the home pages
+    /// </summary>
     [AllowAnonymous]
-    [MiddlewareFilter(typeof(LocalizationPipeline))]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         #region Fields
 
@@ -30,7 +25,8 @@ namespace ClubNet.WebSite.Controllers
         /// <summary>
         /// Initialize a new instance of the class <see cref="HomeController"/>
         /// </summary>
-        public HomeController(IConfigService configService) 
+        public HomeController(IConfigService configService, IServiceProvider serviceProvider) 
+            : base(serviceProvider)
         {
             _configService = configService;
         }
@@ -63,20 +59,17 @@ namespace ClubNet.WebSite.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(IRequestService requestService)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel(requestService));
         }
 
         /// <summary>
         /// Redirect to the home index in the good language
         /// </summary>
-        public IActionResult RedirectToDefaultLanguage()
+        public IActionResult RedirectToDefaultLanguage(IRequestService requestService)
         {
-            var feature = HttpContext.Features.Get<IRequestCultureFeature>();
-            var currentLanguage = feature.RequestCulture.Culture.TwoLetterISOLanguageName.ToLower();
-
-            return RedirectToAction("Index", new { lang = currentLanguage });
+            return RedirectToAction("Index", new { lang = requestService.CurrentLanguage });
         }
 
 
