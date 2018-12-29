@@ -117,13 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Bevestigings wachtwoord</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Verbinding</value>
+  </data>
+  <data name="LoginEmail" xml:space="preserve">
+    <value>Oude login of Email</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>{0} Account</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Afmelden</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="PasswordForgotten" xml:space="preserve">
+    <value>Wachtwoord vergeten ?</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Maak een account aan</value>
+  </data>
+  <data name="RegisterNewUser" xml:space="preserve">
+    <value>Creëer een nieuw account ?</value>
+  </data>
+  <data name="RegisterTitle" xml:space="preserve">
+    <value>RegistrerenTitel Maak een {0} account aan</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Onthoud mij ?</value>
   </data>
 </root>

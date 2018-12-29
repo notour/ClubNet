@@ -42,8 +42,8 @@
             if (context.Values.TryGetValue(THEME_KEY, out var theme) && !string.IsNullOrEmpty(theme))
             {
                 viewLocations = new[] {
-                    $"/Themes/{theme}/{{1}}/{{0}}.cshtml",
-                    $"/Themes/{theme}/Shared/{{0}}.cshtml",
+                    $"/Views/Themes/{theme}/{{1}}/{{0}}.cshtml",
+                    $"/Views/Themes/{theme}/Shared/{{0}}.cshtml",
                 }
                 .Concat(viewLocations).ToArray();
             }
@@ -53,8 +53,8 @@
                 viewLocations = new[] {
                     $"{club}/Views/{{1}}/{{0}}.cshtml",
                     $"{club}/Views/Shared/{{0}}.cshtml",
-                    $"{club}/Themes/{theme}/{{1}}/{{0}}.cshtml",
-                    $"{club}/Themes/{theme}/Shared/{{0}}.cshtml",
+                    $"{club}/Views/Themes/{theme}/{{1}}/{{0}}.cshtml",
+                    $"{club}/Views/Themes/{theme}/Shared/{{0}}.cshtml",
                 }
                 .Concat(viewLocations).ToArray();
             }

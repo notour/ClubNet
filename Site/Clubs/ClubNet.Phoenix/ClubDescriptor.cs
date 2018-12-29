@@ -39,6 +39,18 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the phoenix display name
+        /// </summary>
+        public string DisplayName
+        {
+            get { return this._config.DisplayName; }
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>

@@ -8,6 +8,15 @@
     /// </summary>
     public interface IClubDescriptor
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets the club display name
+        /// </summary>
+        string DisplayName { get; }
+
+        #endregion
+
         #region Methods
 
         /// <summary>

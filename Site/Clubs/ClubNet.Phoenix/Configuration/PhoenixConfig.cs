@@ -13,6 +13,12 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets the club display name
+        /// </summary>
+        [DataMember]
+        public string DisplayName { get; set; }
+
+        /// <summary>
         /// Gets or sets the main logo path
         /// </summary>
         [DataMember]

@@ -117,13 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirmation du mot de passe</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Connection</value>
+  </data>
+  <data name="LoginEmail" xml:space="preserve">
+    <value>Ancient login ou Email</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>{0} Compte</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Déconnexion</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="PasswordForgotten" xml:space="preserve">
+    <value>Mot de passe oublier ?</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Créer un compte</value>
+  </data>
+  <data name="RegisterNewUser" xml:space="preserve">
+    <value>Créer un nouveau compte ?</value>
+  </data>
+  <data name="RegisterTitle" xml:space="preserve">
+    <value>Créer un compte  {0}</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Se souvenir de moi ?</value>
   </data>
 </root>

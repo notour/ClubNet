@@ -1,0 +1,6 @@
+﻿@import "_mixin.scss";
+
+.big-logo {
+    @include ImageStretch();
+    min-height: $bigLogoHeigth;
+}

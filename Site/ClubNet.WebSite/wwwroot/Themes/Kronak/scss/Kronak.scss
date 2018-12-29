@@ -2,9 +2,17 @@
 @import "Partial/_constants.scss";
 
 @import "Partial/_menu.scss";
+@import "Partial/_media.scss";
 
-.body-content
-{
+.body-content {
+    min-height: 80vh;
     margin-top: 50px;
 }
 
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+}

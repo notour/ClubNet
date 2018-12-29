@@ -1,31 +1,32 @@
 ﻿@inject IStringLocalizer<AccountController>  _localizer;
 @inject IFileService _fileService;
+@inject IClubDescriptor _clubDescriptor;
 
 @model PageViewModel<LoginFormVM>
 @{
     var VM = Model.ViewModel;
 }
 
-<div class="row">
-    <div class="col-md-6 col-md-offset-2">
+<div class="row ">
+    <div class="col-sm-4 hidden-xs">
         <section>
             <img class="big-logo" src="@_fileService.GetHtmlPath(SiteResources.SquareLogo)" />
         </section>
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-4 col-sm-offset-2 col-xs-12">
         <section>
             <div>
                 <form method="post">
-                    <h4>@_localizer["LoginTitle"]</h4>
+                    <h4>@_localizer["LoginTitle", _clubDescriptor.DisplayName]</h4>
                     <hr />
-                    <div asp-validation-summary="All" class="text-danger"></div>
+                    @*<div asp-validation-summary="All" class="text-danger"></div>*@
                     <div class="form-group">
-                        <label asp-for="@VM.Login"></label>
+                        <label asp-for="@VM.Login">@_localizer["LoginEmail"]</label>
                         <input asp-for="@VM.Login" class="form-control" />
                         <span asp-validation-for="@VM.Login" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@VM.Password"></label>
+                        <label asp-for="@VM.Password">@_localizer["Password"]</label>
                         <input asp-for="@VM.Password" class="form-control" />
                         <span asp-validation-for="@VM.Password" class="text-danger"></span>
                     </div>
@@ -33,7 +34,7 @@
                         <div class="checkbox">
                             <label asp-for="@VM.RememberMe">
                                 <input asp-for="@VM.RememberMe" />
-                                @Html.DisplayNameFor(m => m.ViewModel.RememberMe)
+                                @_localizer["RememberMe"]
                             </label>
                         </div>
                     </div>
@@ -76,4 +77,6 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+
 }

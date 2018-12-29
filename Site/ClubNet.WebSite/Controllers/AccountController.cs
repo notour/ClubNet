@@ -64,6 +64,23 @@
             return View(nameof(Login), pageVM);
         }
 
+        /// <summary>
+        /// Called to access the register page
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> Register()
+        {
+            if (_signInManager.IsSignedIn(HttpContext.User))
+                return RedirectToAction("Index", "Home");
+
+            var pageVM = new PageViewModel<RegisterFormVM>(RequestService);
+
+            // Clear the existing external cookie to ensure a clean login process
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            return View(nameof(Register), pageVM);
+        }
+
         #endregion
     }
 }

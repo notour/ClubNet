@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClubNet.WebSite.Resources.Controllers {
+namespace ClubNet.WebSite.Resources {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace ClubNet.WebSite.Resources.Controllers {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AccountController {
+    internal class SharedResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal AccountController() {
+        internal SharedResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace ClubNet.WebSite.Resources.Controllers {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ClubNet.WebSite.Resources.Controllers.AccountController", typeof(AccountController).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ClubNet.WebSite.Resources.SharedResources", typeof(SharedResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,11 @@ namespace ClubNet.WebSite.Resources.Controllers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login-2.
+        ///   Looks up a localized string similar to Saved.
         /// </summary>
-        internal static string Login {
+        internal static string Save {
             get {
-                return ResourceManager.GetString("Login", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Logout.
-        /// </summary>
-        internal static string Logout {
-            get {
-                return ResourceManager.GetString("Logout", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Register.
-        /// </summary>
-        internal static string Register {
-            get {
-                return ResourceManager.GetString("Register", resourceCulture);
+                return ResourceManager.GetString("Save", resourceCulture);
             }
         }
     }
