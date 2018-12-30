@@ -3,8 +3,11 @@
     using ClubNet.Shared.Api.Contracts;
     using ClubNet.Shared.Api.Dto;
     using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.Common.Enums;
     using ClubNet.WebSite.Domain.User;
     using ClubNet.WebSite.Middleware;
+    using ClubNet.WebSite.Tools;
     using ClubNet.WebSite.ViewModels.Forms;
 
     using Microsoft.AspNetCore.Authentication;
@@ -25,6 +28,7 @@
 
         private readonly SignInManager<UserInfo> _signInManager;
         private readonly IUserApi _userApi;
+        private readonly IApiService _apiService;
 
         #endregion
 
@@ -33,11 +37,12 @@
         /// <summary>
         /// Initialize a new instance of the class <see cref="AccountController"/>
         /// </summary>
-        public AccountController(SignInManager<UserInfo> signInManager, IServiceProvider serviceProvider, IUserApi userApi)
+        public AccountController(SignInManager<UserInfo> signInManager, IServiceProvider serviceProvider, IUserApi userApi, IApiService apiService)
             : base(serviceProvider)
         {
             _signInManager = signInManager;
             _userApi = userApi;
+            _apiService = apiService;
         }
 
         #endregion
@@ -90,9 +95,49 @@
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterForm([FromBody] RegisterDto dto)
+        public async Task<IActionResult> RegisterForm([FromBody] RegisterDto dto, [FromForm]string gRecaptchaResponse)
         {
-            throw new NotImplementedException();
+            var returnUrl = Url.Content("~/");
+            if (ModelState.IsValid)
+            {
+                if (dto.Password != dto.ConfirmationPassword)
+                {
+                    ModelState.AddModelError(nameof(PageViewModel<RegisterFormVM>.ViewModel) + "." + nameof(RegisterFormVM.ConfirmationPassword), "Confirmation password and password not identical");
+                    return View(nameof(Register));
+                }
+
+                if (await ReCaptcha.ValidateAsync(this._apiService.GetPrivateApiKey(Apis.ReCaptcha), gRecaptchaResponse))
+                {
+                    ModelState.AddModelError(string.Empty, "Recaptcha missing");
+                    return View(nameof(Register));
+                }
+                var user = new UserInfo(dto.Email) { Email = dto.Email };
+                var result = await _signInManager.UserManager.CreateAsync(user, dto.Password);
+                if (result.Succeeded)
+                {
+                    //_logger.LogInformation("User created a new account with password.");
+
+                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //var callbackUrl = Url.Page(
+                    //    "/Account/ConfirmEmail",
+                    //    pageHandler: null,
+                    //    values: new { userId = user.Id, code = code },
+                    //    protocol: Request.Scheme);
+
+                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    //return LocalRedirect(returnUrl);
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(nameof(Register));
         }
 
         #endregion

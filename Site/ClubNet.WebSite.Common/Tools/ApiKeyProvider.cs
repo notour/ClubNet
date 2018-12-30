@@ -53,6 +53,16 @@
             return string.Empty;
         }
 
+        /// <summary>
+        /// Get the api private key
+        /// </summary>
+        public string GetApiPrivateKey(Apis api)
+        {
+            if (_apiKeyStore.TryGetValue((api.ToString() + "_" + PrivateKey).ToUpperInvariant(), out var key))
+                return key;
+            return string.Empty;
+        }
+
         #endregion
     }
 }

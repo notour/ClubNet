@@ -14,6 +14,11 @@
         /// </summary>
         string GetPublicApiKey(Apis api);
 
+        /// <summary>
+        /// Gets the public key of the specific api 
+        /// </summary>
+        string GetPrivateApiKey(Apis reCaptcha);
+
         #endregion
     }
 }

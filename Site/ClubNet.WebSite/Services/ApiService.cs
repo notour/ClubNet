@@ -51,6 +51,21 @@
             return string.Empty;
         }
 
+        /// <summary>
+        /// Gets the api private key
+        /// </summary>
+        public string GetPrivateApiKey(Apis api)
+        {
+            foreach (var apiProvider in _apiKeyProviders)
+            {
+                var key = apiProvider.GetApiPrivateKey(api);
+                if (!string.IsNullOrEmpty(key))
+                    return key;
+            }
+
+            return string.Empty;
+        }
+
         #endregion
     }
 }

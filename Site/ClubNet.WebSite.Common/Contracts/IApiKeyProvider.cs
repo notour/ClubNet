@@ -14,6 +14,11 @@ namespace ClubNet.WebSite.Common.Contracts
         /// </summary>
         string GetApiPublicKey(Apis api);
 
+        /// <summary>
+        /// Gets the api private key
+        /// </summary>
+        string GetApiPrivateKey(Apis api);
+
         #endregion
     }
 }

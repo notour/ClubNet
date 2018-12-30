@@ -1,5 +1,6 @@
 ﻿namespace ClubNet.WebSite.Tools
 {
+    using Microsoft.Extensions.Primitives;
     using Newtonsoft.Json.Linq;
 
     using System.Collections.Generic;
@@ -19,12 +20,8 @@
         /// <summary>
         /// Validate the recaptcha
         /// </summary>
-        public static async Task<bool> ValidateAsync(string reCaptchaSecret, IDictionary<string, string> httpRequestHeader)
+        public static async Task<bool> ValidateAsync(string reCaptchaSecret, string reCaptchResponse)
         {
-            string reCaptchResponse = string.Empty;
-            if (!httpRequestHeader.TryGetValue("g-recaptcha-response", out reCaptchResponse))
-                return false;
-
             using (var httpClient = new HttpClient())
             {
                 var httpResponse = await httpClient.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret={reCaptchaSecret}&response={reCaptchResponse}");
