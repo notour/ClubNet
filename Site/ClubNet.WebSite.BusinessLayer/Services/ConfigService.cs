@@ -1,15 +1,18 @@
-﻿using ClubNet.WebSite.BusinessLayer.Configurations;
-using ClubNet.WebSite.BusinessLayer.Contracts;
-using ClubNet.WebSite.Common.Contracts;
-using ClubNet.WebSite.Domain.Configs.Menus;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-
-namespace ClubNet.WebSite.BusinessLayer.Services
+﻿namespace ClubNet.WebSite.BusinessLayer.Services
 {
+    using ClubNet.WebSite.BusinessLayer.Configurations;
+    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.Common.Enums;
+    using ClubNet.WebSite.Common.Tools;
+    using ClubNet.WebSite.Domain.Configs.Menus;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Options;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text;
+
     /// <summary>
     /// Define the <see cref="IConfigService"/> implementations
     /// </summary>
@@ -36,9 +39,14 @@ namespace ClubNet.WebSite.BusinessLayer.Services
         /// <summary>
         /// Initialize a new instance of the class <see cref="ConfigService"/>
         /// </summary>
-        public ConfigService(IOptions<DefaultConfiguration> defaultConfiguration)
+        public ConfigService(IOptions<DefaultConfiguration> defaultConfiguration, IConfiguration configuration)
         {
             _defaultConfiguration = defaultConfiguration;
+
+            var keys = configuration.GetValue<Dictionary<Apis, ApiKeys>>(nameof(Apis));
+
+            if (keys != null)
+                ApiKeyProvider = new ApiKeyProvider(keys);
         }
 
         #endregion
@@ -92,6 +100,11 @@ namespace ClubNet.WebSite.BusinessLayer.Services
                 throw new NotImplementedException();
             }
         }
+
+        /// <summary>
+        /// Gets the global api keys
+        /// </summary>
+        public IApiKeyProvider ApiKeyProvider { get; }
 
         #endregion
     }

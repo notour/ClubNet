@@ -1,8 +1,14 @@
 {
-  "DisplayName" :  "Phoenix",
+  "DisplayName": "Phoenix",
   "Media": {
     "MainLogo": "~/Images/orange_shield.svg",
     "BrandLogo": "~/Images/white_phoenix_text.svg",
     "SquareLogo": "~/Images/orange_shield.svg"
+  },
+  "ApiKeys": {
+    "ReCaptcha": {
+      "Public": "6LdFtoUUAAAAAE0hM-kVYCNOrPK73iz1uylZfIdJ",
+      "Private": "6LdFtoUUAAAAAGCN9AWERBLxAHuL01l1K7Nk8jq_"
+    }
   }
 }

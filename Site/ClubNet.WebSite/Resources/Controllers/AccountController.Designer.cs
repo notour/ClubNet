@@ -142,7 +142,7 @@ namespace ClubNet.WebSite.Resources.Controllers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create a {0} Account.
+        ///   Looks up a localized string similar to Create a new {0} Account.
         /// </summary>
         internal static string RegisterTitle {
             get {

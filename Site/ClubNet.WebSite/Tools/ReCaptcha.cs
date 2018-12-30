@@ -2,7 +2,6 @@
 {
     using Newtonsoft.Json.Linq;
 
-    using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
@@ -26,13 +25,13 @@
             if (!httpRequestHeader.TryGetValue("g-recaptcha-response", out reCaptchResponse))
                 return false;
 
-            using (HttpClient httpClient = new HttpClient())
+            using (var httpClient = new HttpClient())
             {
                 var httpResponse = await httpClient.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret={reCaptchaSecret}&response={reCaptchResponse}");
                 if (httpResponse.StatusCode != HttpStatusCode.OK)
                     return false;
 
-                String jsonResponse = httpResponse.Content.ReadAsStringAsync().Result;
+                var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
                 dynamic jsonData = JObject.Parse(jsonResponse);
                 if (jsonData.success != true.ToString().ToLower())
                     return false;

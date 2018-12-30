@@ -41,6 +41,11 @@
         /// </summary>
         IReadOnlyCollection<CultureInfo> MangagedLanguage { get; }
 
+        /// <summary>
+        /// Gets the club api key provider
+        /// </summary>
+        IApiKeyProvider ApiKeyProvider { get; }
+
         #endregion
     }
 }

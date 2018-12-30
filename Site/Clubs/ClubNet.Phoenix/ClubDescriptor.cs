@@ -3,6 +3,7 @@
     using ClubNet.Phoenix.Configuration;
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Common.Enums;
+    using ClubNet.WebSite.Common.Tools;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.FileProviders;
     using Newtonsoft.Json;
@@ -33,6 +34,9 @@
             using (var configStream = new StreamReader(File.OpenRead(Path.Combine(_absoluteRootPath, ConfigFile))))
             {
                 this._config = JsonConvert.DeserializeObject<PhoenixConfig>(configStream.ReadToEnd());
+
+                if (this._config != null && this._config.ApiKeys != null)
+                    ClubApiKeyProvider = new ApiKeyProvider(this._config.ApiKeys);
             }
 
         }
@@ -48,6 +52,11 @@
         {
             get { return this._config.DisplayName; }
         }
+
+        /// <summary>
+        /// Gets the club api keys
+        /// </summary>
+        public IApiKeyProvider ClubApiKeyProvider { get; }
 
         #endregion
 

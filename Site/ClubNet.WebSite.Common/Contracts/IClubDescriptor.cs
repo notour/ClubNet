@@ -17,6 +17,15 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the club api key provider
+        /// </summary>
+        IApiKeyProvider ClubApiKeyProvider { get; }
+
+        #endregion
+
         #region Methods
 
         /// <summary>

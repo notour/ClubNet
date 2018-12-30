@@ -28,6 +28,7 @@
             });
 
             services.AddSingleton<IFileService, FileServiceImpl>();
+            services.AddSingleton<IApiService, ApiService>();
 
             return services;
         }

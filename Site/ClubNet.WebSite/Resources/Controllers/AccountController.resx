@@ -145,7 +145,7 @@
     <value>Create a new user account ?</value>
   </data>
   <data name="RegisterTitle" xml:space="preserve">
-    <value>Create a {0} Account</value>
+    <value>Create a new {0} Account</value>
   </data>
   <data name="RememberMe" xml:space="preserve">
     <value>Remember me ?</value>

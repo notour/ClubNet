@@ -49,5 +49,7 @@
     @await Html.PartialAsync($"_LayoutJS_{themeBL.CurrentThemeName}")
 
     @RenderSection("Scripts", required: false)
+    @Html.RenderScripts()
+
 </body>
 </html>

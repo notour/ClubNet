@@ -2,6 +2,8 @@
 @inject IFileService _fileService;
 @inject IClubDescriptor _clubDescriptor;
 
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @model PageViewModel<RegisterFormVM>
 @{
     var VM = Model.ViewModel;
@@ -35,6 +37,11 @@
                         <input asp-for="@VM.ConfirmationPassword" class="form-control" />
                         <span asp-validation-for="@VM.ConfirmationPassword" class="text-danger"></span>
                     </div>
+
+                    <div class="form-group">
+                        <partial name="_ReCaptcha" />
+                    </div>
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-default">@_localizer["Register"]</button>
                     </div>

@@ -1,0 +1,5 @@
+﻿@inject IApiService _apiServices;
+
+<div class="g-recaptcha" data-sitekey="@_apiServices.GetPublicApiKey(Apis.ReCaptcha)"></div>
+
+@Html.Script(@<script src='https://www.google.com/recaptcha/api.js'></script>)
