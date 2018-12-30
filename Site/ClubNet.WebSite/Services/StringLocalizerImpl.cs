@@ -58,6 +58,11 @@
                 this._resourceManager = new ResourceManager(resourceDotNetType.FullName, typeof(StringLocalizerImpl).Assembly);
                 this._resourceStringsKeys = ExtractResourceKeys(resourceDotNetType);
             }
+            else
+            {
+                this._resourceManager = new ResourceManager(resourceType.FullName, typeof(StringLocalizerImpl).Assembly);
+                this._resourceStringsKeys = ExtractResourceKeys(resourceType);
+            }
         }
 
         /// <summary>

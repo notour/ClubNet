@@ -1,5 +1,7 @@
 ﻿namespace ClubNet.WebSite.Controllers
 {
+    using ClubNet.Shared.Api.Contracts;
+    using ClubNet.Shared.Api.Dto;
     using ClubNet.WebSite.BusinessLayer.Contracts;
     using ClubNet.WebSite.Domain.User;
     using ClubNet.WebSite.Middleware;
@@ -22,6 +24,7 @@
         #region Fields
 
         private readonly SignInManager<UserInfo> _signInManager;
+        private readonly IUserApi _userApi;
 
         #endregion
 
@@ -30,10 +33,11 @@
         /// <summary>
         /// Initialize a new instance of the class <see cref="AccountController"/>
         /// </summary>
-        public AccountController(SignInManager<UserInfo> signInManager, IServiceProvider serviceProvider)
+        public AccountController(SignInManager<UserInfo> signInManager, IServiceProvider serviceProvider, IUserApi userApi)
             : base(serviceProvider)
         {
             _signInManager = signInManager;
+            _userApi = userApi;
         }
 
         #endregion
@@ -79,6 +83,16 @@
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             return View(nameof(Register), pageVM);
+        }
+
+        /// <summary>
+        /// Called by the register form to create a new account
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterForm([FromBody] RegisterDto dto)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

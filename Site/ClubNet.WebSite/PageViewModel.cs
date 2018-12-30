@@ -30,7 +30,6 @@
             ViewModel = (TViewModel)Activator.CreateInstance(typeof(TViewModel), new object[] { requestService });
         }
 
-
         #endregion
 
         #region Properties

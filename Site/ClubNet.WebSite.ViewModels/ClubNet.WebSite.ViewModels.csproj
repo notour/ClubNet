@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\ClubNet.Shared.Api\ClubNet.Shared.Api.csproj" />
     <ProjectReference Include="..\ClubNet.WebSite.Common\ClubNet.WebSite.Common.csproj" />
     <ProjectReference Include="..\ClubNet.WebSite.Domain\ClubNet.WebSite.Domain.csproj" />
   </ItemGroup>

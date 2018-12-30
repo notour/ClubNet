@@ -21,7 +21,9 @@
         public BaseVM(IRequestService requestService)
         {
             _requestService = requestService;
-            Errors = new ErrorViewModel(requestService);
+
+            if (requestService != null)
+                Errors = new ErrorViewModel(requestService);
         }
 
         #endregion

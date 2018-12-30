@@ -1,5 +1,6 @@
 ﻿namespace ClubNet.WebSite.ViewModels.Forms
 {
+    using ClubNet.Shared.Api.Dto;
     using ClubNet.WebSite.BusinessLayer.Contracts;
 
     using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@
     /// <summary>
     /// Define the register form need to create a user account on the club net system
     /// </summary>
-    public sealed class RegisterFormVM : BaseFormVM
+    public sealed class RegisterFormVM : BaseFormVM, IRegisterModel
     {
         #region Ctor
 

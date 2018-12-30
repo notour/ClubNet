@@ -115,7 +115,10 @@ namespace ClubNet.WebSite
             services.AddClubNetToolsServices()
                     .AddClubNetUserServices();
 
-            services.AddMvc()
+            services.AddMvc(option =>
+                    {
+                        option.InputFormatters.Insert(0, new AutoInputFormatter());
+                    })
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddLocalization(o =>
@@ -166,6 +169,11 @@ namespace ClubNet.WebSite
                     name: "default",
                     template: "{lang}/{controller}/{action}/{id?}",
                     defaults: new { lang = "en", controller = "Home", action = "Index" });
+
+                routes.MapRoute(
+                    name: "api",
+                    template: "{lang}/api/{controller}/{action}/",
+                    defaults: new { lang = "en" });
             });
 
             if (_clubDescriptor != null)
