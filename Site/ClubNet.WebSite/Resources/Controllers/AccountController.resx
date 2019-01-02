@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConfirmationEmailSend" xml:space="preserve">
+    <value>To finish to create your account you must validate your email address. An email have been send to your address : {0}</value>
+  </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Confirmation Password</value>
   </data>
@@ -149,5 +152,11 @@
   </data>
   <data name="RememberMe" xml:space="preserve">
     <value>Remember me ?</value>
+  </data>
+  <data name="AccountCreated" xml:space="preserve">
+    <value>Congratulation your account have been created.</value>
+  </data>
+  <data name="EmailConfirmed" xml:space="preserve">
+    <value>Email account confirmed.</value>
   </data>
 </root>

@@ -1,8 +1,8 @@
-﻿namespace ClubNet.WebSite.BusinessLayer.Services
+﻿namespace ClubNet.WebSite.Common.Services
 {
-    using ClubNet.WebSite.BusinessLayer.Contracts;
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Common.Enums;
+
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Localization;
 

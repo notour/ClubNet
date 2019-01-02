@@ -3,6 +3,7 @@
 namespace ClubNet.WebSite
 {
     using ClubNet.WebSite.BusinessLayer.Extensions;
+    using ClubNet.WebSite.Common.Configurations;
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Services;
     using ClubNet.WebSite.Tools;
@@ -10,6 +11,7 @@ namespace ClubNet.WebSite
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.AspNetCore.Routing;
@@ -88,8 +90,8 @@ namespace ClubNet.WebSite
 
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                    options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -107,6 +109,9 @@ namespace ClubNet.WebSite
             {
                 options.ConstraintMap.Add("lang", typeof(LanguageRouteConstraint));
             });
+
+            services.Configure<EmailSettings>(Configuration.GetSection(EmailSettings.ConfigurationSectionKey));
+            services.AddSingleton<IEmailSender, EmailSenderImpl>();
 
             services.AddClubNetViewServices();
 

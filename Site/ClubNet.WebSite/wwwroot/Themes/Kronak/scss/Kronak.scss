@@ -6,7 +6,13 @@
 
 .body-content {
     min-height: 80vh;
-    margin-top: 50px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.messages-panel {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 html {

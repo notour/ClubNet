@@ -2,10 +2,12 @@
 
 @model MenuItemVM;
 
+@inject IRequestService _requestService;
+
 @{
     if (Model is MenuLinkItemVM link)
     {
-        <li><a asp-area="" asp-controller="@link.Controller" asp-action="@link.Action">@link.Label</a></li>
+        <li><a asp-area="" asp-controller="@link.Controller" asp-route-lang="@_requestService.CurrentLanguage" asp-action="@link.Action">@link.Label</a></li>
     }
     else if (Model is MenuVM menu)
     {

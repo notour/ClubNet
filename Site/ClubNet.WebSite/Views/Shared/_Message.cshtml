@@ -1,0 +1,32 @@
+﻿@using ClubNet.WebSite.ViewModels;
+
+@inject IStringLocalizer<HomeController> _localizer;
+
+@model MessageViewModel;
+
+@{
+    var messageTypeClass = "alert-success";
+    var fadeIn = "fade in";
+
+    switch (Model.Type)
+    {
+        case MessageType.Success:
+            messageTypeClass = "alert-success";
+            break;
+        case MessageType.Warning:
+            messageTypeClass = "alert-warning";
+            break;
+        case MessageType.Error:
+            messageTypeClass = "alert-danger";
+            break;
+        case MessageType.Information:
+        default:
+            messageTypeClass = "alert-info";
+            break;
+    }
+}
+
+<div class="alert @messageTypeClass @fadeIn">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>@_localizer[Model.Type.ToString()]!</strong> @Model.Message
+</div>

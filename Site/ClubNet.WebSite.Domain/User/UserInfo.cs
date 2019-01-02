@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Globalization;
 using ClubNet.WebSite.Common;
 
 using Microsoft.AspNetCore.Identity;
@@ -36,6 +36,11 @@ namespace ClubNet.WebSite.Domain.User
         /// Gets the simple display information we should use on display
         /// </summary>
         public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Gets the user preferred culture
+        /// </summary>
+        public CultureInfo PreferredCulture { get; set; }
 
         #endregion
     }

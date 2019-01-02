@@ -1,11 +1,8 @@
 ﻿namespace ClubNet.WebSite.Services
 {
-    using ClubNet.WebSite.NusinessLayer.Extensions;
     using ClubNet.WebSite.Resources;
-    using ClubNet.WebSite.Resources.Controllers;
 
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Localization;
     using Microsoft.Extensions.Localization;
 
     using System;
@@ -98,7 +95,11 @@
             get
             {
                 string value = GetResourceValue(name);
-                return new LocalizedString(name, value != null ? string.Format(value, arguments) : string.Empty, value == null);
+
+                if (value != null && arguments != null && arguments.Any())
+                    value = string.Format(value, arguments);
+
+                return new LocalizedString(name, value, value == null);
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿namespace ClubNet.WebSite.ViewModels.Forms
 {
     using ClubNet.Shared.Api.Dto;
-    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
 
     using System.ComponentModel.DataAnnotations;
 

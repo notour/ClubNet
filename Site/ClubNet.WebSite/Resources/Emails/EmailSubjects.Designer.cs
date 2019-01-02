@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClubNet.WebSite.Resources {
+namespace ClubNet.WebSite.Resources.Emails {
     using System;
     
     
@@ -19,17 +19,17 @@ namespace ClubNet.WebSite.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class UserRes {
+    internal class EmailSubjects {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal UserRes() {
+        internal EmailSubjects() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace ClubNet.WebSite.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ClubNet.WebSite.Resources.UserRes", typeof(UserRes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ClubNet.WebSite.Resources.Emails.EmailSubjects", typeof(EmailSubjects).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace ClubNet.WebSite.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A user already exists with this email address.
+        ///   Looks up a localized string similar to Confirm your account creations.
         /// </summary>
-        internal static string Err_Conflict_CreateAsync {
+        internal static string ConfirmEmail {
             get {
-                return ResourceManager.GetString("Err_Conflict_CreateAsync", resourceCulture);
+                return ResourceManager.GetString("ConfirmEmail", resourceCulture);
             }
         }
     }

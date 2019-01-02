@@ -14,5 +14,9 @@
     <ProjectReference Include="..\ClubNet.WebSite.DataLayer\ClubNet.WebSite.DataLayer.csproj" />
     <ProjectReference Include="..\ClubNet.WebSite.Domain\ClubNet.WebSite.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Impl\" />
+  </ItemGroup>
   
 </Project>

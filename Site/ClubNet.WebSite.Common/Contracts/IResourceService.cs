@@ -16,6 +16,11 @@
         /// </summary>
         string GetString(ErrorCategory category, string errorKey, CultureInfo cultureInfo = null);
 
+        /// <summary>
+        /// Gets an error string localized 
+        /// </summary>
+        string GetString(string globalKey, CultureInfo cultureInfo = null);
+
         #endregion
     }
 }

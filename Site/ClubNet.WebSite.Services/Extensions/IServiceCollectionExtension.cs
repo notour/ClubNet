@@ -1,15 +1,13 @@
-﻿using ClubNet.WebSite.Common.Contracts;
-using ClubNet.WebSite.Domain.Security;
-using ClubNet.WebSite.Domain.User;
-using ClubNet.WebSite.Services;
-using ClubNet.WebSite.Services.Impl;
-using ClubNet.WebSite.Services.Tools;
-using Microsoft.AspNetCore.Identity;
-
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("ClubNet.Website.Services.UTest")]
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("ClubNet.Website.Services.UTest")]
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    using ClubNet.WebSite.Domain.Security;
+    using ClubNet.WebSite.Domain.User;
+    using ClubNet.WebSite.Services.Tools;
+
+    using Microsoft.AspNetCore.Identity;
+
     /// <summary>
     /// Extension methods on the <see cref="IServiceCollection"/>
     /// </summary>
@@ -23,7 +21,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddClubNetToolsServices(this IServiceCollection services)
         {
             services.AddSingleton<IPasswordHasher<UserInfo>, Sha1PasswodHasher>();
-            services.AddScoped<IErrorService, ErrorServiceImpl>();
 
             return services;
         }

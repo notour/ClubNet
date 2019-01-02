@@ -5,7 +5,7 @@
     using ClubNet.WebSite.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-
+    using Microsoft.Extensions.Logging;
     using System;
 
     /// <summary>
@@ -25,8 +25,8 @@
         /// <summary>
         /// Initialize a new instance of the class <see cref="HomeController"/>
         /// </summary>
-        public HomeController(IConfigService configService, IServiceProvider serviceProvider) 
-            : base(serviceProvider)
+        public HomeController(IConfigService configService, IServiceProvider serviceProvider, ILogger<HomeController> logger, IResourceService resourceService) 
+            : base(serviceProvider, logger, resourceService)
         {
             _configService = configService;
         }
@@ -36,6 +36,7 @@
 
         public IActionResult Index()
         {
+            AddMessage("Test", MessageType.Success);
             return View();
         }
 

@@ -1,8 +1,7 @@
-﻿namespace ClubNet.WebSite.NusinessLayer.Extensions
+﻿namespace Microsoft.AspNetCore.Http
 {
-    using ClubNet.WebSite.BusinessLayer.Contracts;
-    using ClubNet.WebSite.BusinessLayer.Services;
-    using Microsoft.AspNetCore.Http;
+    using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.Common.Services;
 
     /// <summary>
     /// Extend the <see cref="IHttpContextAccessor"/> to managed request services

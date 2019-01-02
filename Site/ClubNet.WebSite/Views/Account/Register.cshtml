@@ -1,6 +1,7 @@
 ﻿@inject IStringLocalizer<AccountController>  _localizer;
 @inject IFileService _fileService;
 @inject IClubDescriptor _clubDescriptor;
+@inject IRequestService _requestService;
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -18,10 +19,10 @@
     <div class="col-sm-4 col-sm-offset-2 col-xs-12">
         <section>
             <div>
-                <form method="post" asp-controller="Account" asp-action="RegisterForm" >
+                <form method="post" asp-controller="Account" asp-action="RegisterForm" asp-route-lang="@_requestService.CurrentLanguage">
                     <h4>@_localizer["RegisterTitle", _clubDescriptor.DisplayName]</h4>
                     <hr />
-                    @*<div asp-validation-summary="All" class="text-danger"></div>*@
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="ViewModel.Email">@_localizer["Email"]</label>
                         <input asp-for="ViewModel.Email" class="form-control" name="Email" />

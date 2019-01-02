@@ -9,4 +9,23 @@
     <PackageReference Include="System.Collections.Immutable" Version="1.5.0" />
   </ItemGroup>
   
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\ClubNet.Framework\ClubNet.Framework.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Resources\LogMessagesRes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LogMessagesRes.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\LogMessagesRes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LogMessagesRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  
 </Project>

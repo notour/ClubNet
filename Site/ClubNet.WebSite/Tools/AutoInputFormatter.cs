@@ -78,11 +78,21 @@
             if (contentType == FormContentType)
             {
                 var formResult = await request.ReadFormAsync();
+
+                if (context.ModelType == typeof(string))
+                {
+                    var key = formResult.Keys.FirstOrDefault(k => string.Equals(k.Replace("-", ""), context.Metadata.Name, StringComparison.OrdinalIgnoreCase));
+                    if (!string.IsNullOrEmpty(key) && formResult.TryGetValue(key, out var values))
+                        return await InputFormatterResult.SuccessAsync(values.FirstOrDefault());
+                    return await InputFormatterResult.SuccessAsync(null);
+                }
+
                 bodyContent = ConvertToJson(formResult);
             }
 
             if (contentType == FormContentType || contentType == JsonContentType)
             {
+
                 if (!string.IsNullOrEmpty(bodyContent))
                 {
                     var obj = JsonConvert.DeserializeObject(bodyContent, context.ModelType);

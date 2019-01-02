@@ -1,6 +1,6 @@
 ﻿namespace ClubNet.WebSite.ViewModels.Menus
 {
-    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Domain.Configs.Menus;
 
     using System.Collections.Generic;

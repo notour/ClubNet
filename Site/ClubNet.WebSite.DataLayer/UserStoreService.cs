@@ -1,20 +1,18 @@
-﻿using System;
-using System.Diagnostics;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using ClubNet.Framework.Memory;
-using ClubNet.WebSite.Common;
-using ClubNet.WebSite.Common.Contracts;
-using ClubNet.WebSite.Common.Errors;
-using ClubNet.WebSite.Domain.User;
-using Microsoft.AspNetCore.Identity;
-
-using Microsoft.Extensions.DependencyInjection;
-
-namespace ClubNet.WebSite.DataLayer
+﻿namespace ClubNet.WebSite.DataLayer
 {
+    using ClubNet.Framework.Memory;
+    using ClubNet.WebSite.Common.Errors;
+    using ClubNet.WebSite.Domain.User;
+
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Logging;
+
+    using System;
+    using System.Diagnostics;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Managed the user storage and retreive
     /// </summary>
@@ -23,6 +21,7 @@ namespace ClubNet.WebSite.DataLayer
         #region Fields
 
         private readonly IStorageService<UserInfo> _userStorage;
+        private readonly ILogger _logger;
         private readonly IServiceProvider _serviceProvider;
 
         #endregion
@@ -32,11 +31,10 @@ namespace ClubNet.WebSite.DataLayer
         /// <summary>
         /// Initialize a new instance of the class <see cref="UserStoreService"/>
         /// </summary>
-        public UserStoreService(IStorageServiceProvider storageServiceProvider, IServiceProvider serviceProvider)
+        public UserStoreService(IStorageServiceProvider storageServiceProvider, ILogger<UserStoreService> logger)
         {
-            
-            _serviceProvider = serviceProvider;
             _userStorage = storageServiceProvider.GetStorageService<UserInfo>();
+            _logger = logger;
         }
 
         #endregion
@@ -50,7 +48,6 @@ namespace ClubNet.WebSite.DataLayer
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var errorService = new Lazy<IErrorService>(() => this._serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IErrorService>());
             IdentityResult identity = null;
             try
             {
@@ -62,17 +59,16 @@ namespace ClubNet.WebSite.DataLayer
                 else
                     identity = IdentityResult.Failed(new IdentityError()
                     {
-                        Code = InternalErrorCodes.Conflict.GetCodeString(),
-                        Description = errorService.Value.GetErrorDescription(ErrorCategory.User, InternalErrorCodes.Conflict, nameof(CreateAsync), user.NormalizedEmail)
+                        Code = ErrorCategory.User + "_" + InternalErrorCodes.Conflict.GetCodeString() + ":" + user.Email
                     });
             }
             catch (Exception ex)
             {
-                var errorLoggedId = errorService.Value.LogError(ErrorCategory.User, InternalErrorCodes.InternalError, nameof(CreateAsync), ex, user.ToDiagnosticJson());
+                var errorLoggedId = Guid.NewGuid();
+                this._logger.LogError(ex, ErrorCategory.User + "_" + InternalErrorCodes.InternalError + "_" + nameof(CreateAsync) + ":" + user.ToDiagnosticJson());
                 identity = IdentityResult.Failed(new IdentityError()
                 {
-                    Code = InternalErrorCodes.InternalError.GetCodeString(),
-                    Description = errorService.Value.GetErrorDescription(ErrorCategory.User, InternalErrorCodes.InternalError, errorLoggedId)
+                    Code = ErrorCategory.User + "_" + InternalErrorCodes.InternalError.GetCodeString() + ":" + errorLoggedId,
                 });
             }
 
@@ -91,9 +87,13 @@ namespace ClubNet.WebSite.DataLayer
             return await _userStorage.FindFirstAsync(u => u.NormalizedEmail == normalizedEmail, cancellationToken);
         }
 
-        public Task<UserInfo> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        /// <summary>
+        /// Found the user informations by his unique id
+        /// </summary>
+        public async Task<UserInfo> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var userGuidId = Guid.Parse(userId);
+            return await _userStorage.FindFirstAsync(u => u.Id == userGuidId, cancellationToken);
         }
 
         /// <summary>

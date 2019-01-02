@@ -38,6 +38,24 @@
     <partial name="_CookieConsentPartial" />
 
     <div class="container">
+
+        @{
+            if (ViewData.ContainsKey("Messages"))
+            {
+                var messages = (IEnumerable<MessageViewModel>)ViewData["Messages"];
+                if (messages.Any())
+                {
+
+                    @Html.Raw("<div class='messages-panel'>")
+                    foreach (var message in messages)
+                    {
+                        @await Html.PartialAsync("_Message", message);
+                    }
+                    @Html.Raw("</div>")
+                }
+            }
+        }
+
         <div class="body-content">
             @RenderBody()
         </div>

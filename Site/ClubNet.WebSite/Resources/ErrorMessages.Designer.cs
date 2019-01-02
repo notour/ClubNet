@@ -61,6 +61,78 @@ namespace ClubNet.WebSite.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The password and the confirmation password are not identical..
+        /// </summary>
+        internal static string ConfirmationPasswordNotEquals {
+            get {
+                return ResourceManager.GetString("ConfirmationPasswordNotEquals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A user already exists with this email address.
+        /// </summary>
+        internal static string Conflict_CreateAsync {
+            get {
+                return ResourceManager.GetString("Conflict_CreateAsync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The code provide to confirme the email address is in valid or the user already validate his email address..
+        /// </summary>
+        internal static string InvalidEmailConfirmationCode {
+            get {
+                return ResourceManager.GetString("InvalidEmailConfirmationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error have been logged. Plz contact the administartor with the current Id : {0}.
+        /// </summary>
+        internal static string Logged_Default {
+            get {
+                return ResourceManager.GetString("Logged_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password rules required a lower alphabetic value..
+        /// </summary>
+        internal static string PasswordRequiresLower {
+            get {
+                return ResourceManager.GetString("PasswordRequiresLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password rules required a non alphanumeric value..
+        /// </summary>
+        internal static string PasswordRequiresNonAlphanumeric {
+            get {
+                return ResourceManager.GetString("PasswordRequiresNonAlphanumeric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password rules required a upper alphabetic value..
+        /// </summary>
+        internal static string PasswordRequiresUpper {
+            get {
+                return ResourceManager.GetString("PasswordRequiresUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The recaptcha validation failed..
+        /// </summary>
+        internal static string RecaptchaFailed {
+            get {
+                return ResourceManager.GetString("RecaptchaFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The {0} is required..
         /// </summary>
         internal static string RequiredAttribute {

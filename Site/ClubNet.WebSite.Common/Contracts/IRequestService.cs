@@ -1,4 +1,4 @@
-﻿namespace ClubNet.WebSite.BusinessLayer.Contracts
+﻿namespace ClubNet.WebSite.Common .Contracts
 {
     using ClubNet.WebSite.Common.Enums;
     using System.Globalization;

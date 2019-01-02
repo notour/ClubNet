@@ -1,5 +1,6 @@
 ﻿namespace ClubNet.WebSite.Common.Contracts
 {
+    using ClubNet.WebSite.Common.Configurations;
     using ClubNet.WebSite.Common.Enums;
     using Microsoft.AspNetCore.Builder;
 
@@ -23,6 +24,11 @@
         /// Gets the club api key provider
         /// </summary>
         IApiKeyProvider ClubApiKeyProvider { get; }
+
+        /// <summary>
+        /// Gets the email settings local configuration
+        /// </summary>
+        EmailSettings EmailSettings { get; }
 
         #endregion
 

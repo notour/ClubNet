@@ -1,12 +1,14 @@
 ﻿namespace Microsoft.Extensions.DependencyInjection
 {
     using ClubNet.Shared.Api.Contracts;
+    using ClubNet.WebSite;
     using ClubNet.WebSite.Api;
-    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.BusinessLayer.Services;
     using ClubNet.WebSite.Common.Contracts;
-    using ClubNet.WebSite.NusinessLayer.Extensions;
+    using ClubNet.WebSite.Resources.Emails;
     using ClubNet.WebSite.Services;
     using ClubNet.WebSite.Tools;
+
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.DataAnnotations;
 
@@ -24,6 +26,10 @@
         {
             services.AddSingleton<IValidationAttributeAdapterProvider, LocalizedValidationAttributeAdapterProvider>();
             services.AddSingleton<IResourceService, ResourceServicesImpl>();
+            services.AddSingleton<IEmailTemplateProvider>(o =>
+            {
+                return new EmailTemplateProvider(typeof(Startup).Assembly, o.GetService<IClubDescriptor>(), EmailSubjects.ResourceManager);
+            });
 
             services.AddScoped<IRequestService>((s) =>
             {

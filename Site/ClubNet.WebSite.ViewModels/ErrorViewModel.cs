@@ -1,6 +1,6 @@
 ﻿namespace ClubNet.WebSite.ViewModels
 {
-    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
 
     /// <summary>
     /// View model of the error page

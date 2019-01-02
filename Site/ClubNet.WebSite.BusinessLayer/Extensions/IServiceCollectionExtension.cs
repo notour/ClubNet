@@ -1,15 +1,15 @@
-﻿using ClubNet.WebSite.BusinessLayer.Configurations;
-using ClubNet.WebSite.BusinessLayer.Contracts;
-using ClubNet.WebSite.BusinessLayer.Logic;
-using ClubNet.WebSite.BusinessLayer.Services;
-using ClubNet.WebSite.Common.Contracts;
-using ClubNet.WebSite.DataLayer.Extensions;
-using ClubNet.WebSite.Domain.Configs;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace ClubNet.WebSite.BusinessLayer.Extensions
+﻿namespace ClubNet.WebSite.BusinessLayer.Extensions
 {
+    using ClubNet.WebSite.BusinessLayer.Configurations;
+    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.BusinessLayer.Logic;
+    using ClubNet.WebSite.BusinessLayer.Services;
+    using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.DataLayer.Extensions;
+
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+
     /// <summary>
     /// Busines layer <see cref="IServiceCollection"/> extensions
     /// </summary>

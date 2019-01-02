@@ -11,6 +11,15 @@
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="compilerconfig.json" />
+    <Content Remove="Emails\confirmEmail-en.cshtml" />
+    <Content Remove="Emails\confirmEmail-fr.cshtml" />
+    <Content Remove="Emails\confirmEmail-nl.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Emails\confirmEmail-en.cshtml" />
+    <EmbeddedResource Include="Emails\confirmEmail-fr.cshtml" />
+    <EmbeddedResource Include="Emails\confirmEmail-nl.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,15 +35,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Emails\EmailSubjects.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EmailSubjects.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\ErrorMessages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ErrorMessages.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\GlobalRes.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>GlobalRes.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Controllers\AccountController.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -46,11 +55,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SharedResources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\UserRes.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>UserRes.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +63,10 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Controllers\AccountController.fr.resx">
       <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Emails\EmailSubjects.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmailSubjects.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\ErrorMessages.nl.resx">
       <Generator></Generator>
@@ -78,11 +86,6 @@
     <EmbeddedResource Update="Resources\SharedResources.fr.resx">
       <Generator></Generator>
     </EmbeddedResource>
-    
-    <EmbeddedResource Update="Resources\GlobalRes.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>GlobalRes.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Controllers\AccountController.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AccountController.Designer.cs</LastGenOutput>
@@ -90,10 +93,6 @@
     <EmbeddedResource Update="Resources\SharedResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SharedResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\UserRes.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>UserRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
@@ -106,6 +105,9 @@
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
+    <None Include="Emails\confirmEmail-en.cshtml" />
+    <None Include="Emails\confirmEmail-fr.cshtml" />
+    <None Include="Emails\confirmEmail-nl.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

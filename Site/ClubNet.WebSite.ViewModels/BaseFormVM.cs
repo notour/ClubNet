@@ -1,7 +1,7 @@
 ﻿namespace ClubNet.WebSite.ViewModels
 {
 
-    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
 
     /// <summary>
     /// Base view model class for all the form instances

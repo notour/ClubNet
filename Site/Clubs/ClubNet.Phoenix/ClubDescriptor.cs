@@ -1,6 +1,7 @@
 ﻿namespace ClubNet.Phoenix
 {
     using ClubNet.Phoenix.Configuration;
+    using ClubNet.WebSite.Common.Configurations;
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Common.Enums;
     using ClubNet.WebSite.Common.Tools;
@@ -57,6 +58,11 @@
         /// Gets the club api keys
         /// </summary>
         public IApiKeyProvider ClubApiKeyProvider { get; }
+
+        /// <summary>
+        /// Gets the email settings
+        /// </summary>
+        public EmailSettings EmailSettings { get; }
 
         #endregion
 

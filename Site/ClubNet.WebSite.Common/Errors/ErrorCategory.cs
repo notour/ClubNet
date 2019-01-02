@@ -11,6 +11,8 @@ namespace ClubNet.WebSite.Common.Errors
     {
         None,
         User,
-        Logged,
+        Login,
+        Register,
+        Global,
     }
 }

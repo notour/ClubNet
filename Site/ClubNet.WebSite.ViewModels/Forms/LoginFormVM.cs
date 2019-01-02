@@ -1,6 +1,7 @@
 ﻿namespace ClubNet.WebSite.ViewModels.Forms
 {
-    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
+
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Mvc;
 

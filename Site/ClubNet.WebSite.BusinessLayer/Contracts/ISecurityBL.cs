@@ -1,8 +1,7 @@
 ﻿namespace ClubNet.WebSite.BusinessLayer.Contracts
 {
+    using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Domain;
-
-    using Microsoft.AspNetCore.Http;
 
     using System.Collections.Generic;
     using System.Threading.Tasks;

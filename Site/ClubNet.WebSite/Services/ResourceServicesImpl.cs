@@ -1,5 +1,6 @@
 ﻿namespace ClubNet.WebSite.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Globalization;
@@ -8,6 +9,8 @@
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Common.Errors;
     using ClubNet.WebSite.Resources;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Localization;
 
     /// <summary>
     /// Implement the resource service
@@ -22,7 +25,8 @@
         public const string MISSING_RESOURCE = "Missing resource in Resx {0} - key : {1}";
         public const string MISSING_RESOURCE_APPEND_CONTEXT = " - Context : {0}";
 
-        private static readonly IImmutableDictionary<string, ResourceManager> s_indexedResources;
+        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IStringLocalizer<ErrorMessages> _errorMessages;
 
         #endregion
 
@@ -33,12 +37,15 @@
         /// </summary>
         static ResourceServicesImpl()
         {
-            var indexedResources = new Dictionary<string, ResourceManager>();
+        }
 
-            indexedResources.Add(ErrorCategory.User.ToString(), UserRes.ResourceManager);
-            indexedResources.Add(ErrorCategory.Logged.ToString(), GlobalRes.ResourceManager);
-
-            s_indexedResources = indexedResources.ToImmutableDictionary();
+        /// <summary>
+        /// Initialize a new instance of the class <see cref="ResourceServicesImpl"/>
+        /// </summary>
+        public ResourceServicesImpl(IHttpContextAccessor contextAccessor, IStringLocalizer<ErrorMessages> errorMessages)
+        {
+            _contextAccessor = contextAccessor;
+            _errorMessages = errorMessages;
         }
 
         #endregion
@@ -50,21 +57,39 @@
         /// </summary>
         public string GetString(ErrorCategory category, string errorKey, CultureInfo culture = null)
         {
-            if (s_indexedResources.TryGetValue(category.ToString(), out var resourceManager))
-            {
-                if (culture == null)
-                    culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+            if (culture == null)
+                culture = this._contextAccessor.CurrentRequestService().CurrentLanguage;
 
-                if (string.IsNullOrEmpty(errorKey))
-                    errorKey = category.ToString() + "_" + DEFAULT;
-                
-                var resource = resourceManager.GetString(ERROR_PREFIX + errorKey, culture);
-                if (resource != null)
-                    return resource;
+            string[] arguments = null;
+
+            if (string.IsNullOrEmpty(errorKey))
+                errorKey = category.ToString() + "_" + DEFAULT;
+            else
+            {
+                var parts = errorKey.Split(":".ToCharArray(), 2, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length > 1)
+                {
+                    arguments = parts[1].Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    errorKey = parts[0].Trim();
+                }
             }
+            
+            var resource = this._errorMessages.GetString(errorKey, arguments);
+            if (resource != null)
+                return resource;
+
             return string.Format(MISSING_RESOURCE, category.ToString(), errorKey) + MISSING_RESOURCE_APPEND_CONTEXT;
+        }
+
+        /// <summary>
+        /// Get the localized formated string
+        /// </summary>
+        public string GetString(string globalKey, CultureInfo cultureInfo = null)
+        {
+            return GetString(ErrorCategory.None, globalKey, cultureInfo);
         }
 
         #endregion
     }
 }
+ 

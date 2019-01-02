@@ -61,11 +61,38 @@ namespace ClubNet.WebSite.Resources.Controllers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Congratulation your account have been created..
+        /// </summary>
+        internal static string AccountCreated {
+            get {
+                return ResourceManager.GetString("AccountCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To finish to create your account you must validate your email address. An email have been send to your address : {0}.
+        /// </summary>
+        internal static string ConfirmationEmailSend {
+            get {
+                return ResourceManager.GetString("ConfirmationEmailSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirmation Password.
         /// </summary>
         internal static string ConfirmPassword {
             get {
                 return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email account confirmed..
+        /// </summary>
+        internal static string EmailConfirmed {
+            get {
+                return ResourceManager.GetString("EmailConfirmed", resourceCulture);
             }
         }
         

@@ -1,7 +1,8 @@
 ﻿namespace ClubNet.WebSite
 {
-    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.ViewModels;
+
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
     using System;
