@@ -1,0 +1,17 @@
+﻿@inject IRequestService _requestService;
+@inject IConfigService _configService;
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="menu-small-img" src="~/images/@(_requestService.CurrentLanguage).svg" /> <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        @{
+            foreach (var managedLanguage in _configService.MangagedLanguage)
+            {
+                if (managedLanguage != _requestService.CurrentLanguage)
+                {
+                    <li class="menu-small-img"><a href='#'><img class='menu-small-img' src='~/images/@(managedLanguage.TwoLetterISOLanguageName.ToLower()).svg' /></a></li>
+                }
+            }
+        }
+    </ul>
+</li>

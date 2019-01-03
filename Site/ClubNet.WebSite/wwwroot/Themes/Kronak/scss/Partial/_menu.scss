@@ -6,3 +6,14 @@
         @include ImageStretch();
     }
 }
+
+.menu-small-img {
+    @include ImageStretch();
+    height: $VerySmallLogoWidth;
+}
+
+.dropdown-toggle {
+    .caret {
+        margin-left: unset;
+    }
+}
