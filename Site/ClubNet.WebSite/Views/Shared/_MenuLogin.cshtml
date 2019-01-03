@@ -11,21 +11,15 @@
 
 @if (_signInManager.IsSignedIn(User))
 {
-    <form asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a title="Manage">Hello @_userManager.GetUserName(User)!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">@_localizer.GetString("Logout")</button>
-            </li>
-        </ul>
-    </form>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-controller="Account" asp-action="Edit" asp-route-lang="@_requestService.CurrentLanguage">@_userManager.GetUserName(User)!</a></li>
+        <li><a asp-controller="Account" asp-action="Logout" asp-route-lang="@_requestService.CurrentLanguage">@_localizer["Logout"]</a></li>
+    </ul>
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-controller="Account" asp-action="Register" asp-route-lang="@_requestService.CurrentLanguage" >@_localizer["Register"]</a></li>
+        <li><a asp-controller="Account" asp-action="Register" asp-route-lang="@_requestService.CurrentLanguage">@_localizer["Register"]</a></li>
         <li><a asp-controller="Account" asp-action="Login" asp-route-lang="@_requestService.CurrentLanguage">@_localizer["Login"]</a></li>
     </ul>
 }

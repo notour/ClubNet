@@ -1,13 +1,14 @@
 ﻿@inject IStringLocalizer<AccountController>  _localizer;
 @inject IFileService _fileService;
 @inject IClubDescriptor _clubDescriptor;
+@inject IRequestService _requestService;
 
 @model PageViewModel<LoginFormVM>
 @{
     var VM = Model.ViewModel;
 }
 
-<div class="row ">
+<div class="row margin-top-medium">
     <div class="col-sm-4 hidden-xs">
         <section>
             <img class="big-logo" src="@_fileService.GetHtmlPath(SiteResources.SquareLogo)" />
@@ -16,24 +17,25 @@
     <div class="col-sm-4 col-sm-offset-2 col-xs-12">
         <section>
             <div>
-                <form method="post">
+                <form method="post" asp-controller="Account" asp-action="LoginForm" asp-route-lang="@_requestService.CurrentLanguage">
                     <h4>@_localizer["LoginTitle", _clubDescriptor.DisplayName]</h4>
                     <hr />
-                    @*<div asp-validation-summary="All" class="text-danger"></div>*@
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" name="returnUrl" value="@VM.ReturnUrl" />
                     <div class="form-group">
                         <label asp-for="@VM.Login">@_localizer["LoginEmail"]</label>
-                        <input asp-for="@VM.Login" class="form-control" />
+                        <input asp-for="@VM.Login" class="form-control" id="Login" name="Login" />
                         <span asp-validation-for="@VM.Login" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="@VM.Password">@_localizer["Password"]</label>
-                        <input asp-for="@VM.Password" class="form-control" />
+                        <input asp-for="@VM.Password" class="form-control" id="Password" name="Password" />
                         <span asp-validation-for="@VM.Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <div class="checkbox">
                             <label asp-for="@VM.RememberMe">
-                                <input asp-for="@VM.RememberMe" />
+                                <input asp-for="@VM.RememberMe" id="RememberMe" name="RememberMe"  />
                                 @_localizer["RememberMe"]
                             </label>
                         </div>
@@ -43,10 +45,10 @@
                     </div>
                     <div class="form-group">
                         <p>
-                            <a asp-controller="Account" asp-action="ForgotPassword" >@_localizer["PasswordForgotten"]</a>
+                            <a asp-controller="Account" asp-action="ForgotPassword" asp-route-lang="@_requestService.CurrentLanguage">@_localizer["PasswordForgotten"]</a>
                         </p>
                         <p>
-                            <a asp-controller="Account" asp-action="Register" asp-route-returnUrl="@VM.ReturnUrl">@_localizer["RegisterNewUser"]</a>
+                            <a asp-controller="Account" asp-action="Register" asp-route-returnUrl="@VM.ReturnUrl" asp-route-lang="@_requestService.CurrentLanguage">@_localizer["RegisterNewUser"]</a>
                         </p>
                     </div>
                 </form>
@@ -56,7 +58,7 @@
                 @{
                     if ((VM.ExternalLogins?.Count ?? 0) > 0)
                     {
-                        <form asp-page="./ExternalLogin" asp-route-returnUrl="@VM.ReturnUrl" method="post" class="form-horizontal">
+                        <form asp-page="./ExternalLogin" asp-route-returnUrl="@VM.ReturnUrl" asp-route-lang="@_requestService.CurrentLanguage" method="post" class="form-horizontal">
                             <div>
                                 <p>
                                     @foreach (var provider in VM.ExternalLogins)

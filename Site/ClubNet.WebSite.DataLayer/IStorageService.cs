@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
-using ClubNet.WebSite.Domain.User;
-
-namespace ClubNet.WebSite.DataLayer
+﻿namespace ClubNet.WebSite.DataLayer
 {
+    using ClubNet.WebSite.Domain;
+
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+
     /// <summary>
     /// Define a storage service associate to the type <typeparamref name="TEntity"/>
     /// </summary>
@@ -18,6 +20,7 @@ namespace ClubNet.WebSite.DataLayer
     /// Define a storage service associate to the type <typeparamref name="TEntity"/>
     /// </summary>
     public interface IStorageService<TEntity> : IStorageService
+        where TEntity : IEntity
     {
         #region Methods
 
@@ -45,6 +48,11 @@ namespace ClubNet.WebSite.DataLayer
         /// Save an existing item
         /// </summary>
         Task<TEntity> SaveAsync(TEntity user, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Update the existing field on the entity
+        /// </summary>
+        Task<TEntity> UpdateFieldAsync<TFieldValue>(TEntity entity, Expression<Func<TEntity, TFieldValue>> field, TFieldValue newValue, CancellationToken cancellationToken);
 
         /// <summary>
         /// Find all the occurence that math the expression

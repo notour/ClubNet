@@ -60,7 +60,7 @@
         /// </summary>
         public string GetTemplate(string key, CultureInfo culture)
         {
-            string resourceKey = (key + "." + culture.TwoLetterISOLanguageName + ".cshtml").ToLowerInvariant();
+            string resourceKey = (key + "-" + culture.TwoLetterISOLanguageName + ".cshtml").ToLowerInvariant();
             string template = string.Empty;
 
             if (!this._emailTemplates.TryGetValue(resourceKey, out template))

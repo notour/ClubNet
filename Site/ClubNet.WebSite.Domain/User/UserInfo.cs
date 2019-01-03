@@ -1,15 +1,15 @@
-﻿using System;
-using System.Globalization;
-using ClubNet.WebSite.Common;
-
-using Microsoft.AspNetCore.Identity;
-
-namespace ClubNet.WebSite.Domain.User
+﻿namespace ClubNet.WebSite.Domain.User
 {
+    using System;
+    using System.Globalization;
+    using ClubNet.WebSite.Common;
+
+    using Microsoft.AspNetCore.Identity;
+
     /// <summary>
     /// Define all the user informations
     /// </summary>
-    public class UserInfo : IdentityUser<Guid>, IUserInfo
+    public class UserInfo : IdentityUser<Guid>, IUserInfo, IEntity
     {
         #region Ctor
 

@@ -1,20 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
-using ClubNet.Framework.Memory;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Driver;
-
-namespace ClubNet.WebSite.DataLayer.Services
+﻿namespace ClubNet.WebSite.DataLayer.Services
 {
+    using ClubNet.Framework.Memory;
+    using ClubNet.WebSite.Common.Exceptions;
+    using ClubNet.WebSite.Domain;
+
+    using MongoDB.Bson;
+    using MongoDB.Bson.Serialization;
+    using MongoDB.Driver;
+
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using System.Linq.Expressions;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Storage service dedicated to the mongo db DataBases
     /// </summary>
     class MongoDBStorageService<TEntity> : Disposable, IStorageService<TEntity>
+            where TEntity : IEntity
     {
         #region Fields
 
@@ -109,14 +114,45 @@ namespace ClubNet.WebSite.DataLayer.Services
                     return exist;
                 }
             }
+            entity.ConcurrencyStamp = Guid.NewGuid().ToString();
             this._mongoDBCollection.InsertOne(entity, null, cancellationToken);
 
             return entity;
         }
 
-        public Task<TEntity> SaveAsync(TEntity user, CancellationToken cancellationToken)
+        /// <summary>
+        /// Save the current document
+        /// </summary>
+        public async Task<TEntity> SaveAsync(TEntity entity, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var localConcurrencyStamp = entity.ConcurrencyStamp;
+            entity.ConcurrencyStamp = Guid.NewGuid().ToString();
+            var saveResult = await this._mongoDBCollection.ReplaceOneAsync(u => u.Id == entity.Id && u.ConcurrencyStamp == localConcurrencyStamp, entity, cancellationToken: cancellationToken);
+
+            if (saveResult.IsModifiedCountAvailable && saveResult.ModifiedCount == 0)
+            {
+                entity.ConcurrencyStamp = localConcurrencyStamp;
+                throw new ConcurrencySaveException();
+            }
+
+            return entity;
+        }
+
+        /// <summary>
+        /// Update only one field
+        /// </summary>
+        public async Task<TEntity> UpdateFieldAsync<TFieldValue>(TEntity entity, Expression<Func<TEntity, TFieldValue>> field, TFieldValue newValue, CancellationToken cancellationToken)
+        {
+            var result = await this._mongoDBCollection.FindOneAndUpdateAsync(u => u.Id == entity.Id && u.ConcurrencyStamp == entity.ConcurrencyStamp,
+                                                                             Builders<TEntity>.Update.Combine(
+                                                                             Builders<TEntity>.Update.Set(field, newValue),
+                                                                             Builders<TEntity>.Update.Set(u => u.ConcurrencyStamp, Guid.NewGuid().ToString())),
+                                                                             cancellationToken: cancellationToken);
+
+            if (result == null)
+                throw new ConcurrencySaveException();
+
+            return result;
         }
 
         #endregion

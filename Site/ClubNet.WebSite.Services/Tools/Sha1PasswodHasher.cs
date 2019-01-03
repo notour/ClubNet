@@ -35,7 +35,7 @@ namespace ClubNet.WebSite.Services.Tools
         {
             using (var hasher = SHA1Managed.Create())
             {
-                using (var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(password)))
+                using (var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(user.NormalizedEmail + ":" + password)))
                 {
                     var resultHash = hasher.ComputeHash(memoryStream);
                     return Encoding.UTF8.GetString(resultHash);
@@ -43,9 +43,15 @@ namespace ClubNet.WebSite.Services.Tools
             }
         }
 
+        /// <summary>
+        /// Verify if the password hash is correct
+        /// </summary>
         public PasswordVerificationResult VerifyHashedPassword(UserInfo user, string hashedPassword, string providedPassword)
         {
-            throw new System.NotImplementedException();
+            var hashProvidedPassword = HashPassword(user, providedPassword);
+            if (hashedPassword == hashProvidedPassword)
+                return PasswordVerificationResult.Success;
+            return PasswordVerificationResult.Failed;
         }
 
         #endregion

@@ -61,6 +61,15 @@ namespace ClubNet.WebSite.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To many login attempt locked you account. Plz contact the administrator..
+        /// </summary>
+        internal static string AccountLocked {
+            get {
+                return ResourceManager.GetString("AccountLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The password and the confirmation password are not identical..
         /// </summary>
         internal static string ConfirmationPasswordNotEquals {
@@ -79,6 +88,15 @@ namespace ClubNet.WebSite.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You need to validate your email before behing able to connect..
+        /// </summary>
+        internal static string EmailConfirmationRequired {
+            get {
+                return ResourceManager.GetString("EmailConfirmationRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The code provide to confirme the email address is in valid or the user already validate his email address..
         /// </summary>
         internal static string InvalidEmailConfirmationCode {
@@ -93,6 +111,15 @@ namespace ClubNet.WebSite.Resources {
         internal static string Logged_Default {
             get {
                 return ResourceManager.GetString("Logged_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login attempt failed..
+        /// </summary>
+        internal static string LoginFailed {
+            get {
+                return ResourceManager.GetString("LoginFailed", resourceCulture);
             }
         }
         

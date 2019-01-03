@@ -24,6 +24,7 @@ namespace ClubNet.WebSite.DataLayer.Extensions
             services.AddSingleton<IUserStore<UserInfo>, UserStoreService>();
             services.AddSingleton<IUserEmailStore<UserInfo>>(i => (IUserEmailStore<UserInfo>)i.GetService<IUserStore<UserInfo>>());
             services.AddSingleton<IUserPasswordStore<UserInfo>>(i => (IUserPasswordStore<UserInfo>)i.GetService<IUserStore<UserInfo>>());
+            services.AddSingleton<IUserLoginStore<UserInfo>>(i => (IUserLoginStore<UserInfo>)i.GetService<IUserStore<UserInfo>>());
 
             services.AddSingleton<IRoleStore<UserRole>, UserRoleStoreService>();
 

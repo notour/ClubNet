@@ -1,4 +1,6 @@
-﻿namespace ClubNet.WebSite.DataLayer
+﻿using ClubNet.WebSite.Domain;
+
+namespace ClubNet.WebSite.DataLayer
 {
     /// <summary>
     /// Define a provider in charge of managing the storage service dedicated to the specific entity
@@ -10,7 +12,8 @@
         /// <summary>
         /// Gets the specific storage for the specific <typeparamref name="TEntity"/>
         /// </summary>
-        IStorageService<TEntity> GetStorageService<TEntity>();
+        IStorageService<TEntity> GetStorageService<TEntity>()
+            where TEntity : IEntity;
 
         #endregion
     }

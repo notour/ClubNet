@@ -8,6 +8,7 @@
     using Microsoft.Extensions.Logging;
 
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
     using System.Threading;
@@ -16,7 +17,7 @@
     /// <summary>
     /// Managed the user storage and retreive
     /// </summary>
-    public sealed class UserStoreService : Disposable, IUserStore<UserInfo>, IUserEmailStore<UserInfo>, IUserPasswordStore<UserInfo>
+    public sealed class UserStoreService : Disposable, IUserStore<UserInfo>, IUserEmailStore<UserInfo>, IUserPasswordStore<UserInfo>, IUserLoginStore<UserInfo>
     {
         #region Fields
 
@@ -35,6 +36,11 @@
         {
             _userStorage = storageServiceProvider.GetStorageService<UserInfo>();
             _logger = logger;
+        }
+
+        public Task AddLoginAsync(UserInfo user, UserLoginInfo login, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -80,10 +86,12 @@
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Find the user by email
+        /// </summary>
         public async Task<UserInfo> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-
             return await _userStorage.FindFirstAsync(u => u.NormalizedEmail == normalizedEmail, cancellationToken);
         }
 
@@ -97,12 +105,19 @@
         }
 
         /// <summary>
+        /// Find the user by the login value
+        /// </summary>
+        public Task<UserInfo> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Finds and returns a user, if any, who has the specified normalized user name.
         /// </summary>
         public async Task<UserInfo> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-
             return await _userStorage.FindFirstAsync(u => u.NormalizedUserName == normalizedUserName, cancellationToken);
         }
 
@@ -114,14 +129,25 @@
             return Task.FromResult(user.Email);
         }
 
+        /// <summary>
+        /// Get a value indicating if the current user confirm his email address
+        /// </summary>
         public Task<bool> GetEmailConfirmedAsync(UserInfo user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(user.EmailConfirmed);
         }
 
+        public Task<IList<UserLoginInfo>> GetLoginsAsync(UserInfo user, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the normalized email from the user
+        /// </summary>
         public Task<string> GetNormalizedEmailAsync(UserInfo user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(user.NormalizedEmail);
         }
 
         public Task<string> GetNormalizedUserNameAsync(UserInfo user, CancellationToken cancellationToken)
@@ -129,9 +155,12 @@
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets the user password hash
+        /// </summary>
         public Task<string> GetPasswordHashAsync(UserInfo user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(user.PasswordHash);
         }
 
         /// <summary>
@@ -161,6 +190,11 @@
             return Task.FromResult(!string.IsNullOrEmpty(user.PasswordHash));
         }
 
+        public Task RemoveLoginAsync(UserInfo user, string loginProvider, string providerKey, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Set the current email addrress
         /// </summary>
@@ -170,9 +204,13 @@
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Set a value indicating that the email have been confirmed
+        /// </summary>
         public Task SetEmailConfirmedAsync(UserInfo user, bool confirmed, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            user.EmailConfirmed = confirmed;
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -211,9 +249,13 @@
             return Task.CompletedTask;
         }
 
-        public Task<IdentityResult> UpdateAsync(UserInfo user, CancellationToken cancellationToken)
+        /// <summary>
+        /// Update the current user info
+        /// </summary>
+        public async Task<IdentityResult> UpdateAsync(UserInfo user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var savedUserInfo = await _userStorage.SaveAsync(user, cancellationToken);
+            return IdentityResult.Success;
         }
 
         #endregion

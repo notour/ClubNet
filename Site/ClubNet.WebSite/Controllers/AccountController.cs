@@ -74,6 +74,8 @@
 
         #region Methods
 
+        #region Login
+
         /// <summary>
         /// Called to access the login page
         /// </summary>
@@ -89,16 +91,65 @@
                 return RedirectToAction("Index", "Home");
             }
 
-            var pageVM = new PageViewModel<LoginFormVM>(RequestService);
-
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-            pageVM.ViewModel.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            pageVM.ViewModel.ReturnUrl = returnUrl ?? Url.Content("~/");
+            PageViewModel<LoginFormVM> pageVM = await CreateLoginViewModelAsync(returnUrl);
 
             return View(nameof(Login), pageVM);
         }
+
+        /// <summary>
+        /// Create the login page view model
+        /// </summary>
+        private async Task<PageViewModel<LoginFormVM>> CreateLoginViewModelAsync(string returnUrl)
+        {
+            var pageVM = new PageViewModel<LoginFormVM>(RequestService);
+
+            pageVM.ViewModel.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            pageVM.ViewModel.ReturnUrl = returnUrl ?? Url.Content("~/");
+            return pageVM;
+        }
+
+        /// <summary>
+        /// Called by the login form to authenticate
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> LoginForm([FromBody]LoginDto loginDto, [FromBody]string returnUrl)
+        {
+            InitializeCurrentViewInfo();
+
+            if (this._signInManager.IsSignedIn(HttpContext.User))
+                return RedirectToAction("Index", "Home");
+
+            var signInResult = await this._signInManager.PasswordSignInAsync(loginDto.Login, loginDto.Password, loginDto.RememberMe, true);
+            if (signInResult.Succeeded)
+            {
+                if (string.IsNullOrEmpty(returnUrl))
+                    return RedirectToAction("Index", "Home");
+                return LocalRedirect(returnUrl);
+            }
+
+            PageViewModel<LoginFormVM> pageVM = await CreateLoginViewModelAsync(returnUrl);
+
+            if (signInResult.IsLockedOut)
+                ModelState.AddModelError(string.Empty, this.ResourceService.GetString(ErrorCategory.Login, nameof(ErrorMessages.AccountLocked), RequestService.CurrentLanguage));
+            else if (signInResult.IsNotAllowed)
+            {
+                var user = await this._signInManager.UserManager.FindByNameAsync(loginDto.Login);
+                if (user != null && await this._signInManager.UserManager.IsEmailConfirmedAsync(user) == false)
+                    ModelState.AddModelError(string.Empty, this.ResourceService.GetString(ErrorCategory.Login, nameof(ErrorMessages.EmailConfirmationRequired), RequestService.CurrentLanguage));
+                else
+                    ModelState.AddModelError(string.Empty, this.ResourceService.GetString(ErrorCategory.Login, nameof(ErrorMessages.LoginFailed), RequestService.CurrentLanguage));
+            }
+            else if (signInResult.RequiresTwoFactor)
+                ModelState.AddModelError(string.Empty, this.ResourceService.GetString(ErrorCategory.Login, nameof(ErrorMessages.EmailConfirmationRequired), RequestService.CurrentLanguage));
+
+            return View(nameof(Login), pageVM);
+        }
+
+        #endregion
+
+        #region Register
 
         /// <summary>
         /// Called to access the register page
@@ -200,11 +251,17 @@
             InitializeCurrentViewInfo();
 
             var user = await this._userStore.FindByIdAsync(userId, RequestService.CancellationToken);
+            if (user == null)
+                return NotFound();
+
             var identity = await this._signInManager.UserManager.ConfirmEmailAsync(user, code);
             if (identity.Succeeded)
             {
                 AddMessage(nameof(Resources.Controllers.AccountController.AccountCreated), ViewModels.MessageType.Success);
                 await this._signInManager.SignInAsync(user, true);
+
+                PassMessages();
+
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
 
@@ -216,6 +273,26 @@
             return RedirectToAction(nameof(Login));
 
         }
+
+        #endregion
+
+        #region Logout
+
+        /// <summary>
+        /// Logout the current user
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> Logout(string returnUrl = null)
+        {
+            await this._signInManager.SignOutAsync();
+
+            if (string.IsNullOrEmpty(returnUrl))
+                return RedirectToAction("Index", "Home");
+            return LocalRedirect(returnUrl);
+        }
+
+        #endregion
+
 
         #endregion
     }

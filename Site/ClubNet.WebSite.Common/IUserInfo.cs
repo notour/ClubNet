@@ -1,12 +1,12 @@
-﻿using System;
-using System.Globalization;
-
-namespace ClubNet.WebSite.Common
+﻿namespace ClubNet.WebSite.Common
 {
+    using System;
+    using System.Globalization;
+
     /// <summary>
     /// Contains that expose only the basic user information needed
     /// </summary>
-    public interface IUserInfo
+    public interface IUserInfo 
     {
         #region Properties
 

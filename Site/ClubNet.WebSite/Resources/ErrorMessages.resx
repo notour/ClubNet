@@ -117,17 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountLocked" xml:space="preserve">
+    <value>To many login attempt locked you account. Plz contact the administrator.</value>
+  </data>
   <data name="ConfirmationPasswordNotEquals" xml:space="preserve">
     <value>The password and the confirmation password are not identical.</value>
   </data>
   <data name="Conflict_CreateAsync" xml:space="preserve">
     <value>A user already exists with this email address</value>
   </data>
+  <data name="EmailConfirmationRequired" xml:space="preserve">
+    <value>You need to validate your email before behing able to connect.</value>
+  </data>
   <data name="InvalidEmailConfirmationCode" xml:space="preserve">
     <value>The code provide to confirme the email address is in valid or the user already validate his email address.</value>
   </data>
   <data name="Logged_Default" xml:space="preserve">
     <value>An error have been logged. Plz contact the administartor with the current Id : {0}</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Login attempt failed.</value>
   </data>
   <data name="PasswordRequiresLower" xml:space="preserve">
     <value>The password rules required a lower alphabetic value.</value>

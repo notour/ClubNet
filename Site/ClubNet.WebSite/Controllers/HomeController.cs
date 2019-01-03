@@ -32,11 +32,14 @@
         }
 
         #endregion
+
         #region Methods
 
+        /// <summary>
+        /// Home index page
+        /// </summary>
         public IActionResult Index()
         {
-            AddMessage("Test", MessageType.Success);
             return View();
         }
 

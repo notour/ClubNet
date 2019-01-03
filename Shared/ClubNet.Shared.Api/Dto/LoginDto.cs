@@ -1,26 +1,26 @@
 ﻿namespace ClubNet.Shared.Api.Dto
 {
     /// <summary>
-    /// Define the register model properties
+    /// Define the login model properties
     /// </summary>
-    public interface IRegisterModel
+    public sealed class LoginDto : ILoginModel
     {
         #region Properties
 
         /// <summary>
-        /// Gets or sets the email address
+        /// Gets or sets the login
         /// </summary>
-        string Email { get; }
+        public string Login { get; set; }
 
         /// <summary>
         /// Gets or sets the user password
         /// </summary>
-        string Password { get; }
+        public string Password { get; set; }
 
         /// <summary>
-        /// Gets or sets the user confirmation password
+        /// Gets or sets the user
         /// </summary>
-        string ConfirmationPassword { get; }
+        public bool RememberMe { get; set; }
      
         #endregion
     }

@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using ClubNet.WebSite.DataLayer.Configurations;
-using ClubNet.WebSite.DataLayer.Tools;
-using ClubNet.WebSite.Domain.User;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using MongoDB.Bson.Serialization;
-using MongoDB.Driver;
-
-namespace ClubNet.WebSite.DataLayer.Services
+﻿namespace ClubNet.WebSite.DataLayer.Services
 {
+    using ClubNet.WebSite.DataLayer.Configurations;
+    using ClubNet.WebSite.Domain;
+
+    using Microsoft.Extensions.Options;
+
+    using MongoDB.Driver;
+
+    using System;
+    using System.Collections.Immutable;
+    using System.Linq;
+    using System.Threading;
+
     /// <summary>
     /// Storage provider that connect configuration and <see cref="MongoDBStorageService{TEntity}"/> specific 
     /// </summary>
@@ -87,6 +86,7 @@ namespace ClubNet.WebSite.DataLayer.Services
         /// Gets the specific storage for the specific <typeparamref name="TEntity"/>
         /// </summary>
         public IStorageService<TEntity> GetStorageService<TEntity>()
+            where TEntity : IEntity
         {
             var key = typeof(TEntity);
             using (_storageLocker.LockRead())           

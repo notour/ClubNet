@@ -48,6 +48,11 @@
         [DataMember(EmitDefaultValue = false)]
         public SecurityCriteria SecurityCriteria { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the field used to prevent cross save
+        /// </summary>
+        public string ConcurrencyStamp { get; set; }
+
         #endregion
 
         #region Methods

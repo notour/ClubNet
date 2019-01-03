@@ -1,5 +1,6 @@
 ﻿namespace ClubNet.WebSite.ViewModels.Forms
 {
+    using ClubNet.Shared.Api.Dto;
     using ClubNet.WebSite.Common.Contracts;
 
     using Microsoft.AspNetCore.Authentication;
@@ -11,7 +12,7 @@
     /// <summary>
     /// Define the view model dedicated to the login page
     /// </summary>
-    public sealed class LoginFormVM : BaseFormVM
+    public sealed class LoginFormVM : BaseFormVM, ILoginModel
     {
         #region Ctor
 
