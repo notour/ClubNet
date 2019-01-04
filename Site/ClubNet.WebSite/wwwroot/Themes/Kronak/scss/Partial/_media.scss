@@ -4,3 +4,8 @@
     @include ImageStretch();
     min-height: $bigLogoHeigth;
 }
+
+.medium-logo {
+    @include ImageStretch();
+    min-height: $mediumLogoHeigth;
+}

@@ -159,4 +159,10 @@
   <data name="EmailConfirmed" xml:space="preserve">
     <value>Email account confirmed.</value>
   </data>
+  <data name="ResetAccountEmailSend" xml:space="preserve">
+    <value>An email to reset your password have been sent to your email address : {0}</value>
+  </data>
+  <data name="PasswordReset" xml:space="preserve">
+    <value>Your password have been reset.</value>
+  </data>
 </root>

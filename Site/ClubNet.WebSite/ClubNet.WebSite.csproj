@@ -14,9 +14,15 @@
     <Content Remove="Emails\confirmEmail-en.cshtml" />
     <Content Remove="Emails\confirmEmail-fr.cshtml" />
     <Content Remove="Emails\confirmEmail-nl.cshtml" />
+    <Content Remove="Emails\resetForgottenPassword-en.cshtml" />
+    <Content Remove="Emails\resetForgottenPassword-fr.cshtml" />
+    <Content Remove="Emails\resetForgottenPassword-nl.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Emails\resetForgottenPassword-nl.cshtml" />
+    <EmbeddedResource Include="Emails\resetForgottenPassword-fr.cshtml" />
+    <EmbeddedResource Include="Emails\resetForgottenPassword-en.cshtml" />
     <EmbeddedResource Include="Emails\confirmEmail-en.cshtml" />
     <EmbeddedResource Include="Emails\confirmEmail-fr.cshtml" />
     <EmbeddedResource Include="Emails\confirmEmail-nl.cshtml" />

@@ -20,10 +20,10 @@
         /// </summary>
         public BaseVM(IRequestService requestService)
         {
-            _requestService = requestService;
+            this._requestService = requestService;
 
             if (requestService != null)
-                Errors = new ErrorViewModel(requestService);
+                this.Errors = new ErrorViewModel(requestService);
         }
 
         #endregion
@@ -35,7 +35,7 @@
         /// </summary>
         protected string CurrentLanguage
         {
-            get { return _requestService.CurrentLanguage.TwoLetterISOLanguageName; }
+            get { return this._requestService.CurrentLanguage.TwoLetterISOLanguageName; }
         }
 
         /// <summary>

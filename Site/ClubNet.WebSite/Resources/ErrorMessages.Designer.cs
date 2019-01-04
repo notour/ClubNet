@@ -97,6 +97,15 @@ namespace ClubNet.WebSite.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No account exist with this email address : {0}.
+        /// </summary>
+        internal static string EmailNotFound {
+            get {
+                return ResourceManager.GetString("EmailNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The code provide to confirme the email address is in valid or the user already validate his email address..
         /// </summary>
         internal static string InvalidEmailConfirmationCode {

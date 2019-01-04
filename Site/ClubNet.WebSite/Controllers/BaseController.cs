@@ -1,17 +1,21 @@
 ﻿namespace ClubNet.WebSite.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Middleware;
     using ClubNet.WebSite.ViewModels;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Base custom class of all controllers
@@ -21,7 +25,7 @@
     {
         #region Fields
 
-        private const string Messages = "Messages";
+        private const string MESSAGES = "Messages";
         private readonly IHttpContextAccessor _contextAccessor;
 
         #endregion
@@ -33,10 +37,10 @@
         /// </summary>
         public BaseController(IServiceProvider serviceProvider, ILogger logger, IResourceService resourceService)
         {
-            ResourceService = resourceService;
-            Localizer = (IStringLocalizer)serviceProvider.GetService(typeof(IStringLocalizer<>).MakeGenericType(this.GetType()));
-            _contextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
-            Logger = logger;
+            this.ResourceService = resourceService;
+            this.Localizer = (IStringLocalizer)serviceProvider.GetService(typeof(IStringLocalizer<>).MakeGenericType(GetType()));
+            this._contextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+            this.Logger = logger;
         }
 
 
@@ -49,7 +53,7 @@
         /// </summary>
         protected IRequestService RequestService
         {
-            get { return _contextAccessor.CurrentRequestService(); }
+            get { return this._contextAccessor.CurrentRequestService(); }
         }
 
         /// <summary>
@@ -76,22 +80,31 @@
         /// </summary>
         protected void AddMessage(string code, MessageType messageType, params string[] arguments)
         {
-            var message = Localizer.GetString(code, arguments);
+            var message = this.Localizer.GetString(code, arguments);
 
-            if (!ViewData.ContainsKey(Messages))
-                ViewData[Messages] = new List<MessageViewModel>();
+            if (!this.ViewData.ContainsKey(MESSAGES))
+                this.ViewData[MESSAGES] = new List<MessageViewModel>();
 
-            var messages = (List<MessageViewModel>)ViewData[Messages];
+            var messages = (List<MessageViewModel>)this.ViewData[MESSAGES];
             messages.Add(new MessageViewModel(message, messageType));
         }
 
         /// <summary>
-        /// Pass message to next view
+        /// Save messages before redirection
         /// </summary>
-        protected void PassMessages()
+        protected void SaveMessages()
         {
-            if (ViewData.ContainsKey(Messages))
-                TempData[Messages] = JsonConvert.SerializeObject(ViewData[Messages]);
+            if (this.ViewData.ContainsKey(MESSAGES))
+                this.TempData[MESSAGES] = JsonConvert.SerializeObject(this.ViewData[MESSAGES]);
+        }
+
+        /// <summary>
+        /// Save the current model state before redirection
+        /// </summary>
+        protected void SaveModelState()
+        {
+            if (this.ModelState.Keys.Any())
+                this.TempData[nameof(ModelState)] = this.ModelState.Save();
         }
 
         /// <summary>
@@ -99,11 +112,41 @@
         /// </summary>
         protected void InitializeCurrentViewInfo()
         {
-            if (TempData.ContainsKey(Messages) && TempData[Messages] is string messages)
+            if (this.TempData.ContainsKey(MESSAGES) && this.TempData[MESSAGES] is string messages)
             {
-                ViewData[Messages] = JsonConvert.DeserializeObject<List<MessageViewModel>>(messages);
-                TempData.Remove(Messages);
+                this.ViewData[MESSAGES] = JsonConvert.DeserializeObject<List<MessageViewModel>>(messages);
+                this.TempData.Remove(MESSAGES);
             }
+
+            if (this.TempData.TryGetValue(nameof(ModelState), out var tmpModelState) && tmpModelState is string modelStateJson)
+            {
+                this.TempData.Remove(nameof(ModelState));
+                this.ModelState.Restore(modelStateJson, this.Logger);
+            }
+
+            this.TempData.Clear();
+            this.TempData.Save();
+        }
+
+        /// <summary>
+        /// Redirect to the specific url or to the  index
+        /// </summary>
+        protected IActionResult LocalizedRedirect(string returnUrl, CultureInfo lang = null)
+        {
+            if (!string.IsNullOrEmpty(returnUrl))
+                return base.Redirect(ChangeUrlLanguage(returnUrl, lang));
+
+            return RedirectToAction(nameof(HomeController.Index), "Home", new { lang = lang ?? RequestService.CurrentLanguage });
+        }
+
+        /// <summary>
+        /// Change the url language
+        /// </summary>
+        private string ChangeUrlLanguage(string url, CultureInfo culture)
+        {
+            if (Regex.IsMatch(url, "^(/[a-zA-Z]{2}/)"))
+                url = url.Substring(4);
+            return ($"/{culture}/" + url).Replace("//", "/");
         }
 
         #endregion

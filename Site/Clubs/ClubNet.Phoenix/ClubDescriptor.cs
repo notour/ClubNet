@@ -1,23 +1,25 @@
 ﻿namespace ClubNet.Phoenix
 {
+    using System.IO;
+    using System.Reflection;
+
     using ClubNet.Phoenix.Configuration;
     using ClubNet.WebSite.Common.Configurations;
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Common.Enums;
     using ClubNet.WebSite.Common.Tools;
+
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.FileProviders;
-    using Newtonsoft.Json;
 
-    using System.IO;
-    using System.Reflection;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Describe all the hard and default data associate to the specific club
     /// </summary>
     public class ClubDescriptor : IClubDescriptor
     {
-        private const string ConfigFile = "Config.json";
+        private const string CONFIG_FILE = "Config.json";
 
         private readonly PhoenixConfig _config;
         private readonly string _absoluteRootPath;
@@ -30,14 +32,14 @@
         /// </summary>
         public ClubDescriptor()
         {
-            _absoluteRootPath = Path.GetDirectoryName(typeof(ClubDescriptor).Assembly.Location);
-            _rootPath = "/" + Path.GetRelativePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), _absoluteRootPath).Replace("\\", "/");
-            using (var configStream = new StreamReader(File.OpenRead(Path.Combine(_absoluteRootPath, ConfigFile))))
+            this._absoluteRootPath = Path.GetDirectoryName(typeof(ClubDescriptor).Assembly.Location);
+            this._rootPath = "/" + Path.GetRelativePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), this._absoluteRootPath).Replace("\\", "/");
+            using (var configStream = new StreamReader(File.OpenRead(Path.Combine(this._absoluteRootPath, CONFIG_FILE))))
             {
                 this._config = JsonConvert.DeserializeObject<PhoenixConfig>(configStream.ReadToEnd());
 
                 if (this._config != null && this._config.ApiKeys != null)
-                    ClubApiKeyProvider = new ApiKeyProvider(this._config.ApiKeys);
+                    this.ClubApiKeyProvider = new ApiKeyProvider(this._config.ApiKeys);
             }
 
         }
@@ -76,7 +78,7 @@
         {
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(_absoluteRootPath, "Content")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(this._absoluteRootPath, "Content")),
                 RequestPath = _rootPath
             });
         }
@@ -86,7 +88,7 @@
         /// </summary>
         public string GetSiteResource(SiteResources siteResource, TargetPlateform targetPlateform)
         {
-            return _config.Media[siteResource].Replace("~", _rootPath);
+            return this._config.Media[siteResource].Replace("~", this._rootPath);
         }
 
         #endregion

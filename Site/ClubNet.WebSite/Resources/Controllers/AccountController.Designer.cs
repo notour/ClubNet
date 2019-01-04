@@ -151,6 +151,15 @@ namespace ClubNet.WebSite.Resources.Controllers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your password have been reset..
+        /// </summary>
+        internal static string PasswordReset {
+            get {
+                return ResourceManager.GetString("PasswordReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign-up.
         /// </summary>
         internal static string Register {
@@ -183,6 +192,15 @@ namespace ClubNet.WebSite.Resources.Controllers {
         internal static string RememberMe {
             get {
                 return ResourceManager.GetString("RememberMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An email to reset your password have been sent to your email address : {0}.
+        /// </summary>
+        internal static string ResetAccountEmailSend {
+            get {
+                return ResourceManager.GetString("ResetAccountEmailSend", resourceCulture);
             }
         }
     }

@@ -1,21 +1,19 @@
 ﻿namespace ClubNet.WebSite.Services
 {
-    using ClubNet.WebSite.Resources;
-
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.Extensions.Localization;
-
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using System.Resources;
+    using ClubNet.WebSite.Resources;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Localization;
 
     /// <summary>
     /// Define a string localizer from the specific controller resource file, global one and DB
     /// </summary>
-    class StringLocalizerImpl : IStringLocalizer
+    internal class StringLocalizerImpl : IStringLocalizer
     {
         #region Fields
 
@@ -117,7 +115,7 @@
         /// </summary>
         public IStringLocalizer WithCulture(CultureInfo culture)
         {
-            return new StringLocalizerImpl(_stringLocalizerFactory, _resourceManager.ResourceSetType, culture);
+            return new StringLocalizerImpl(this._stringLocalizerFactory, this._resourceManager.ResourceSetType, culture);
         }
 
         #region Tools

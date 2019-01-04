@@ -28,14 +28,14 @@
         /// </summary>
         public RequestServiceImpl(HttpContext context)
         {
-            _defaultConfig = context.RequestServices.GetService(typeof(IConfigService)) as IConfigService;
+            this._defaultConfig = context.RequestServices.GetService(typeof(IConfigService)) as IConfigService;
 
             var featureCulture = context.Features.Get<IRequestCultureFeature>();
             CurrentLanguage = featureCulture.RequestCulture.Culture;
 
             RequestId = Activity.Current?.Id ?? context.TraceIdentifier;
 
-            CancellationToken = new CancellationTokenSource(_defaultConfig.DefaultRequestTimeout).Token;
+            CancellationToken = new CancellationTokenSource(this._defaultConfig.DefaultRequestTimeout).Token;
         }
 
         #endregion

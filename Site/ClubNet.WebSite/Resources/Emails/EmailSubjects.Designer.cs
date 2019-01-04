@@ -68,5 +68,14 @@ namespace ClubNet.WebSite.Resources.Emails {
                 return ResourceManager.GetString("ConfirmEmail", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset your account password.
+        /// </summary>
+        internal static string ResetForgottenPassword {
+            get {
+                return ResourceManager.GetString("ResetForgottenPassword", resourceCulture);
+            }
+        }
     }
 }

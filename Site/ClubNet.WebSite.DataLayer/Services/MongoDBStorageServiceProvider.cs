@@ -15,11 +15,10 @@
     /// <summary>
     /// Storage provider that connect configuration and <see cref="MongoDBStorageService{TEntity}"/> specific 
     /// </summary>
-    class MongoDBStorageServiceProvider : IStorageServiceProvider
+    internal class MongoDBStorageServiceProvider : IStorageServiceProvider
     {
         #region Fields
 
-        private const string DataStorageConnectionString = "DefaultConnection";
         private static readonly MongoDatabaseSettings s_mongoSettings;
 
         private readonly ReaderWriterLockSlim _storageLocker;
@@ -54,25 +53,25 @@
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
-            _mongoConfig = configuration.Value;
+            this._mongoConfig = configuration.Value;
 
-            _storageLocker = new ReaderWriterLockSlim();
-            _storageServices = ImmutableDictionary<Type, IStorageService>.Empty;
+            this._storageLocker = new ReaderWriterLockSlim();
+            this._storageServices = ImmutableDictionary<Type, IStorageService>.Empty;
 
-            _collectionNames = _mongoConfig.CollectionNames.SelectMany(c => c.Value)
-                                                           .ToImmutableDictionary(k => Type.GetType(k), 
-                                                                                  v => _mongoConfig.CollectionNames.First(t => t.Value.Contains(v)).Key);
+            this._collectionNames = this._mongoConfig.CollectionNames.SelectMany(c => c.Value)
+                                                           .ToImmutableDictionary(k => Type.GetType(k),
+                                                                                  v => this._mongoConfig.CollectionNames.First(t => t.Value.Contains(v)).Key);
 
-            _mongoClient = new MongoClient($"mongodb://{_mongoConfig.Host}:{_mongoConfig.Port}/{_mongoConfig.DataBase}");
+            this._mongoClient = new MongoClient($"mongodb://{this._mongoConfig.Host}:{this._mongoConfig.Port}/{this._mongoConfig.DataBase}");
 
-            _mongoDB = _mongoClient.GetDatabase(_mongoConfig.DataBase, s_mongoSettings);
+            this._mongoDB = this._mongoClient.GetDatabase(this._mongoConfig.DataBase, s_mongoSettings);
 
-            var missingCollection = _collectionNames.Select(c => c.Value)
-                                                    .Distinct() 
-                                                    .Except(_mongoDB.ListCollectionNames().ToList());
+            System.Collections.Generic.IEnumerable<string> missingCollection = this._collectionNames.Select(c => c.Value)
+                                                    .Distinct()
+                                                    .Except(this._mongoDB.ListCollectionNames().ToList());
 
-            foreach (var missing in missingCollection)
-                _mongoDB.CreateCollection(missing);
+            foreach (string missing in missingCollection)
+                this._mongoDB.CreateCollection(missing);
         }
 
         #endregion
@@ -88,27 +87,27 @@
         public IStorageService<TEntity> GetStorageService<TEntity>()
             where TEntity : IEntity
         {
-            var key = typeof(TEntity);
-            using (_storageLocker.LockRead())           
+            Type key = typeof(TEntity);
+            using (this._storageLocker.LockRead())
             {
-                if (this._storageServices.TryGetValue(key, out var storageService))
+                if (this._storageServices.TryGetValue(key, out IStorageService storageService))
                     return (IStorageService<TEntity>)storageService;
             }
 
-            using (_storageLocker.LockWrite())
+            using (this._storageLocker.LockWrite())
             {
-                if (this._storageServices.TryGetValue(key, out var storageService))
+                if (this._storageServices.TryGetValue(key, out IStorageService storageService))
                     return (IStorageService<TEntity>)storageService;
 
                 string collectionName = key.Name;
 
-                if (_collectionNames.TryGetValue(key, out var configKey))
+                if (this._collectionNames.TryGetValue(key, out string configKey))
                     collectionName = configKey;
 
                 // Ensure the mongo drive can map the current entity equired
                 //DomainMongoMapper.Map<TEntity>();
 
-                var newStorageService = new MongoDBStorageService<TEntity>(_mongoDB.GetCollection<TEntity>(collectionName));
+                var newStorageService = new MongoDBStorageService<TEntity>(this._mongoDB.GetCollection<TEntity>(collectionName));
                 this._storageServices = this._storageServices.Add(key, newStorageService);
 
                 return newStorageService;

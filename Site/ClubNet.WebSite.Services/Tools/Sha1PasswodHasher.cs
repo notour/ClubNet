@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using ClubNet.WebSite.Domain.User;
@@ -35,10 +36,10 @@ namespace ClubNet.WebSite.Services.Tools
         {
             using (var hasher = SHA1Managed.Create())
             {
-                using (var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(user.NormalizedEmail + ":" + password)))
+                using (var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(user.Email.ToLowerInvariant() + ":" + password)))
                 {
                     var resultHash = hasher.ComputeHash(memoryStream);
-                    return Encoding.UTF8.GetString(resultHash);
+                    return Convert.ToBase64String(resultHash);
                 }
             }
         }

@@ -19,8 +19,8 @@
     {
         #region Fields
 
-        private const string FormContentType = "application/x-www-form-urlencoded";
-        private const string JsonContentType = "application/json";
+        private const string FORM_CONTENT_TYPE = "application/x-www-form-urlencoded";
+        private const string JSON_CONTENT_TYPE = "application/json";
 
         #endregion
 
@@ -31,8 +31,8 @@
         /// </summary>
         public AutoInputFormatter()
         {
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue(FormContentType));
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue(JsonContentType));
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue(FORM_CONTENT_TYPE));
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue(JSON_CONTENT_TYPE));
         }
 
         #endregion
@@ -49,7 +49,7 @@
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             var contentType = context.HttpContext.Request.ContentType;
-            if (string.IsNullOrEmpty(contentType) || contentType == FormContentType || contentType == JsonContentType)
+            if (string.IsNullOrEmpty(contentType) || contentType == FORM_CONTENT_TYPE || contentType == JSON_CONTENT_TYPE)
                 return true;
 
             return false;
@@ -67,7 +67,7 @@
             var contentType = context.HttpContext.Request.ContentType;
             string bodyContent = string.Empty;
 
-            if (contentType == JsonContentType)
+            if (contentType == JSON_CONTENT_TYPE)
             {
                 using (var reader = new StreamReader(request.Body))
                 {
@@ -75,7 +75,7 @@
                 }
             }
 
-            if (contentType == FormContentType)
+            if (contentType == FORM_CONTENT_TYPE)
             {
                 var formResult = await request.ReadFormAsync();
 
@@ -91,7 +91,7 @@
                 bodyContent = ConvertToJson(formResult);
             }
 
-            if (contentType == FormContentType || contentType == JsonContentType)
+            if (contentType == FORM_CONTENT_TYPE || contentType == JSON_CONTENT_TYPE)
             {
                 if (!string.IsNullOrEmpty(bodyContent))
                 {

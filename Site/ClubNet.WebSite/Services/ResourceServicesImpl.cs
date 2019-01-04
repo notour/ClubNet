@@ -1,10 +1,7 @@
 ﻿namespace ClubNet.WebSite.Services
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.Immutable;
     using System.Globalization;
-    using System.Resources;
 
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Common.Errors;
@@ -15,7 +12,7 @@
     /// <summary>
     /// Implement the resource service
     /// </summary>
-    class ResourceServicesImpl : IResourceService
+    internal class ResourceServicesImpl : IResourceService
     {
         #region Fields
 
@@ -44,8 +41,8 @@
         /// </summary>
         public ResourceServicesImpl(IHttpContextAccessor contextAccessor, IStringLocalizer<ErrorMessages> errorMessages)
         {
-            _contextAccessor = contextAccessor;
-            _errorMessages = errorMessages;
+            this._contextAccessor = contextAccessor;
+            this._errorMessages = errorMessages;
         }
 
         #endregion
@@ -66,14 +63,14 @@
                 errorKey = category.ToString() + "_" + DEFAULT;
             else
             {
-                var parts = errorKey.Split(":".ToCharArray(), 2, StringSplitOptions.RemoveEmptyEntries);
+                string[] parts = errorKey.Split(":".ToCharArray(), 2, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length > 1)
                 {
                     arguments = parts[1].Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                     errorKey = parts[0].Trim();
                 }
             }
-            
+
             var resource = this._errorMessages.GetString(errorKey, arguments);
             if (resource != null)
                 return resource;
@@ -92,4 +89,3 @@
         #endregion
     }
 }
- 

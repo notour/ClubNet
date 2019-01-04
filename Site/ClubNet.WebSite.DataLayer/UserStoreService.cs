@@ -23,7 +23,6 @@
 
         private readonly IStorageService<UserInfo> _userStorage;
         private readonly ILogger _logger;
-        private readonly IServiceProvider _serviceProvider;
 
         #endregion
 
@@ -34,8 +33,8 @@
         /// </summary>
         public UserStoreService(IStorageServiceProvider storageServiceProvider, ILogger<UserStoreService> logger)
         {
-            _userStorage = storageServiceProvider.GetStorageService<UserInfo>();
-            _logger = logger;
+            this._userStorage = storageServiceProvider.GetStorageService<UserInfo>();
+            this._logger = logger;
         }
 
         public Task AddLoginAsync(UserInfo user, UserLoginInfo login, CancellationToken cancellationToken)
@@ -58,7 +57,7 @@
             try
             {
                 user.Id = Guid.NewGuid();
-                var userSaved = await _userStorage.CreateAsync(user, u => u.NormalizedEmail == user.NormalizedEmail, cancellationToken);
+                UserInfo userSaved = await this._userStorage.CreateAsync(user, u => u.NormalizedEmail == user.NormalizedEmail, cancellationToken);
 
                 if (userSaved != null && user.Id == userSaved.Id)
                     identity = IdentityResult.Success;
@@ -92,7 +91,7 @@
         public async Task<UserInfo> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await _userStorage.FindFirstAsync(u => u.NormalizedEmail == normalizedEmail, cancellationToken);
+            return await this._userStorage.FindFirstAsync(u => u.NormalizedEmail == normalizedEmail, cancellationToken);
         }
 
         /// <summary>
@@ -101,7 +100,7 @@
         public async Task<UserInfo> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
             var userGuidId = Guid.Parse(userId);
-            return await _userStorage.FindFirstAsync(u => u.Id == userGuidId, cancellationToken);
+            return await this._userStorage.FindFirstAsync(u => u.Id == userGuidId, cancellationToken);
         }
 
         /// <summary>
@@ -118,7 +117,7 @@
         public async Task<UserInfo> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await _userStorage.FindFirstAsync(u => u.NormalizedUserName == normalizedUserName, cancellationToken);
+            return await this._userStorage.FindFirstAsync(u => u.NormalizedUserName == normalizedUserName, cancellationToken);
         }
 
         /// <summary>
@@ -236,7 +235,7 @@
         /// </summary>
         public Task SetPasswordHashAsync(UserInfo user, string passwordHash, CancellationToken cancellationToken)
         {
-            user.PasswordHash = Convert.ToBase64String(Encoding.UTF8.GetBytes(passwordHash));
+            user.PasswordHash = passwordHash;
             return Task.CompletedTask;
         }
 
@@ -254,7 +253,7 @@
         /// </summary>
         public async Task<IdentityResult> UpdateAsync(UserInfo user, CancellationToken cancellationToken)
         {
-            var savedUserInfo = await _userStorage.SaveAsync(user, cancellationToken);
+            UserInfo savedUserInfo = await this._userStorage.SaveAsync(user, cancellationToken);
             return IdentityResult.Success;
         }
 

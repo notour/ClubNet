@@ -1,22 +1,19 @@
 ﻿namespace ClubNet.WebSite.BusinessLayer.Services
 {
-    using ClubNet.WebSite.BusinessLayer.Configurations;
-    using ClubNet.WebSite.BusinessLayer.Contracts;
-    using ClubNet.WebSite.Common.Contracts;
-    using ClubNet.WebSite.Common.Enums;
-    using ClubNet.WebSite.Common.Tools;
-    using ClubNet.WebSite.Domain.Configs.Menus;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Options;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Text;
+    using ClubNet.WebSite.BusinessLayer.Configurations;
+    using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.Common.Enums;
+    using ClubNet.WebSite.Common.Tools;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Options;
 
     /// <summary>
     /// Define the <see cref="IConfigService"/> implementations
     /// </summary>
-    class ConfigService : IConfigService
+    internal class ConfigService : IConfigService
     {
         #region Fields
 
@@ -41,12 +38,12 @@
         /// </summary>
         public ConfigService(IOptions<DefaultConfiguration> defaultConfiguration, IConfiguration configuration)
         {
-            _defaultConfiguration = defaultConfiguration;
+            this._defaultConfiguration = defaultConfiguration;
 
             var keys = configuration.GetValue<Dictionary<Apis, ApiKeys>>(nameof(Apis));
 
             if (keys != null)
-                ApiKeyProvider = new ApiKeyProvider(keys);
+                this.ApiKeyProvider = new ApiKeyProvider(keys);
         }
 
         #endregion
@@ -58,7 +55,7 @@
         /// </summary>
         public string DefaultTheme
         {
-            get { return _defaultConfiguration.Value.Theme; }
+            get { return this._defaultConfiguration.Value.Theme; }
         }
 
         /// <summary>
@@ -74,15 +71,15 @@
         /// </summary>
         public CultureInfo DefaultLanguage
         {
-            get { return _defaultConfiguration.Value.DefaultLanguage; }
+            get { return this._defaultConfiguration.Value.DefaultLanguage; }
         }
 
         /// <summary>
         /// Gets the list of all the managed languaged
         /// </summary>
-        public IReadOnlyCollection<CultureInfo> MangagedLanguage
+        public IReadOnlyCollection<CultureInfo> ManagedLanguage
         {
-            get { return (IReadOnlyCollection<CultureInfo>)_defaultConfiguration.Value.MangagedLanguage; }
+            get { return (IReadOnlyCollection<CultureInfo>)this._defaultConfiguration.Value.MangagedLanguage; }
         }
 
         public Guid ProjectId

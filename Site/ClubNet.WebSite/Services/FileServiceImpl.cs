@@ -1,21 +1,18 @@
 ﻿namespace ClubNet.WebSite.Services
 {
-    using ClubNet.WebSite.BusinessLayer.Contracts;
+    using System;
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Common.Enums;
-
     using Microsoft.AspNetCore.Http;
-
-    using System;
 
     /// <summary>
     /// Define a service used to access file services
     /// </summary>
-    sealed class FileServiceImpl : IFileService
+    internal sealed class FileServiceImpl : IFileService
     {
         #region Fields
 
-        private const string MissingImagePath = "~/content/missing_img.png";
+        private const string MISSING_IMAGE_PATH = "~/content/missing_img.png";
 
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IClubDescriptor _clubDescriptor;
@@ -29,8 +26,8 @@
         /// </summary>
         public FileServiceImpl(IHttpContextAccessor contextAccessor, IClubDescriptor clubDescriptor)
         {
-            _contextAccessor = contextAccessor;
-            _clubDescriptor = clubDescriptor;
+            this._contextAccessor = contextAccessor;
+            this._clubDescriptor = clubDescriptor;
         }
 
         #endregion
@@ -43,17 +40,17 @@
         public string GetHtmlPath(SiteResources siteResource, TargetPlateform targetPlateform = TargetPlateform.None)
         {
             string path = string.Empty;
-            if (_clubDescriptor != null)
-                path = _clubDescriptor.GetSiteResource(siteResource, targetPlateform);
+            if (this._clubDescriptor != null)
+                path = this._clubDescriptor.GetSiteResource(siteResource, targetPlateform);
 
             if (!string.IsNullOrEmpty(path))
                 return path;
-            return MissingImagePath;
+            return MISSING_IMAGE_PATH;
         }
 
         public string GetHtmlPath(string key, TargetPlateform targetPlateform = TargetPlateform.None)
         {
-            return MissingImagePath;
+            return MISSING_IMAGE_PATH;
         }
 
         public string GetHtmlPath(Guid id, TargetPlateform targetPlateform = TargetPlateform.None)

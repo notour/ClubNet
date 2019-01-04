@@ -1,14 +1,15 @@
-﻿using ClubNet.WebSite.Common;
-using ClubNet.WebSite.DataLayer.Configurations;
-using ClubNet.WebSite.DataLayer.Services;
-using ClubNet.WebSite.Domain.Security;
-using ClubNet.WebSite.Domain.User;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace ClubNet.WebSite.DataLayer.Extensions
+﻿namespace ClubNet.WebSite.DataLayer.Extensions
 {
+    using ClubNet.WebSite.DataLayer.Configurations;
+    using ClubNet.WebSite.DataLayer.Services;
+    using ClubNet.WebSite.Domain.Security;
+    using ClubNet.WebSite.Domain.User;
+    using ClubNet.WebSite.Tools;
+
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+
     /// <summary>
     /// Data layer <see cref="IServiceCollection"/> extensions
     /// </summary>
@@ -21,6 +22,8 @@ namespace ClubNet.WebSite.DataLayer.Extensions
         /// </summary>
         public static IServiceCollection AddDataLayerServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IUserClaimsPrincipalFactory<UserInfo>, UserInfoClaimsPrincipalFactory>();
+
             services.AddSingleton<IUserStore<UserInfo>, UserStoreService>();
             services.AddSingleton<IUserEmailStore<UserInfo>>(i => (IUserEmailStore<UserInfo>)i.GetService<IUserStore<UserInfo>>());
             services.AddSingleton<IUserPasswordStore<UserInfo>>(i => (IUserPasswordStore<UserInfo>)i.GetService<IUserStore<UserInfo>>());

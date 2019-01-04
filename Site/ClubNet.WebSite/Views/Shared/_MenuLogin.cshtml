@@ -11,8 +11,13 @@
 
 @if (_signInManager.IsSignedIn(User))
 {
-    <li><a asp-controller="Account" asp-action="Edit" asp-route-lang="@_requestService.CurrentLanguage">@_userManager.GetUserName(User)!</a></li>
-    <li><a asp-controller="Account" asp-action="Logout" asp-route-lang="@_requestService.CurrentLanguage">@_localizer["Logout"]</a></li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@_userManager.GetUserName(User) <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a asp-controller="Account" asp-action="Edit" asp-route-lang="@_requestService.CurrentLanguage">@_localizer["Edit"]</a></li>
+            <li><a asp-controller="Account" asp-action="Logout" asp-route-lang="@_requestService.CurrentLanguage">@_localizer["Logout"]</a></li>
+        </ul>
+    </li>
 }
 else
 {

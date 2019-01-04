@@ -13,18 +13,16 @@
             if (type == typeof(string) ||
                 type == typeof(bool) ||
                 type == typeof(bool?) ||
+                type == typeof(short) ||
                 type == typeof(int) ||
-                type == typeof(Int16) ||
-                type == typeof(Int32) ||
-                type == typeof(Int64) ||
+                type == typeof(long) ||
                 type == typeof(decimal) ||
                 type == typeof(float) ||
                 type == typeof(double) ||
                 type == typeof(Guid) ||
                 type == typeof(int?) ||
-                type == typeof(Int16?) ||
-                type == typeof(Int32?) ||
-                type == typeof(Int64?) ||
+                type == typeof(short?) ||
+                type == typeof(long?) ||
                 type == typeof(decimal?) ||
                 type == typeof(float?) ||
                 type == typeof(double?) ||

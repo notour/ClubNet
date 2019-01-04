@@ -18,7 +18,7 @@
     /// <summary>
     /// Storage service dedicated to the mongo db DataBases
     /// </summary>
-    class MongoDBStorageService<TEntity> : Disposable, IStorageService<TEntity>
+    internal class MongoDBStorageService<TEntity> : Disposable, IStorageService<TEntity>
             where TEntity : IEntity
     {
         #region Fields
@@ -106,7 +106,7 @@
         {
             if (unicitySelector != null)
             {
-                var exist = await OnFind(unicitySelector).Limit(1).FirstOrDefaultAsync(cancellationToken);
+                TEntity exist = await OnFind(unicitySelector).Limit(1).FirstOrDefaultAsync(cancellationToken);
                 if (EqualityComparer<TEntity>.Equals(exist, EqualityComparer<TEntity>.Default))
                 {
                     if (thownOnConflict)
@@ -125,9 +125,9 @@
         /// </summary>
         public async Task<TEntity> SaveAsync(TEntity entity, CancellationToken cancellationToken)
         {
-            var localConcurrencyStamp = entity.ConcurrencyStamp;
+            string localConcurrencyStamp = entity.ConcurrencyStamp;
             entity.ConcurrencyStamp = Guid.NewGuid().ToString();
-            var saveResult = await this._mongoDBCollection.ReplaceOneAsync(u => u.Id == entity.Id && u.ConcurrencyStamp == localConcurrencyStamp, entity, cancellationToken: cancellationToken);
+            ReplaceOneResult saveResult = await this._mongoDBCollection.ReplaceOneAsync(u => u.Id == entity.Id && u.ConcurrencyStamp == localConcurrencyStamp, entity, cancellationToken: cancellationToken);
 
             if (saveResult.IsModifiedCountAvailable && saveResult.ModifiedCount == 0)
             {
@@ -143,7 +143,7 @@
         /// </summary>
         public async Task<TEntity> UpdateFieldAsync<TFieldValue>(TEntity entity, Expression<Func<TEntity, TFieldValue>> field, TFieldValue newValue, CancellationToken cancellationToken)
         {
-            var result = await this._mongoDBCollection.FindOneAndUpdateAsync(u => u.Id == entity.Id && u.ConcurrencyStamp == entity.ConcurrencyStamp,
+            TEntity result = await this._mongoDBCollection.FindOneAndUpdateAsync(u => u.Id == entity.Id && u.ConcurrencyStamp == entity.ConcurrencyStamp,
                                                                              Builders<TEntity>.Update.Combine(
                                                                              Builders<TEntity>.Update.Set(field, newValue),
                                                                              Builders<TEntity>.Update.Set(u => u.ConcurrencyStamp, Guid.NewGuid().ToString())),
@@ -164,7 +164,7 @@
         /// </summary>
         protected virtual IFindFluent<TEntity, TProjection> OnFind<TProjection>(Expression<Func<TEntity, bool>> filter)
         {
-            var projection = GetProjection<TProjection>();
+            ProjectionDefinition<TEntity, TProjection> projection = GetProjection<TProjection>();
             return this._mongoDBCollection.Find(filter).Project<TProjection>(projection);
         }
 
@@ -176,17 +176,17 @@
             var key = typeof(TEntity);
             using (s_projectionLocker.LockRead())
             {
-                if (s_projections.TryGetValue(key, out var projection))
+                if (s_projections.TryGetValue(key, out BsonDocument projection))
                     return projection;
             }
 
             using (s_projectionLocker.LockWrite())
             {
-                if (s_projections.TryGetValue(key, out var projection))
+                if (s_projections.TryGetValue(key, out BsonDocument projection))
                     return projection;
 
-                var newProjection = Builders<TEntity>.Projection.As<TProjection>();
-                s_projections = s_projections.Add(key, newProjection.Render(_mongoDBCollection.DocumentSerializer, BsonSerializer.SerializerRegistry).Document);
+                ProjectionDefinition<TEntity, TProjection> newProjection = Builders<TEntity>.Projection.As<TProjection>();
+                s_projections = s_projections.Add(key, newProjection.Render(this._mongoDBCollection.DocumentSerializer, BsonSerializer.SerializerRegistry).Document);
 
                 return newProjection;
             }

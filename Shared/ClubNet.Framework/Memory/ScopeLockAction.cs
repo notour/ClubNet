@@ -37,11 +37,11 @@ namespace ClubNet.Framework.Memory
             try
             {
                 if (this._disposeAction != null)
-                    this._disposeAction(_state);
+                    this._disposeAction(this._state);
             }
             finally
             {
-                _state = default(TState);
+                this._state = default(TState);
             }
             base.DisposeInitialeAction();
         }

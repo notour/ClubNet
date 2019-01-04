@@ -120,4 +120,7 @@
   <data name="ConfirmEmail" xml:space="preserve">
     <value>Confirm your account creations</value>
   </data>
+  <data name="ResetForgottenPassword" xml:space="preserve">
+    <value>Reset your account password</value>
+  </data>
 </root>

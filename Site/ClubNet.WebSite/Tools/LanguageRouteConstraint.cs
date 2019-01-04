@@ -1,23 +1,30 @@
 ﻿namespace ClubNet.WebSite.Tools
 {
-    using ClubNet.WebSite.BusinessLayer.Configurations;
+    using System.Linq;
+    using ClubNet.WebSite.Common.Contracts;
+
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Routing;
-    using Microsoft.Extensions.Options;
 
     /// <summary>
     /// Constraint used to filter the language parameter
     /// </summary>
     public class LanguageRouteConstraint : IRouteConstraint
     {
+        #region Fields
+
+        private readonly IConfigService _defaultConfig;
+
+        #endregion
+
         #region Ctor
 
         /// <summary>
         /// Initiaze a new instance of the class <see cref="LanguageRouteConstraint"/>
         /// </summary>
-        public LanguageRouteConstraint(IOptions<DefaultConfiguration> defaultConfig)
+        public LanguageRouteConstraint(IConfigService defaultConfig)
         {
-            // https://gunnarpeipman.com/aspnet/aspnet-core-simple-localization/
+            this._defaultConfig = defaultConfig;
         }
 
         #endregion
@@ -37,7 +44,10 @@
 
             var lang = values["lang"].ToString();
 
-            return lang == "en" || lang == "en" || lang == "ru";
+            if (this._defaultConfig.ManagedLanguage.Any(l => string.Equals(l.TwoLetterISOLanguageName, lang, System.StringComparison.OrdinalIgnoreCase)))
+                return true;
+
+            return false;
         }
 
         #endregion

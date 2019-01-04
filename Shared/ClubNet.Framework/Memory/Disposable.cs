@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-
-namespace ClubNet.Framework.Memory
+﻿namespace ClubNet.Framework.Memory
 {
+    using System;
+    using System.Threading;
+
     /// <summary>
     /// Base class that implement the pattern IDispose
     /// </summary>
@@ -45,7 +43,7 @@ namespace ClubNet.Framework.Memory
         /// </summary>
         public bool IsDisposed
         {
-            get { return Interlocked.Read(ref _disposeCount) != 0; }
+            get { return Interlocked.Read(ref this._disposeCount) != 0; }
         }
 
         /// <summary>
@@ -74,10 +72,10 @@ namespace ClubNet.Framework.Memory
         /// </summary>
         protected virtual void Dispose(bool fromFinalizer)
         {
-            if (Interlocked.Increment(ref _disposeCount) > 1)
+            if (Interlocked.Increment(ref this._disposeCount) > 1)
             {
                 // to prevent long max born to be exceeded
-                Interlocked.Decrement(ref _disposeCount);
+                Interlocked.Decrement(ref this._disposeCount);
                 return;
             }
 

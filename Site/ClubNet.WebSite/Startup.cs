@@ -2,15 +2,21 @@
 
 namespace ClubNet.WebSite
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
     using ClubNet.WebSite.BusinessLayer.Extensions;
     using ClubNet.WebSite.Common.Configurations;
     using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.Domain.User;
+    using ClubNet.WebSite.Middleware;
     using ClubNet.WebSite.Services;
     using ClubNet.WebSite.Tools;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Razor;
@@ -19,11 +25,6 @@ namespace ClubNet.WebSite
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Localization;
-
-    using System;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
 
     /// <summary>
     /// Define all the start and configuration process
@@ -44,8 +45,8 @@ namespace ClubNet.WebSite
         /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
-            var clubSelection = Configuration.GetValue<string>("Club");
+            this.Configuration = configuration;
+            string clubSelection = this.Configuration.GetValue<string>("Club");
 
             if (!string.IsNullOrEmpty(clubSelection))
             {
@@ -60,7 +61,7 @@ namespace ClubNet.WebSite
                 if (!descriptors.Any() || descriptors.Length > 1)
                     throw new InvalidDataException("None or multiple " + nameof(IClubDescriptor));
 
-                _clubDescriptor = (IClubDescriptor)Activator.CreateInstance(descriptors.Single());
+                this._clubDescriptor = (IClubDescriptor)Activator.CreateInstance(descriptors.Single());
             }
         }
 
@@ -85,23 +86,23 @@ namespace ClubNet.WebSite
         /// </remarks>
         public void ConfigureServices(IServiceCollection services)
         {
-            if (_clubDescriptor != null)
-                services.AddSingleton(_clubDescriptor);
-
+            if (this._clubDescriptor != null)
+                services.AddSingleton(this._clubDescriptor);
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
-                    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                    options.CheckConsentNeeded = context => true;
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var clubAssembly = _clubDescriptor.GetType().GetTypeInfo().Assembly;
+            var clubAssembly = this._clubDescriptor.GetType().GetTypeInfo().Assembly;
 
             services.Configure<RazorViewEngineOptions>(options =>
             {
                 options.ViewLocationExpanders.Add(new TenantViewLocationExpander());
 
-                if (_clubDescriptor != null) // important to keep string.Empty as second parameters to allow path solving
+                if (this._clubDescriptor != null) // important to keep string.Empty as second parameters to allow path solving
                     options.FileProviders.Add(new EmbeddedFileProvider(clubAssembly, string.Empty));
             });
 
@@ -110,12 +111,12 @@ namespace ClubNet.WebSite
                 options.ConstraintMap.Add("lang", typeof(LanguageRouteConstraint));
             });
 
-            services.Configure<EmailSettings>(Configuration.GetSection(EmailSettings.ConfigurationSectionKey));
+            services.Configure<EmailSettings>(this.Configuration.GetSection(EmailSettings.ConfigurationSectionKey));
             services.AddSingleton<IEmailSender, EmailSenderImpl>();
 
             services.AddClubNetViewServices();
 
-            services.AddBusinessLayerServices(Configuration);
+            services.AddBusinessLayerServices(this.Configuration);
 
             services.AddClubNetToolsServices()
                     .AddClubNetUserServices();
@@ -168,20 +169,17 @@ namespace ClubNet.WebSite
 
             app.UseAuthentication();
 
+            app.UseMiddleware<LocalizedUrlMiddleware>();
+            app.UseRewriter();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{lang}/{controller}/{action}/{id?}",
-                    defaults: new { lang = "en", controller = "Home", action = "Index" });
-
-                routes.MapRoute(
-                    name: "api",
-                    template: "{lang}/api/{controller}/{action}/",
-                    defaults: new { lang = "en" });
+                        name: "default",
+                        template: "/{lang}/{controller}/{action}/{id?}",
+                        defaults: new { controller = "Home", action = "Index" });
             });
 
-            if (_clubDescriptor != null)
+            if (this._clubDescriptor != null)
                 this._clubDescriptor.Configure(app);
         }
 

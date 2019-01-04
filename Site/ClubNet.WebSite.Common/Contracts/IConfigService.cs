@@ -39,7 +39,7 @@
         /// <summary>
         /// Gets all the managed languaged
         /// </summary>
-        IReadOnlyCollection<CultureInfo> MangagedLanguage { get; }
+        IReadOnlyCollection<CultureInfo> ManagedLanguage { get; }
 
         /// <summary>
         /// Gets the club api key provider

@@ -9,12 +9,12 @@
     /// <summary>
     /// Base class of the business layer classes
     /// </summary>
-    abstract class BaseBL : Disposable
+    internal abstract class BaseBL : Disposable
     {
         #region Fields
 
         private readonly IHttpContextAccessor _contextAccessor;
-        
+
         #endregion
 
         #region Ctor
@@ -24,9 +24,9 @@
         /// </summary>
         protected BaseBL(IHttpContextAccessor contextAccessor, ISecurityBL securityBL, IConfigService configService)
         {
-           _contextAccessor = contextAccessor;
-            ConfigService = configService;
-            SecurityBL = securityBL;
+            this._contextAccessor = contextAccessor;
+            this.ConfigService = configService;
+            this.SecurityBL = securityBL;
         }
 
         #endregion
@@ -38,7 +38,7 @@
         /// </summary>
         protected IRequestService RequestService
         {
-            get { return _contextAccessor.CurrentRequestService(); }
+            get { return this._contextAccessor.CurrentRequestService(); }
         }
 
         /// <summary>

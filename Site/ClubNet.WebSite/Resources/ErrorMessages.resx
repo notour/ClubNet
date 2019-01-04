@@ -129,6 +129,9 @@
   <data name="EmailConfirmationRequired" xml:space="preserve">
     <value>You need to validate your email before behing able to connect.</value>
   </data>
+  <data name="EmailNotFound" xml:space="preserve">
+    <value>No account exist with this email address : {0}</value>
+  </data>
   <data name="InvalidEmailConfirmationCode" xml:space="preserve">
     <value>The code provide to confirme the email address is in valid or the user already validate his email address.</value>
   </data>

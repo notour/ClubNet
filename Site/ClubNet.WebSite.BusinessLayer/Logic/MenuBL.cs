@@ -1,5 +1,9 @@
 ﻿namespace ClubNet.WebSite.BusinessLayer.Logic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using ClubNet.Framework.Helpers;
     using ClubNet.WebSite.BusinessLayer.Contracts;
     using ClubNet.WebSite.Common.Contracts;
@@ -9,15 +13,10 @@
     using ClubNet.WebSite.ViewModels.Menus;
     using Microsoft.AspNetCore.Http;
 
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     /// <summary>
     /// Business layer implementation of the contract <see cref="IMenuBL"/> in charge of the club net menu managment
     /// </summary>
-    class MenuBL : BaseBL, IMenuBL
+    internal class MenuBL : BaseBL, IMenuBL
     {
         #region Fields
 
@@ -34,8 +33,8 @@
         public MenuBL(IHttpContextAccessor contextAccessor, IConfigService configService, IStorageServiceProvider serviceProvider, ISecurityBL securityBL)
             : base(contextAccessor, securityBL, configService)
         {
-            _serviceProvider = serviceProvider.GetStorageService<Menu>();
-            _securityBL = securityBL;
+            this._serviceProvider = serviceProvider.GetStorageService<Menu>();
+            this._securityBL = securityBL;
         }
 
         #endregion
@@ -49,12 +48,12 @@
         {
             try
             {
-                var menu = await this._serviceProvider.FindFirstAsync(m => m.EntityType == Domain.Configs.ConfigType.Menu && m.Name == menuName, RequestService.CancellationToken);
+                var menu = await this._serviceProvider.FindFirstAsync(m => m.EntityType == Domain.Configs.ConfigType.Menu && m.Name == menuName, this.RequestService.CancellationToken);
 
                 if (menu == null)
                     return EnumerableHelper<MenuItemVM>.Empty;
 
-                var allowedItems = await this._securityBL.FilterEntityAsync(ExtractMenuItems(menu), RequestService);
+                var allowedItems = await this._securityBL.FilterEntityAsync(ExtractMenuItems(menu), this.RequestService);
 
                 var menuVM = FormatMenu(menu, allowedItems.Select(i => i.Id).ToHashSet()) as MenuVM;
                 return menuVM.Items;
@@ -79,11 +78,11 @@
                 var childrens = menu.Items?.Select(i => FormatMenu(i, allowedItems))
                                            .Where(vm => vm != null)
                                            .ToArray();
-                return new MenuVM(menu, childrens, RequestService);
+                return new MenuVM(menu, childrens, this.RequestService);
             }
 
             if (menuItem is MenuLinkItem link)
-                return new MenuLinkItemVM(link, RequestService);
+                return new MenuLinkItemVM(link, this.RequestService);
 
             throw new NotImplementedException();
         }

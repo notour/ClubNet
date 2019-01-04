@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Controller of the home pages
@@ -28,7 +29,7 @@
         public HomeController(IConfigService configService, IServiceProvider serviceProvider, ILogger<HomeController> logger, IResourceService resourceService) 
             : base(serviceProvider, logger, resourceService)
         {
-            _configService = configService;
+            this._configService = configService;
         }
 
         #endregion
@@ -40,11 +41,14 @@
         /// </summary>
         public IActionResult Index()
         {
+            InitializeCurrentViewInfo();
+
             return View();
         }
 
         public IActionResult About()
         {
+            InitializeCurrentViewInfo();
             ViewData["Message"] = "Your application description page.";
 
             return View();
@@ -52,6 +56,7 @@
 
         public IActionResult Contact()
         {
+            InitializeCurrentViewInfo();
             ViewData["Message"] = "Your contact page.";
 
             return View();
@@ -59,12 +64,14 @@
 
         public IActionResult Privacy()
         {
+            InitializeCurrentViewInfo();
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(IRequestService requestService)
         {
+            InitializeCurrentViewInfo();
             return View(new ErrorViewModel(requestService));
         }
 

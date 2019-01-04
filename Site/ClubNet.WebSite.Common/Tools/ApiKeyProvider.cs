@@ -16,8 +16,8 @@
 
         private readonly IReadOnlyDictionary<string, string> _apiKeyStore;
 
-        private const string PrivateKey = "Private";
-        private const string PublicKey = "Public";
+        private const string PRIVATE_KEY = "Private";
+        private const string PUBLIC_KEY = "Public";
 
         #endregion
 
@@ -32,8 +32,8 @@
                                        {
                                            return new KeyValuePair<string, string>[]
                                            {
-                                               new KeyValuePair<string, string>(kv.Key.ToString() + "_" + PublicKey, kv.Value.Public),
-                                               new KeyValuePair<string, string>(kv.Key.ToString() + "_" + PrivateKey, kv.Value.Private)
+                                               new KeyValuePair<string, string>(kv.Key.ToString() + "_" + PUBLIC_KEY, kv.Value.Public),
+                                               new KeyValuePair<string, string>(kv.Key.ToString() + "_" + PRIVATE_KEY, kv.Value.Private)
                                            };
                                        })
                                        .ToImmutableDictionary(k => k.Key.ToUpperInvariant(), v => v.Value);
@@ -48,7 +48,7 @@
         /// </summary>
         public string GetApiPublicKey(Apis api)
         {
-            if (_apiKeyStore.TryGetValue((api.ToString() + "_" + PublicKey).ToUpperInvariant(), out var key))
+            if (this._apiKeyStore.TryGetValue((api.ToString() + "_" + PUBLIC_KEY).ToUpperInvariant(), out string key))
                 return key;
             return string.Empty;
         }
@@ -58,7 +58,7 @@
         /// </summary>
         public string GetApiPrivateKey(Apis api)
         {
-            if (_apiKeyStore.TryGetValue((api.ToString() + "_" + PrivateKey).ToUpperInvariant(), out var key))
+            if (this._apiKeyStore.TryGetValue((api.ToString() + "_" + PRIVATE_KEY).ToUpperInvariant(), out string key))
                 return key;
             return string.Empty;
         }

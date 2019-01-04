@@ -6,9 +6,6 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @model PageViewModel<RegisterFormVM>
-@{
-    var VM = Model.ViewModel;
-}
 
 <div class="row margin-top-medium">
     <div class="col-sm-4 hidden-xs">
@@ -22,21 +19,18 @@
                 <form method="post" asp-controller="Account" asp-action="RegisterForm" asp-route-lang="@_requestService.CurrentLanguage">
                     <h4>@_localizer["RegisterTitle", _clubDescriptor.DisplayName]</h4>
                     <hr />
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="ViewModel.Email">@_localizer["Email"]</label>
                         <input asp-for="ViewModel.Email" class="form-control" name="Email" />
-                        <span asp-validation-for="@VM.Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ViewModel.Password">@_localizer["Password"]</label>
                         <input asp-for="ViewModel.Password" class="form-control" name="Password"/>
-                        <span asp-validation-for="ViewModel.Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ViewModel.ConfirmationPassword">@_localizer["ConfirmPassword"]</label>
                         <input asp-for="ViewModel.ConfirmationPassword" class="form-control" name="ConfirmationPassword" />
-                        <span asp-validation-for="ViewModel.ConfirmationPassword" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">

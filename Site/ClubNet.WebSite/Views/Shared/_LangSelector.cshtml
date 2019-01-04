@@ -1,15 +1,35 @@
 ﻿@inject IRequestService _requestService;
 @inject IConfigService _configService;
 
+@{
+    var path = Context.Request.Path.Value;
+    var langPart = "/" + _requestService.CurrentLanguage + "/";
+    if (path.StartsWith(langPart, StringComparison.OrdinalIgnoreCase))
+    {
+        path = path.Substring(langPart.Length - 1);
+    }
+}
+
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="menu-small-img" src="~/images/@(_requestService.CurrentLanguage).svg" /> <b class="caret"></b></a>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu fit-dropdown-menu">
         @{
-            foreach (var managedLanguage in _configService.MangagedLanguage)
+            foreach (var managedLanguage in _configService.ManagedLanguage)
             {
-                if (managedLanguage != _requestService.CurrentLanguage)
+                if (managedLanguage.TwoLetterISOLanguageName != _requestService.CurrentLanguage.TwoLetterISOLanguageName)
                 {
-                    <li class="menu-small-img"><a href='#'><img class='menu-small-img' src='~/images/@(managedLanguage.TwoLetterISOLanguageName.ToLower()).svg' /></a></li>
+                    var localPath = ($"/{managedLanguage}/" + path).Replace("//", "/");
+
+                    if (Context.Request.QueryString.HasValue)
+                    {
+                        localPath += "?" + Context.Request.QueryString.Value;
+                    }
+
+                    <li role="presentation">
+                        <a href="@localPath" role="menuitem">
+                            <img class='menu-small-img' src='~/images/@(managedLanguage.TwoLetterISOLanguageName.ToLower()).svg' />
+                        </a>
+                    </li>
                 }
             }
         }
