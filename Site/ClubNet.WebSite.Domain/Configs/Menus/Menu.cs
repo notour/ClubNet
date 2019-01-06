@@ -41,11 +41,11 @@
         /// <summary>
         /// Create a new <see cref="Menu"/>
         /// </summary>
-        public static Menu Create(string name, LocalizedString label, LocalizedString description, IEnumerable<MenuItem> items, SecurityCriteria securityCriteria)
+        public static Menu Create(string name, LocalizedString label, string glyphicon, LocalizedString description, IEnumerable<MenuItem> items, SecurityCriteria securityCriteria)
         {
             var inst = new Menu();
             inst.Items = items;
-            inst.Create(name, label, description, securityCriteria);
+            inst.Create(name, label, glyphicon, description, securityCriteria);
 
             return inst;
         }
@@ -53,10 +53,10 @@
         /// <summary>
         /// Create a new <see cref="Menu"/>
         /// </summary>
-        public void Update(string name, LocalizedString label, LocalizedString description, IEnumerable<MenuItem> items, SecurityCriteria securityCriteria)
+        public void Update(string name, LocalizedString label, string glyphicon, LocalizedString description, IEnumerable<MenuItem> items, SecurityCriteria securityCriteria)
         {
             this.Items = items;
-            this.Update(name, label, description, securityCriteria);
+            this.Update(name, label, glyphicon, description, securityCriteria);
         }
 
         #endregion

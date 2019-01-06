@@ -22,7 +22,7 @@
 
                     if (Context.Request.QueryString.HasValue)
                     {
-                        localPath += "?" + Context.Request.QueryString.Value;
+                        localPath += Context.Request.QueryString.Value;
                     }
 
                     <li role="presentation">

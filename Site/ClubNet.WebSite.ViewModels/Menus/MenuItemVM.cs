@@ -19,6 +19,7 @@
         {
             Label = menuItem.Label?.GetLocalizedValue(CurrentLanguage);
             Name = menuItem.Name;
+            Glyphicon = menuItem.Glyphicon;
         }
 
         #endregion
@@ -34,6 +35,11 @@
         /// Gets the menu label name
         /// </summary>
         public string Label { get; }
+
+        /// <summary>
+        /// Gets the menu glyphicon
+        /// </summary>
+        public string Glyphicon { get; }
 
         #endregion
     }

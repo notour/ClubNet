@@ -28,6 +28,13 @@
         #region Ctor
 
         /// <summary>
+        /// Initialize the class <see cref="MenuBL"/>
+        /// </summary>
+        static MenuBL()
+        {
+        }
+
+        /// <summary>
         /// Initialize a new instance of the class <see cref="MenuBL"/>
         /// </summary>
         public MenuBL(IHttpContextAccessor contextAccessor, IConfigService configService, IStorageServiceProvider serviceProvider, ISecurityBL securityBL)

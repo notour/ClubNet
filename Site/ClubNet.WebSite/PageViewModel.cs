@@ -1,17 +1,15 @@
 ﻿namespace ClubNet.WebSite
 {
+    using System;
+
     using ClubNet.WebSite.Common.Contracts;
-    using ClubNet.WebSite.ViewModels;
 
     using Microsoft.AspNetCore.Mvc.RazorPages;
-
-    using System;
 
     /// <summary>
     /// Define the global view model of a page
     /// </summary>
     public class PageViewModel<TViewModel> : PageModel
-        where TViewModel : BaseVM
     {
         #region Ctor
 
@@ -28,7 +26,7 @@
         /// </summary>
         public PageViewModel(IRequestService requestService)
         {
-            ViewModel = (TViewModel)Activator.CreateInstance(typeof(TViewModel), new object[] { requestService });
+            ViewModel = CreateViewModel<TViewModel>(requestService);
         }
 
         #endregion
@@ -39,6 +37,18 @@
         /// Gets the current view model
         /// </summary>
         public TViewModel ViewModel { get; }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Instanciate the new view model
+        /// </summary>
+        protected TViewModelType CreateViewModel<TViewModelType>(IRequestService requestService)
+        {
+            return (TViewModelType)Activator.CreateInstance(typeof(TViewModelType), new object[] { requestService });
+        }
 
         #endregion
     }

@@ -1,8 +1,9 @@
-﻿@import "Partial/_color.scss";
+﻿@import "Partial/_palette.scss";
 @import "Partial/_constants.scss";
 
 @import "Partial/_thickness.scss";
 
+@import "Partial/_controlColors.scss";
 @import "Partial/_menu.scss";
 @import "Partial/_media.scss";
 
@@ -15,6 +16,10 @@
 .messages-panel {
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.inline {
+    display: inline;
 }
 
 html {

@@ -9,6 +9,9 @@
 
     using Microsoft.AspNetCore.Http;
 
+    /// <summary>
+    /// Managed the presence of th language in the url
+    /// </summary>
     public class LocalizedUrlMiddleware
     {
         #region Fields
@@ -27,7 +30,7 @@
         /// </summary>
         static LocalizedUrlMiddleware()
         {
-            s_languageUrl = new Regex("(^(/[a-zA-Z]{2}/))|(^(/[a-zA-Z]{2})$)");
+            s_languageUrl = new Regex("^([/]{1}[a-zA-Z]{2}[/]{1})|^([/]{1}[a-zA-Z]{2})$|([.]{1}[a-zA-Z]+)$");
         }
 
         /// <summary>
@@ -60,7 +63,7 @@
                 var newUrl = ($"/{lang}/" + httpContext.Request.Path).Replace("//", "/");
 
                 if (httpContext.Request.QueryString != null && httpContext.Request.QueryString.HasValue)
-                    newUrl += "?" + httpContext.Request.QueryString;
+                    newUrl += httpContext.Request.QueryString;
 
                 httpContext.Response.Redirect(newUrl);
                 return;

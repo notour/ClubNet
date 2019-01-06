@@ -1,0 +1,45 @@
+﻿@using ClubNet.WebSite.ViewModels.User;
+
+@model MultiPartPageViewModel;
+
+@{
+    var menuVM = Model.Get<UserMenuViewModel>("Menu");
+    var userInfoVM = Model.Get<UserInfoViewModel>("UserInfo");
+    var subKey = Model.ViewModel.Keys.FirstOrDefault(k => k != "Menu" && k != "UserInfo");
+}
+
+<div class="row margin-top-big">
+    <div class="col-md-2 side-user-menu col-hidden-xs">
+
+        <div class="circle-big-logo-container">
+            <img class="img-circle" src="@userInfoVM.ImagePath" />
+        </div>
+
+        <div class="user-name-title">
+            @userInfoVM.Name
+        </div>
+
+        <div class="user-roles clearfix" role="group">
+                @{
+                    foreach (var role in userInfoVM.Roles)
+                    {
+                        <span class="label label-default">@role</span>
+                    }
+                }
+        </div>
+
+        <div class="side-user-menu-items margin-top-very-big clearfix">
+            <ul class="nav">
+                @{
+                    foreach (var menuItem in menuVM.MenuItems)
+                    {
+                        <partial name="_menuItem" model="@menuItem" />
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <partial name="@subKey" model="@Model.Get<BaseVM>(subKey)" />
+    </div>
+</div>

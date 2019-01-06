@@ -1,6 +1,7 @@
 ﻿namespace ClubNet.WebSite.Controllers
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
@@ -107,17 +108,21 @@
             InitializeCurrentViewInfo();
 
             if (this._signInManager.IsSignedIn(this.HttpContext.User))
-                return RedirectToAction(nameof(Login), "Account", new { returnUrl = returnUrl });
+                return LocalizedRedirect(returnUrl, this.RequestService.CurrentLanguage);
+
+            var user = await this._signInManager.UserManager.FindByNameAsync(loginDto.Login);
 
             var signInResult = await this._signInManager.PasswordSignInAsync(loginDto.Login, loginDto.Password, loginDto.RememberMe, true);
             if (signInResult.Succeeded)
-                return RedirectToAction(nameof(Login), "Account", new { returnUrl = returnUrl });
+            {
+                var preferedLanguage = user?.PreferredCulture;
+                return LocalizedRedirect(returnUrl, preferedLanguage ?? this.RequestService.CurrentLanguage);
+            }
 
             if (signInResult.IsLockedOut)
                 this.ModelState.AddModelError(string.Empty, this.ResourceService.GetString(ErrorCategory.Login, nameof(ErrorMessages.AccountLocked), this.RequestService.CurrentLanguage));
             else if (signInResult.IsNotAllowed)
             {
-                var user = await this._signInManager.UserManager.FindByNameAsync(loginDto.Login);
                 if (user != null && await this._signInManager.UserManager.IsEmailConfirmedAsync(user) == false)
                     this.ModelState.AddModelError(string.Empty, this.ResourceService.GetString(ErrorCategory.Login, nameof(ErrorMessages.EmailConfirmationRequired), this.RequestService.CurrentLanguage));
             }
@@ -128,7 +133,7 @@
 
             SaveModelState();
 
-            return RedirectToAction(nameof(Login), "Account");
+            return LocalizedRedirectToAction("Account", nameof(Login));
         }
 
         #endregion
@@ -144,7 +149,7 @@
             InitializeCurrentViewInfo();
 
             if (this._signInManager.IsSignedIn(this.HttpContext.User))
-                return LocalizedRedirect(string.Empty, this.RequestService.CurrentLanguage);
+                return LocalizedRedirect();
 
             var pageVM = new PageViewModel<RegisterFormVM>(this.RequestService);
 
@@ -212,7 +217,7 @@
 
                         SaveMessages();
 
-                        return RedirectToAction(nameof(Login));
+                        return LocalizedRedirectToAction("Account", nameof(Login));
                     }
 
                     AddErrors(result, ErrorCategory.Register);
@@ -244,13 +249,12 @@
 
                 SaveMessages();
 
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return LocalizedRedirect();
             }
 
             AddErrors(identity, ErrorCategory.User);
 
-            return RedirectToAction(nameof(Login));
-
+            return LocalizedRedirectToAction("Account", nameof(Login));
         }
 
         /// <summary>
@@ -317,7 +321,7 @@
                     SaveMessages();
 
                     if (string.IsNullOrEmpty(returlUrl))
-                        return RedirectToAction(nameof(Login), "Account");
+                        return LocalizedRedirectToAction("Account", nameof(Login));
                     return LocalRedirect(returlUrl);
                 }
                 else if (changeResult != null)
@@ -326,7 +330,7 @@
 
             SaveModelState();
 
-            return RedirectToAction(nameof(ResetForgottenPassword), "Account", new { resetToken = dto.ResetToken, email = dto.Email });
+            return RedirectToAction(nameof(ResetForgottenPassword), "Account", new { resetToken = dto.ResetToken, email = dto.Email, lang = this.RequestService.CurrentLanguage });
         }
 
         /// <summary>
@@ -367,7 +371,7 @@
                 SaveMessages();
             }
 
-            return RedirectToAction(nameof(Login), "Account");
+            return LocalizedRedirectToAction("Account", nameof(Login));
         }
 
         #endregion
@@ -382,7 +386,7 @@
         {
             InitializeCurrentViewInfo();
             await this._signInManager.SignOutAsync();
-            return LocalizedRedirect(string.Empty, this.RequestService.CurrentLanguage);
+            return LocalizedRedirect();
         }
 
         #endregion

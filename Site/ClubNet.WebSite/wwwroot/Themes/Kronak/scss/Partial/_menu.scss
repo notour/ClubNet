@@ -21,3 +21,36 @@
 .dropdown-menu.fit-dropdown-menu {
     min-width: unset;
 }
+
+.circle-big-logo-container img {
+    float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+}
+
+.circle-big-logo-container {
+    text-align: center;
+}
+
+.user-name-title {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.side-user-menu {
+    padding: $big-margin 0 $medium-margin 0;
+    border-right: 1px solid;
+    height: 50vh;
+}
+
+.user-roles, .side-user-menu-items {
+    margin-left: $medium-margin;
+    margin-right: $medium-margin;
+}

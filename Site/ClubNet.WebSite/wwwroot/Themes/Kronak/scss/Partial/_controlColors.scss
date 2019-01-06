@@ -1,0 +1,17 @@
+﻿/*
+    On this scss we just setup the class colors from the palette this way to create a new visual we juste have to copy the palette and this file
+*/
+
+@import "_palette.scss";
+
+.vertical-hr {
+    border-color: $divider-color;
+}
+
+.user-name-title {
+    color: $secondary-text-color;
+}
+
+.side-user-menu {
+    border-color: $accent-color;
+}

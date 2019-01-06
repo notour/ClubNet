@@ -52,6 +52,13 @@
         [DataMember(EmitDefaultValue = false)]
         public LocalizedString Description { get; private set; }
 
+        /// <summary>
+        /// Gets the Glyphicon
+        /// </summary>
+        [BsonElement]
+        [DataMember]
+        public string Glyphicon { get; private set; }
+
         #endregion
 
         #region Methods
@@ -59,29 +66,30 @@
         /// <summary>
         /// Update the current entity
         /// </summary>
-        protected void Create(string name, LocalizedString label, LocalizedString description, SecurityCriteria securityCriteria)
+        protected void Create(string name, LocalizedString label, string glyphicon, LocalizedString description, SecurityCriteria securityCriteria)
         {
-            SetData(name, label, description);
+            SetData(name, label, glyphicon, description);
             base.Create(securityCriteria);
         }
 
         /// <summary>
         /// Update the current entity
         /// </summary>
-        protected void Update(string name, LocalizedString label, LocalizedString description, SecurityCriteria securityCriteria)
+        protected void Update(string name, LocalizedString label, string glyphicon, LocalizedString description, SecurityCriteria securityCriteria)
         {
-            SetData(name, label, description);
+            SetData(name, label, glyphicon, description);
             base.Update(securityCriteria);
         }
 
         /// <summary>
         /// Initialize the entity data
         /// </summary>
-        private void SetData(string name, LocalizedString label, LocalizedString description)
+        private void SetData(string name, LocalizedString label, string glyphicon, LocalizedString description)
         {
             Name = name;
             Label = label;
             Description = description;
+            Glyphicon = glyphicon;
         }
 
         #endregion

@@ -56,7 +56,8 @@
         /// Create a new <see cref="Menu"/>
         /// </summary>
         public static MenuLinkItem Create(string name, 
-                                            LocalizedString label, 
+                                            LocalizedString label,
+                                            string glyphicon,
                                             LocalizedString description, 
                                             string controller, 
                                             string action, 
@@ -65,7 +66,7 @@
         {
             var inst = new MenuLinkItem();
             SetData(controller, action, url, inst);
-            inst.Create(name, label, description, securityCriteria);
+            inst.Create(name, label, glyphicon, description, securityCriteria);
 
             return inst;
         }
@@ -75,6 +76,7 @@
         /// </summary>
         public void Update(string name,
                            LocalizedString label,
+                           string glyphicon,
                            LocalizedString description,
                            string controller,
                            string action,
@@ -82,7 +84,7 @@
                            SecurityCriteria securityCriteria)
         {
             SetData(controller, action, url, this);
-            this.Update(name, label, description, securityCriteria);
+            this.Update(name, label, glyphicon, description, securityCriteria);
         }
 
         /// <summary>

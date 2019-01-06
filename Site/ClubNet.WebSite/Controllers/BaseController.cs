@@ -131,12 +131,20 @@
         /// <summary>
         /// Redirect to the specific url or to the  index
         /// </summary>
-        protected IActionResult LocalizedRedirect(string returnUrl, CultureInfo lang = null)
+        protected IActionResult LocalizedRedirect(string returnUrl = null, CultureInfo lang = null)
         {
             if (!string.IsNullOrEmpty(returnUrl))
                 return base.Redirect(ChangeUrlLanguage(returnUrl, lang));
 
             return RedirectToAction(nameof(HomeController.Index), "Home", new { lang = lang ?? RequestService.CurrentLanguage });
+        }
+
+        /// <summary>
+        /// Redirect to the specific url or to the  index
+        /// </summary>
+        protected IActionResult LocalizedRedirectToAction(string controller, string action, CultureInfo lang = null)
+        {
+            return RedirectToAction(action, controller, new { lang = lang ?? RequestService.CurrentLanguage });
         }
 
         /// <summary>
