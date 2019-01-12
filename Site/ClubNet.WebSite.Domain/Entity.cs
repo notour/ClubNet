@@ -51,7 +51,20 @@
         /// <summary>
         /// Gets or sets the field used to prevent cross save
         /// </summary>
+        [BsonElement]
         public string ConcurrencyStamp { get; set; }
+
+        /// <summary>
+        /// Gets the created entity ddate
+        /// </summary>
+        [BsonElement]
+        public DateTime CreatedOn { get; private set; }
+
+        /// <summary>
+        /// Gets the latest update entity ddate
+        /// </summary>
+        [BsonElement]
+        public DateTime UpdatedOn { get; private set; }
 
         #endregion
 
@@ -63,6 +76,7 @@
         protected void Create(SecurityCriteria securityCriteria)
         {
             SetData(Guid.NewGuid(), securityCriteria);
+            CreatedOn = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -80,6 +94,7 @@
         {
             Id = id;
             SecurityCriteria = securityCriteria;
+            UpdatedOn = DateTime.UtcNow;
         }
 
         #endregion

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ClubNet.WebSite.Domain.Interfaces
+namespace ClubNet.WebSite.Domain.User
 {
-    class Menu : MenuItem
+    class Subscription
     {
-
     }
 }
