@@ -9,6 +9,7 @@
 
     using System;
     using System.Collections.Immutable;
+    using System.Diagnostics;
     using System.Linq;
     using System.Threading;
 
@@ -58,9 +59,21 @@
             this._storageLocker = new ReaderWriterLockSlim();
             this._storageServices = ImmutableDictionary<Type, IStorageService>.Empty;
 
+#if DEBUG
+            var types = this._mongoConfig.CollectionNames.SelectMany(c => c.Value).Select(k => new { Type = Type.GetType(k), Key = k }).ToArray();
+
+            if (!types.All(t => t.Type != null))
+            {
+                var invalidTypes = types.Where(t => t.Type == null)
+                                        .Select(t => t.Key)
+                                        .ToArray();
+                throw new InvalidOperationException("Type unknown : " + string.Join(", ", invalidTypes));
+            }
+#endif
+
             this._collectionNames = this._mongoConfig.CollectionNames.SelectMany(c => c.Value)
-                                                           .ToImmutableDictionary(k => Type.GetType(k),
-                                                                                  v => this._mongoConfig.CollectionNames.First(t => t.Value.Contains(v)).Key);
+                                                                     .ToImmutableDictionary(k => Type.GetType(k),
+                                                                                            v => this._mongoConfig.CollectionNames.First(t => t.Value.Contains(v)).Key);
 
             this._mongoClient = new MongoClient($"mongodb://{this._mongoConfig.Host}:{this._mongoConfig.Port}/{this._mongoConfig.DataBase}");
 

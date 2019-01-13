@@ -1,128 +1,133 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-
-@using ClubNet.WebSite.ViewModels.User;
+﻿@using ClubNet.WebSite.ViewModels.User;
 @model UserSubscriptionViewModel;
 
+@inject IRequestService _requestService;
 @inject IStringLocalizer<UserController> _localizer;
 
 @{
 }
 
 <div>
-    <div>
-        <h4 class="inline">@_localizer["Saison"] - 2018/2019</h4>
-        <button class="btn btn-default margin-left-big">
-            <span class="glyphicon glyphicon-plus"></span>
-        </button>
-        <hr />
+    @if (!string.IsNullOrEmpty(Model.SeasonName))
+    {
 
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>@_localizer["Name"]</th>
-                    <th>@_localizer["FirstName"]</th>
-                    <th>@_localizer["Age"]</th>
-                    <th>@_localizer["Categories"]</th>
+        <div>
+            <h4 class="inline">@_localizer["Saison"] - 2018/2019</h4>
+            @if (Model.SeasonSubscriptionOpened)
+            {
+                <a class="btn btn-default margin-left-big" asp-controller="User" asp-action="NewSubscription" asp-route-lang="@_requestService.CurrentLanguage">
+                    <span class="glyphicon glyphicon-plus"></span> @_localizer["Inscription"]
+                </a>
+            }
+            <hr />
 
-                    <th>@_localizer["SubscriptionStatus"]</th>
-                    <th>@_localizer["TresoryStatus"]</th>
-                    <th>@_localizer["LicensingStatus"]</th>
+            @*<table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>@_localizer["Name"]</th>
+                            <th>@_localizer["FirstName"]</th>
+                            <th>@_localizer["Age"]</th>
+                            <th>@_localizer["Categories"]</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>#42</td>
-                    <td>Thumerel</td>
-                    <td>Mickael</td>
-                    <td>30</td>
-                    <td>
-                        <span class="label label-default">Loisir</span>
-                        <span class="label label-default">N2</span>
-                    </td>
+                            <th>@_localizer["SubscriptionStatus"]</th>
+                            <th>@_localizer["TresoryStatus"]</th>
+                            <th>@_localizer["LicensingStatus"]</th>
 
-                    <td>
-                        <span class="label label-success label-lg">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="collapse" data-target="#Thumerel-TresoryStatus-42">
-                            <span class="glyphicon glyphicon-question-sign"></span> @_localizer["warning"]
-                        </button>
-                        <div id="Thumerel-TresoryStatus-42" class="collapse">
-                            <p>Partial payement 5/12</p>
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="collapse" data-target="#Thumerel-LicensingStatus-42">
-                            <span class="glyphicon glyphicon-remove"></span> @_localizer["error"]
-                        </button>
-                        <div id="Thumerel-LicensingStatus-42" class="collapse">
-                            <p>RBIHF - photo missing</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>#41</td>
-                    <td>Thumerel</td>
-                    <td>Oliver</td>
-                    <td>0.15</td>
-                    <td>
-                        <span class="label label-default">U8</span>
-                    </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#42</td>
+                            <td>Thumerel</td>
+                            <td>Mickael</td>
+                            <td>30</td>
+                            <td>
+                                <span class="label label-default">Loisir</span>
+                                <span class="label label-default">N2</span>
+                            </td>
 
-                    <td>
-                        <span class="label label-success">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="collapse" data-target="#Thumerel-TresoryStatus-41">
-                            <span class="glyphicon glyphicon-question-sign"></span> @_localizer["warning"]
-                        </button>
-                        <div id="Thumerel-TresoryStatus-41" class="collapse">
-                            <p>Partial payement 5/12</p>
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="collapse" data-target="#Thumerel-LicensingStatus-41">
-                            <span class="glyphicon glyphicon-remove"></span> @_localizer["error"]
-                        </button>
-                        <div id="Thumerel-LicensingStatus-41" class="collapse">
-                            <p>RBIHF - photo missing</p>
-                        </div>
-                    </td>
-                </tr>
+                            <td>
+                                <span class="label label-success label-lg">
+                                    <span class="glyphicon glyphicon-ok" />
+                                </span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-warning btn-sm" data-toggle="collapse" data-target="#Thumerel-TresoryStatus-42">
+                                    <span class="glyphicon glyphicon-question-sign"></span> @_localizer["warning"]
+                                </button>
+                                <div id="Thumerel-TresoryStatus-42" class="collapse">
+                                    <p>Partial payement 5/12</p>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="collapse" data-target="#Thumerel-LicensingStatus-42">
+                                    <span class="glyphicon glyphicon-remove"></span> @_localizer["error"]
+                                </button>
+                                <div id="Thumerel-LicensingStatus-42" class="collapse">
+                                    <p>RBIHF - photo missing</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#41</td>
+                            <td>Thumerel</td>
+                            <td>Oliver</td>
+                            <td>0.15</td>
+                            <td>
+                                <span class="label label-default">U8</span>
+                            </td>
 
-                <tr>
-                    <td>#40</td>
-                    <td>Thumerel</td>
-                    <td>Audrey</td>
-                    <td>29</td>
-                    <td>
-                        <span class="label label-default">Loisir</span>
-                        <span class="label label-default">Benevol</span>
-                    </td>
+                            <td>
+                                <span class="label label-success">
+                                    <span class="glyphicon glyphicon-ok" />
+                                </span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-warning btn-sm" data-toggle="collapse" data-target="#Thumerel-TresoryStatus-41">
+                                    <span class="glyphicon glyphicon-question-sign"></span> @_localizer["warning"]
+                                </button>
+                                <div id="Thumerel-TresoryStatus-41" class="collapse">
+                                    <p>Partial payement 5/12</p>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="collapse" data-target="#Thumerel-LicensingStatus-41">
+                                    <span class="glyphicon glyphicon-remove"></span> @_localizer["error"]
+                                </button>
+                                <div id="Thumerel-LicensingStatus-41" class="collapse">
+                                    <p>RBIHF - photo missing</p>
+                                </div>
+                            </td>
+                        </tr>
 
-                    <td>
-                        <span class="label label-success">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-default btn-sm">
-                            <span class="glyphicon glyphicon-time"></span> @_localizer["pending"] ...
-                            </buttontype="button">
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                        <tr>
+                            <td>#40</td>
+                            <td>Thumerel</td>
+                            <td>Audrey</td>
+                            <td>29</td>
+                            <td>
+                                <span class="label label-default">Loisir</span>
+                                <span class="label label-default">Benevol</span>
+                            </td>
+
+                            <td>
+                                <span class="label label-success">
+                                    <span class="glyphicon glyphicon-ok" />
+                                </span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-time"></span> @_localizer["pending"] ...
+                                    </buttontype="button">
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>*@
+        </div>
+    }
+
 
     <div class="margin-top-very-big">
         <h4>
@@ -130,155 +135,155 @@
         </h4>
         <hr />
 
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>@_localizer["Saison"]</th>
-                    <th>@_localizer["Name"]</th>
-                    <th>@_localizer["FirstName"]</th>
-                    <th>@_localizer["Age"]</th>
-                    <th>@_localizer["Categories"]</th>
+        @*<table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>@_localizer["Saison"]</th>
+                        <th>@_localizer["Name"]</th>
+                        <th>@_localizer["FirstName"]</th>
+                        <th>@_localizer["Age"]</th>
+                        <th>@_localizer["Categories"]</th>
 
-                    <th>@_localizer["SubscriptionStatus"]</th>
-                    <th>@_localizer["TresoryStatus"]</th>
-                    <th>@_localizer["LicensingStatus"]</th>
+                        <th>@_localizer["SubscriptionStatus"]</th>
+                        <th>@_localizer["TresoryStatus"]</th>
+                        <th>@_localizer["LicensingStatus"]</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="info">
-                    <td></td>
-                    <td>2017/2018</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>#42</td>
-                    <td></td>
-                    <td>Thumerel</td>
-                    <td>Mickael</td>
-                    <td>30</td>
-                    <td>
-                        <span class="label label-default">Loisir</span>
-                        <span class="label label-default">N2</span>
-                    </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="info">
+                        <td></td>
+                        <td>2017/2018</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>#42</td>
+                        <td></td>
+                        <td>Thumerel</td>
+                        <td>Mickael</td>
+                        <td>30</td>
+                        <td>
+                            <span class="label label-default">Loisir</span>
+                            <span class="label label-default">N2</span>
+                        </td>
 
-                    <td>
-                        <span class="label label-success label-lg">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                    <td>
-                        <span class="label label-success label-lg">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                    <td>
-                        <span class="label label-success label-lg">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>#41</td>
-                    <td></td>
-                    <td>Thumerel</td>
-                    <td>Oliver</td>
-                    <td>0.15</td>
-                    <td>
-                        <span class="label label-default">U8</span>
-                    </td>
+                        <td>
+                            <span class="label label-success label-lg">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                        <td>
+                            <span class="label label-success label-lg">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                        <td>
+                            <span class="label label-success label-lg">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#41</td>
+                        <td></td>
+                        <td>Thumerel</td>
+                        <td>Oliver</td>
+                        <td>0.15</td>
+                        <td>
+                            <span class="label label-default">U8</span>
+                        </td>
 
-                    <td>
-                        <span class="label label-success">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                    <td>
-                        <span class="label label-success label-lg">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                    <td>
-                        <span class="label label-success label-lg">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                </tr>
+                        <td>
+                            <span class="label label-success">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                        <td>
+                            <span class="label label-success label-lg">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                        <td>
+                            <span class="label label-success label-lg">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td>#40</td>
-                    <td></td>
-                    <td>Thumerel</td>
-                    <td>Audrey</td>
-                    <td>29</td>
-                    <td>
-                        <span class="label label-default">Loisir</span>
-                        <span class="label label-default">Benevol</span>
-                    </td>
+                    <tr>
+                        <td>#40</td>
+                        <td></td>
+                        <td>Thumerel</td>
+                        <td>Audrey</td>
+                        <td>29</td>
+                        <td>
+                            <span class="label label-default">Loisir</span>
+                            <span class="label label-default">Benevol</span>
+                        </td>
 
-                    <td>
-                        <span class="label label-success">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                    <td>
-                        <span class="label label-success label-lg">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                    <td>
-                        <span class="label label-success label-lg">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                </tr>
-                <tr class="info">
-                    <td></td>
-                    <td>2016/2017</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>#42</td>
-                    <td></td>
-                    <td>Thumerel</td>
-                    <td>Mickael</td>
-                    <td>30</td>
-                    <td>
-                        <span class="label label-default">Loisir</span>
-                        <span class="label label-default">N2</span>
-                    </td>
+                        <td>
+                            <span class="label label-success">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                        <td>
+                            <span class="label label-success label-lg">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                        <td>
+                            <span class="label label-success label-lg">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class="info">
+                        <td></td>
+                        <td>2016/2017</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>#42</td>
+                        <td></td>
+                        <td>Thumerel</td>
+                        <td>Mickael</td>
+                        <td>30</td>
+                        <td>
+                            <span class="label label-default">Loisir</span>
+                            <span class="label label-default">N2</span>
+                        </td>
 
-                    <td>
-                        <span class="label label-success label-lg">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                    <td>
-                        <span class="label label-success label-lg">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                    <td>
-                        <span class="label label-success label-lg">
-                            <span class="glyphicon glyphicon-ok" />
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <td>
+                            <span class="label label-success label-lg">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                        <td>
+                            <span class="label label-success label-lg">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                        <td>
+                            <span class="label label-success label-lg">
+                                <span class="glyphicon glyphicon-ok" />
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>*@
     </div>
 
 </div>

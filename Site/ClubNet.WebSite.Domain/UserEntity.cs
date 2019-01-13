@@ -1,6 +1,8 @@
 ﻿namespace ClubNet.WebSite.Domain
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.Serialization;
     using ClubNet.WebSite.Common;
     using ClubNet.WebSite.Domain.Security;
@@ -26,9 +28,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets the unique user id
+        /// Gets the unique user id of the owner ids
         /// </summary>
-        public Guid UserId { get; private set; }
+        public IEnumerable<Guid> Owners { get; private set; }
 
         #endregion
 
@@ -37,10 +39,11 @@
         /// <summary>
         /// Update the current entity
         /// </summary>
-        protected void Create(IUserInfo userInfo, SecurityCriteria securityCriteria)
+        protected void Create(IEnumerable<IUserInfo> owners, SecurityCriteria securityCriteria)
         {
             base.Create(securityCriteria);
-            UserId = userInfo.Id;
+            this.Owners = owners.Select(o => o.Id)
+                                .ToArray();
         }
 
         #endregion

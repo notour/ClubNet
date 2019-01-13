@@ -1,6 +1,7 @@
 ﻿namespace ClubNet.WebSite.Domain.Sport
 {
     using System;
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
     using ClubNet.WebSite.Common;
     using ClubNet.WebSite.Domain.Security;
@@ -40,9 +41,9 @@
         /// <summary>
         /// Update the current entity
         /// </summary>
-        protected void Create(Guid seasonId, IUserInfo userInfo, SecurityCriteria securityCriteria)
+        protected void Create(Guid seasonId, IEnumerable<IUserInfo> owners, SecurityCriteria securityCriteria)
         {
-            base.Create(userInfo, securityCriteria);
+            base.Create(owners, securityCriteria);
             this.SeasonId = seasonId;
         }
 

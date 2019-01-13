@@ -5,9 +5,11 @@
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Localization;
-
+    using System;
     using System.Diagnostics;
     using System.Globalization;
+    using System.Linq;
+    using System.Security.Claims;
     using System.Threading;
 
     /// <summary>
@@ -34,8 +36,13 @@
             CurrentLanguage = featureCulture.RequestCulture.Culture;
 
             RequestId = Activity.Current?.Id ?? context.TraceIdentifier;
-
-            CancellationToken = new CancellationTokenSource(this._defaultConfig.DefaultRequestTimeout).Token;
+            if (context.User.Identity.IsAuthenticated)
+            {
+                var userIdStr = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userIdStr != null && Guid.TryParse(userIdStr, out var userId))
+                    UserId = userId;
+            }
+            CancellationToken = new CancellationTokenSource(Debugger.IsAttached ? TimeSpan.FromSeconds(30) : this._defaultConfig.DefaultRequestTimeout).Token;
         }
 
         #endregion
@@ -64,6 +71,11 @@
                 throw new System.NotImplementedException();
             }
         }
+
+        /// <summary>
+        /// Gets the current connected user id
+        /// </summary>
+        public Guid UserId { get; }
 
         #endregion
     }

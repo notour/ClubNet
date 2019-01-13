@@ -34,7 +34,7 @@
         #region Properties
 
         /// <summary>
-        /// Gets the configuration service
+        /// Gets a new instance of the request service
         /// </summary>
         protected IRequestService RequestService
         {

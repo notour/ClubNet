@@ -29,8 +29,10 @@
             services.AddSingleton<IConfigService, ConfigService>();
 
             services.AddSingleton<ISecurityBL, SecurityBL>();
-            services.AddScoped<IMenuBL, MenuBL>();
-            services.AddScoped<IThemeBL, ThemeBL>();
+            services.AddSingleton<IMenuBL, MenuBL>();
+            services.AddSingleton<IThemeBL, ThemeBL>();
+
+            services.AddSingleton<IUserBL, UserBL>();
 
             return services;
         }

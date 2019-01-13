@@ -1,6 +1,7 @@
 ﻿namespace ClubNet.WebSite.Common .Contracts
 {
     using ClubNet.WebSite.Common.Enums;
+    using System;
     using System.Globalization;
     using System.Threading;
 
@@ -20,6 +21,11 @@
         /// Gets the current request id
         /// </summary>
         string RequestId { get; }
+
+        /// <summary>
+        /// Gets the current connected user id
+        /// </summary>
+        Guid UserId { get; }
 
         /// <summary>
         /// Gets the request cancellation token

@@ -3,10 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+
     using ClubNet.WebSite.BusinessLayer.Configurations;
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.Common.Enums;
     using ClubNet.WebSite.Common.Tools;
+
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Options;
 

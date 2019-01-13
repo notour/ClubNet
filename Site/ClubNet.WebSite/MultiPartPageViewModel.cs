@@ -55,6 +55,15 @@
         }
 
         /// <summary>
+        /// Insert a new view model instance
+        /// </summary>
+        public void AddViewModel<TViewModel>(TViewModel instance)
+            where TViewModel : BaseVM
+        {
+            this._sortedViewModels.Add(typeof(TViewModel).Name, instance);
+        }
+
+        /// <summary>
         /// Get the view Model typed
         /// </summary>
         public TViewModel Get<TViewModel>(string viewName)

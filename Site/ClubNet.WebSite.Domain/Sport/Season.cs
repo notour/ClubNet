@@ -42,6 +42,11 @@
         [DataMember]
         public DateTime End { get; private set; }
 
+        /// <summary>
+        /// Gets the value of the date when the subscription are opened
+        /// </summary>
+        public DateTime SubscriptionOpenDate { get; private set; }
+
         #endregion
 
         #region Methods
@@ -49,30 +54,31 @@
         /// <summary>
         /// Create a new season object
         /// </summary>
-        public static Season Create(DateTime start, DateTime end, SecurityCriteria securityCriteria)
+        public static Season Create(DateTime start, DateTime end, DateTime subscriptionOpenDate, SecurityCriteria securityCriteria)
         {
             var inst = new Season();
             inst.Create(securityCriteria);
-            inst.SetData(start, end);
+            inst.SetData(start, end, subscriptionOpenDate);
             return inst;
         }
 
         /// <summary>
         /// Create a new season object
         /// </summary>
-        public void Update(DateTime start, DateTime end, SecurityCriteria securityCriteria)
+        public void Update(DateTime start, DateTime end, DateTime subscriptionOpenDate, SecurityCriteria securityCriteria)
         {
             this.Update(securityCriteria);
-            this.SetData(start, end);
+            this.SetData(start, end, subscriptionOpenDate);
         }
 
         /// <summary>
         /// Setup the season data
         /// </summary>
-        private void SetData(DateTime start, DateTime end)
+        private void SetData(DateTime start, DateTime end, DateTime subscriptionOpenDate)
         {
             this.End = end;
             this.Start = start;
+            this.SubscriptionOpenDate = subscriptionOpenDate;
         }
 
         #endregion

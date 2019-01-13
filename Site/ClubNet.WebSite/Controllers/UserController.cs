@@ -5,6 +5,7 @@
     using ClubNet.WebSite.BusinessLayer.Contracts;
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.ViewModels;
+    using ClubNet.WebSite.ViewModels.Forms.User;
     using ClubNet.WebSite.ViewModels.User;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@
         #region Fields
 
         private readonly IMenuBL _menuBL;
+        private readonly IUserBL _userBL;
 
         #endregion
 
@@ -27,10 +29,11 @@
         /// <summary>
         /// Initialize a new instance of the class <see cref="UserController"/>
         /// </summary>
-        public UserController(IServiceProvider serviceProvider, ILogger<UserController> logger, IResourceService resourceService, IMenuBL menuBL) 
+        public UserController(IServiceProvider serviceProvider, ILogger<UserController> logger, IResourceService resourceService, IMenuBL menuBL, IUserBL userBL)
             : base(serviceProvider, logger, resourceService)
         {
             this._menuBL = menuBL;
+            this._userBL = userBL;
         }
 
         #endregion
@@ -58,11 +61,28 @@
         [HttpGet]
         public async Task<IActionResult> Subscriptions()
         {
+            var timeout = base.RequestService.CancellationToken;
             var pageVm = new MultiPartPageViewModel(this.RequestService);
 
             await InitializeCommonViewModelAsync(pageVm);
 
-            pageVm.AddViewModel<UserSubscriptionViewModel>("UserSubscriptions");
+            pageVm.AddViewModel<UserSubscriptionViewModel>("UserSubscriptions", await this._userBL.GetUserSubscriptionsAsync(timeout));
+
+            return View("_UserLayout", pageVm);
+        }
+
+        /// <summary>
+        /// Display the new inscription page
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> NewSubscription()
+        {
+            var timeout = base.RequestService.CancellationToken;
+            var pageVm = new MultiPartPageViewModel(this.RequestService);
+
+            await InitializeCommonViewModelAsync(pageVm);
+
+            pageVm.AddViewModel<NewSubscriptionFormVM>("NewSubscription", await this._userBL.GetNewSubscriptionFormVM(timeout));
 
             return View("_UserLayout", pageVm);
         }
