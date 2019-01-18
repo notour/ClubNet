@@ -1,57 +1,72 @@
-var clubnet;
-(function (clubnet) {
-    var ajaxForm = /** @class */ (function () {
+﻿module clubnet {
+    export class ajaxForm {
+
+        private _url: string;
+
+        private _formId: string;
+        private _triggers: HTMLElement[];
+
         /**
          *  Initialize a new instance of the class ajaxForm
          */
-        function ajaxForm(formId, url) {
-            this.formId = formId;
-            this.url = url;
+        constructor(public formId: string, public url: string) {
             this._formId = formId;
             this._url = url;
         }
+
         /**
          * Intialize all the event connection to enabled ajax form preload
          */
-        ajaxForm.initializeFormAjaxPreset = function (formId, url) {
+        public static initializeFormAjaxPreset(formId: string, url: string): void {
             var ajaxForm = new clubnet.ajaxForm(formId, url);
-            var form = $("#" + ajaxForm._formId);
+
+            let form = $("#" + ajaxForm._formId);
+
             if (form) {
                 ajaxForm._triggers = form.find('input[data-ajax-trigger="true"]').toArray();
-                ajaxForm._triggers.forEach(function (element) {
+
+                ajaxForm._triggers.forEach((element) => {
                     var self = ajaxForm;
-                    element.onchange = function () { self.updateFormAsync(); };
+                    element.onchange = function () { self.updateFormAsync() };
                 });
             }
-        };
+        }
+
         /**
          * Setup the values from the data loaded
          */
-        ajaxForm.prototype.updateFormValues = function (data) {
-            var form = $("#" + this._formId);
+        private updateFormValues(data: object) {
+            let form = $("#" + this._formId);
             $.each(data, function (propName, value) {
+
                 var input = form.find("input").filter(function () {
                     return $(this).attr('name').toLowerCase() == ("" + propName + "").toLowerCase();
                 });
+
                 if (input && input.length > 0 && !input.val()) {
                     input.val(value);
                 }
             });
-        };
-        /**
+        }
+
+        /** 
  *  Called each time a trigger input value changed
  */
-        ajaxForm.prototype.updateFormAsync = function () {
+        private updateFormAsync() {
             var missingValue = false;
             var ajaxObject = {};
-            this._triggers.forEach(function (element) {
-                var value = $(element).val();
+
+            this._triggers.forEach((element) => {
+
+                let value = $(element).val();
                 if (!value || $(element).is(":focus")) {
                     missingValue = true;
                     return;
                 }
+
                 ajaxObject[$(element).attr("name")] = $(element).val();
             });
+
             if (!missingValue) {
                 $.ajax({
                     url: this._url,
@@ -66,9 +81,6 @@ var clubnet;
                     context: this
                 });
             }
-        };
-        return ajaxForm;
-    }());
-    clubnet.ajaxForm = ajaxForm;
-})(clubnet || (clubnet = {}));
-//# sourceMappingURL=clubnet.js.map
+        }
+    }
+}

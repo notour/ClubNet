@@ -56,7 +56,7 @@
             var subscriptionVM = new UserSubscriptionViewModel(requestService);
 
             var currentSeason = await this._seasonStorage.FindFirstAsync(u => u.EntityType == SportEntityType.Saison && u.End > utcDateNow && u.SubscriptionOpenDate <= utcDateNow, cancellationToken);
-            
+
             var startHistoryDateSubscription = utcDateNow;
 
             if (currentSeason != null)
@@ -88,8 +88,7 @@
             var viewModel = new NewSubscriptionFormVM(RequestService);
             var currentSeason = await this._seasonStorage.FindFirstAsync(u => u.EntityType == SportEntityType.Saison && u.End > utcDateNow && u.SubscriptionOpenDate <= utcDateNow, cancellationToken);
 
-            if (currentSeason != null)
-                viewModel.SetupForm(null, currentSeason.Id);
+            viewModel.SetupForm(null, currentSeason?.Id ?? Guid.Empty);
 
             return viewModel;
         }

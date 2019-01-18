@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using ClubNet.Shared.Api.Dto;
     using ClubNet.WebSite.BusinessLayer.Contracts;
     using ClubNet.WebSite.Common.Contracts;
     using ClubNet.WebSite.ViewModels;
@@ -85,6 +86,29 @@
             pageVm.AddViewModel<NewSubscriptionFormVM>("NewSubscription", await this._userBL.GetNewSubscriptionFormVM(timeout));
 
             return View("_UserLayout", pageVm);
+        }
+
+        /// <summary>
+        /// Call to complet the <see cref="NewSubscriptionFormVM"/> with previous subscription
+        /// </summary>
+        [HttpPost]
+        public async Task<NewSubscriptionFormVM> NewSubscriptionPresetForm(NewSubscriptionBaseDto subscriptionBaseDto)
+        {
+            var subscriptionFormVM = new NewSubscriptionFormVM(RequestService);
+
+            subscriptionFormVM.LastName = subscriptionBaseDto.LastName;
+            subscriptionFormVM.FirstName = subscriptionBaseDto.FirstName;
+            subscriptionFormVM.BirthDate = subscriptionBaseDto.BirthDate;
+
+            subscriptionFormVM.City = "Erps-Kwerps";
+            subscriptionFormVM.PostalCode = "3071";
+            subscriptionFormVM.Street = "11 rechtestraat";
+            subscriptionFormVM.Phone = "+32483593562";
+            subscriptionFormVM.Email = "mickael.thumerel@phoenixhockey.be";
+
+            subscriptionFormVM.SetupForm(Guid.NewGuid(), subscriptionBaseDto.SeasonId);
+
+            return subscriptionFormVM;
         }
 
         #region Tools

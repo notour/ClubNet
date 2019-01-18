@@ -25,6 +25,14 @@ body {
     width: 1px;
 }
 
+.text-left-important {
+    text-align: left !important;
+}
+
+.text-right-important {
+    text-align: right !important;
+}
+
 /* Make .svg files in the carousel display properly in older browsers */
 .carousel-inner .item img[src$=".svg"] {
     width: 100%;

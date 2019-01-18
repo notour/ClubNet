@@ -17,6 +17,12 @@
     <Content Remove="Emails\resetForgottenPassword-en.cshtml" />
     <Content Remove="Emails\resetForgottenPassword-fr.cshtml" />
     <Content Remove="Emails\resetForgottenPassword-nl.cshtml" />
+    <Content Remove="wwwroot\js\ajaxForm.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Ts\ajaxForm.js" />
+    <Content Include="Ts\ajaxForm.js.map" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
@@ -103,6 +110,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\Themes\Kronak\js\" />
     <Folder Include="wwwroot\Themes\Kronak\images\" />
     <Folder Include="wwwroot\Themes\Kronak\content\" />
@@ -117,7 +125,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\js\clubnet.ts" />
+    <TypeScriptCompile Include="Ts\ajaxForm.ts" />
   </ItemGroup>
 
 </Project>
