@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Address" xml:space="preserve">
+    <value>Straat en nummer</value>
+  </data>
+  <data name="AddressComplement" xml:space="preserve">
+    <value>Aanvulling</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Geboortedatum</value>
+  </data>
+  <data name="BirthPlace" xml:space="preserve">
+    <value>Geboorteplaats</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Stad</value>
+  </data>
+  <data name="ContactInfo" xml:space="preserve">
+    <value>Contactgegevens</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="FemmeShort" xml:space="preserve">
+    <value>F</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Voornaam</value>
+  </data>
+  <data name="GDRPHaveBeenReaded" xml:space="preserve">
+    <value>Door dit vakje aan te vinken, ga je akkoord met de clubregels en bevestig je dat je GDPR-keuze is gemaakt met alle kennis van de implicaties.</value>
+  </data>
+  <data name="GDRPImageInternalUsage" xml:space="preserve">
+    <value>U staat de club toe om uw afbeelding te gebruiken in een intern gebruik, e-mailcommunicatie, interne sitepagina's, interne weergave in de clubtoepassing, ...</value>
+  </data>
+  <data name="GDRPImagePublicUsage" xml:space="preserve">
+    <value>Je staat de club toe om je afbeelding te gebruiken in een openbaar gebruik dat wordt gecontroleerd door de club. communicatie via sociale netwerken, openbare e-mailadvertenties, openbare website-artikelen, ...</value>
+  </data>
+  <data name="GDRPInfo" xml:space="preserve">
+    <value>GDRP: gebruik van gegevensgebruik</value>
+  </data>
+  <data name="GDRPNameInternalUsage" xml:space="preserve">
+    <value>U staat de club toe om uw voor- en achternaam te gebruiken in een intern gebruik, e-mailcommunicatie, interne sitepagina's, interne weergave in de clubtoepassing, ...</value>
+  </data>
+  <data name="GDRPNamePublicUsage" xml:space="preserve">
+    <value>Je staat de club toe om je voor- en achternaam in een openbare gebruiksbesturing door de club te gebruiken. communicatie via sociale netwerken, openbare e-mailadvertenties, openbare website-artikelen, ...</value>
+  </data>
+  <data name="GDRPSummary" xml:space="preserve">
+    <value>Sinds 2018 in de europese wetgeving alle systemen vragen die gebruikersinformatie opslaan om het gebruik ervan te informeren. Door de volgende controles kunt u uw gegevens al dan niet gebruiken in een specifieke context.</value>
+  </data>
+  <data name="HommeShort" xml:space="preserve">
+    <value>M</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Achternaam</value>
+  </data>
+  <data name="MemberNumber" xml:space="preserve">
+    <value>Club membre Id</value>
+  </data>
+  <data name="NewSubscription" xml:space="preserve">
+    <value>Nieuw abonnement</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>GSM</value>
+  </data>
+  <data name="PlayerInfo" xml:space="preserve">
+    <value>Speler Informatie</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Postcode</value>
+  </data>
+  <data name="Sexe" xml:space="preserve">
+    <value>Sexe</value>
+  </data>
+</root>

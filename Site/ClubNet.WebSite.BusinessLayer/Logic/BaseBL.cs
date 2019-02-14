@@ -41,6 +41,15 @@
             get { return this._contextAccessor.CurrentRequestService(); }
         }
 
+
+        /// <summary>
+        /// Gets the current <see cref="HttpContext"/>
+        /// </summary>
+        protected HttpContext CurrentHttpContext
+        {
+            get { return this._contextAccessor.HttpContext; }
+        }
+
         /// <summary>
         /// Gets the current config service
         /// </summary>

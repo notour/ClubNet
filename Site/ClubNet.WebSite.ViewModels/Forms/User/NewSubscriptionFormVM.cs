@@ -21,6 +21,7 @@
         public NewSubscriptionFormVM(IRequestService requestService)
             : base(requestService)
         {
+            this.DataUsageRight = new DataUsageRightFormVM(requestService);
         }
 
         #endregion
@@ -90,6 +91,7 @@
         /// </summary>
         [Required]
         [DataType(DataType.PhoneNumber)]
+        [Phone]
         public string Phone { get; set; }
 
         /// <summary>
@@ -97,6 +99,7 @@
         /// </summary>
         [Required]
         [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Email { get; set; }
 
         /// <summary>
@@ -125,6 +128,12 @@
         [Required]
         [DataType(DataType.Text)]
         public string City { get; set; }
+
+        /// <summary>
+        /// Gets or sets values indicating the member authorization of data usage
+        /// </summary>
+        [Required]
+        public DataUsageRightFormVM DataUsageRight { get; set; }
 
         /// <summary>
         /// Gets or sets the role collections

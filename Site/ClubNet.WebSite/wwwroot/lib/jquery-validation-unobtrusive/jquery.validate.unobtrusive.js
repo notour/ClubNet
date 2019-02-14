@@ -63,6 +63,9 @@
         else {
             error.hide();
         }
+
+        // addon
+        clubnet.validationForm.SetFeedback(inputElement, false);
     }
 
     function onErrors(event, validator) {  // 'this' is the form element
@@ -79,7 +82,7 @@
         }
     }
 
-    function onSuccess(error) {  // 'this' is the form element
+    function onSuccess(error, inputElement) {  // 'this' is the form element
         var container = error.data("unobtrusiveContainer");
 
         if (container) {
@@ -93,6 +96,9 @@
                 container.empty();
             }
         }
+
+        // addon
+        clubnet.validationForm.SetFeedback($(inputElement), true);
     }
 
     function onReset(event) {  // 'this' is the form element

@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Ts\validationForm.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Ts\ajaxForm.js" />
     <Content Include="Ts\ajaxForm.js.map" />
   </ItemGroup>
@@ -63,6 +67,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AccountController.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Controllers\UserController.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UserController.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\SharedResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -71,42 +80,39 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Controllers\AccountController.nl.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Controllers\AccountController.fr.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Emails\EmailSubjects.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>EmailSubjects.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ErrorMessages.nl.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ErrorMessages.fr.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    
-    <EmbeddedResource Update="Resources\ErrorMessages.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
 
-    <EmbeddedResource Update="Resources\SharedResources.nl.resx">
-      <Generator></Generator>
+    <EmbeddedResource Update="Resources\Controllers\UserController.resx">
+      <LastGenOutput>UserController.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\SharedResources.fr.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Controllers\UserController.fr.resx" />
+
     <EmbeddedResource Update="Resources\Controllers\AccountController.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AccountController.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Controllers\AccountController.nl.resx" />
+    <EmbeddedResource Update="Resources\Controllers\AccountController.fr.resx" />
+
+    <EmbeddedResource Update="Resources\Emails\EmailSubjects.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmailSubjects.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+
+    <EmbeddedResource Update="Resources\ErrorMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ErrorMessages.nl.resx" />
+    <EmbeddedResource Update="Resources\ErrorMessages.fr.resx" />
+
     <EmbeddedResource Update="Resources\SharedResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SharedResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SharedResources.nl.resx" />
+    <EmbeddedResource Update="Resources\SharedResources.fr.resx" />
+
   </ItemGroup>
 
   <ItemGroup>
@@ -126,6 +132,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="Ts\ajaxForm.ts" />
+    <TypeScriptCompile Include="Ts\validationForm.ts" />
   </ItemGroup>
 
 </Project>

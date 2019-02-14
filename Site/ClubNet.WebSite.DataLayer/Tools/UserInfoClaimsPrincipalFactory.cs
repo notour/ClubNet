@@ -35,6 +35,7 @@
             var principal = await base.GenerateClaimsAsync(user);
 
             principal.AddClaim(new Claim(nameof(UserInfo.PreferredCulture), user.PreferredCulture.TwoLetterISOLanguageName));
+            principal.AddClaim(new Claim(ClaimTypes.Email, user.Email));
 
             return principal;
         }

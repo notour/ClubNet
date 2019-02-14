@@ -37,14 +37,14 @@
                 </div>
                 <div class="form-group ">
                     <label asp-for="@Model.FirstName" class="col-sm-2 control-label text-left-important">@_localizer["FirstName"]</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 has-feedback">
                         <input asp-for="@Model.FirstName" class="form-control" data-ajax-trigger="true" name="FirstName" placeholder="@_localizer["FirstName"]" />
                     </div>
                 </div>
 
                 <div class="form-group ">
                     <label asp-for="@Model.LastName" class="col-sm-2 control-label text-left-important">@_localizer["LastName"]</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 has-feedback">
                         <input asp-for="@Model.LastName" class="form-control" data-ajax-trigger="true" name="LastName" placeholder="@_localizer["LastName"]" />
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <div class="col-sm-2">
                         <label asp-for="@Model.Sexe" class="control-label text-left-important">@_localizer["Sexe"]</label>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 has-feedback">
                         <select asp-for="@Model.Sexe" class="form-control" name="Sexe">
                             <option>@_localizer["HommeShort"]</option>
                             <option>@_localizer["FemmeShort"]</option>
@@ -62,27 +62,27 @@
                     <div class="col-sm-2">
                         <label asp-for="@Model.BirthDate" class=" control-label text-left-important">@_localizer["BirthDate"]</label>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 has-feedback">
                         <input asp-for="@Model.BirthDate" placeholder="dd/MM/yyyy" class="form-control" data-ajax-trigger="true" name="BirthDate" />
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 has-feedback">
                         <input asp-for="@Model.BirthPlace" placeholder="@_localizer["BirthPlace"]" class="form-control" name="BirthPlace" />
                     </div>
                 </div>
             </div>
         </div>
         <div class="margin-top-big">
-            <h4>@_localizer["Contact"]</h4>
+            <h4>@_localizer["ContactInfo"]</h4>
             <hr />
             <div class="form-group">
                 <label asp-for="@Model.Street" class="col-sm-2 control-label text-left-important">@_localizer["Address"]</label>
-                <div class="col-sm-10">
+                <div class="col-sm-10 has-feedback">
                     <input asp-for="@Model.Street" class="form-control" name="Street" placeholder="@_localizer["Address"]" />
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.StreetComplement" class="col-sm-2 control-label text-left-important">@_localizer["AddressComplement"]</label>
-                <div class="col-sm-10">
+                <div class="col-sm-10 has-feedback">
                     <input asp-for="@Model.StreetComplement" class="form-control" name="StreetComplement" placeholder="@_localizer["AddressComplement"]" />
                 </div>
             </div>
@@ -90,67 +90,79 @@
                 <div class="col-sm-2">
                     <label asp-for="@Model.PostalCode" class="control-label text-left-important">@_localizer["PostalCode"]</label>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-3 has-feedback">
                     <input asp-for="@Model.PostalCode" class="form-control" name="PostalCode" placeholder="@_localizer["PostalCode"]" />
                 </div>
                 <div class="col-sm-1 col-sm-offset-1">
                     <label asp-for="@Model.City" class="control-label text-right-important">@_localizer["City"]</label>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-5 has-feedback">
                     <input asp-for="@Model.City" class="form-control" name="City" placeholder="@_localizer["City"]" />
                 </div>
             </div>
         </div>
-
+        <br />
         <div>
             <div class="form-group">
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                     <label asp-for="@Model.Phone" class="control-label text-left-important">@_localizer["Phone"]</label>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-offset-1 col-sm-3 has-feedback">
                     <input asp-for="@Model.Phone" class="form-control" name="Phone" placeholder="@_localizer["Phone"]" />
                 </div>
                 <div class="col-sm-1 col-sm-offset-1">
                     <label asp-for="@Model.Email" class="control-label text-right-important">@_localizer["Email"]</label>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-5 has-feedback">
                     <input asp-for="@Model.Email" class="form-control" name="Email" placeholder="@_localizer["Email"]" />
                 </div>
-
             </div>
         </div>
         <br />
         <br />
+        <br />
+        <br />
         <div class="margin-top-big">
-            <h4>@_localizer["GDRP"]</h4>
+            <h4>@_localizer["GDRPInfo"]</h4>
             <hr />
-            <p>Explain GDPR and image usage : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mi ex, aliquet at efficitur sed, cursus quis arcu. Suspendisse fringilla</p>
+            <p>@_localizer["GDRPSummary"]</p>
             <div class="checkbox">
-                <label><input type="checkbox">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mi ex, aliquet at efficitur sed, cursus quis arcu. Suspendisse fringilla sagittis placerat. Nam id leo rhoncus, laoreet est vel</label>
+                <label><input asp-for="@Model.DataUsageRight.ImageUsageInternal" type="checkbox">@_localizer["GDRPImageInternalUsage"]</label>
             </div>
 
             <div class="checkbox">
-                <label><input type="checkbox">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mi ex, aliquet at efficitur sed, cursus quis arcu. Suspendisse fringilla sagittis placerat. Nam id leo rhoncus, laoreet est vel</label>
+                <label><input asp-for="@Model.DataUsageRight.NameUsageInternal" type="checkbox">@_localizer["GDRPNameInternalUsage"]</label>
             </div>
 
             <div class="checkbox">
-                <label><input type="checkbox">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mi ex, aliquet at efficitur sed, cursus quis arcu. Suspendisse fringilla sagittis placerat. Nam id leo rhoncus, laoreet est vel</label>
+                <label><input asp-for="@Model.DataUsageRight.ImageUsagePublic" type="checkbox">@_localizer["GDRPImagePublicUsage"]</label>
             </div>
 
             <div class="checkbox">
-                <label><input type="checkbox">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mi ex, aliquet at efficitur sed, cursus quis arcu. Suspendisse fringilla sagittis placerat. Nam id leo rhoncus, laoreet est vel</label>
+                <label><input asp-for="@Model.DataUsageRight.NameUsagePublic" type="checkbox">@_localizer["GDRPNamePublicUsage"]</label>
             </div>
 
-            <div class="checkbox">
-                <label><input type="checkbox"/>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mi ex, aliquet at efficitur sed, cursus quis arcu. Suspendisse fringilla sagittis placerat. Nam id leo rhoncus, laoreet est vel</label>
+            <br />
+            <br />
+            <br />
+            <div class="checkbox has-feedback">
+                <label><input asp-for="@Model.DataUsageRight.HaveBeenReaded" type="checkbox">@_localizer["GDRPHaveBeenReaded"]</label>
             </div>
+        </div>
 
-            <div class="checkbox">
-                <label><input type="checkbox" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mi ex, aliquet at efficitur sed, cursus quis arcu. Suspendisse fringilla sagittis placerat. Nam id leo rhoncus, laoreet est vel</label>
-            </div>
+        <br />
 
+        <div class="form-group col-xs-offset-10">
+            <partial name="_ReCaptcha" />
+        </div>
+
+        <div class="form-group">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input class="col-xs-offset-10" type="submit" value="@_localizer["SubmitInscription"]" />
         </div>
     </form>
 </div>
 
 @Html.PartialScript("_ValidationScriptsPartial");
+
+@Html.Script(@<script type="text/javascript">clubnet.validationForm.ExtendBootstrapDesign($('#newSubscriptionForm'));</script>)

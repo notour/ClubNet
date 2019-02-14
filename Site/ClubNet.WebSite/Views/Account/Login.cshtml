@@ -22,12 +22,12 @@
                     <hr />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" name="returnUrl" value="@VM.ReturnUrl" />
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <label asp-for="@VM.Login">@_localizer["LoginEmail"]</label>
                         <input asp-for="@VM.Login" class="form-control" id="Login" name="Login" />
                         <span asp-validation-for="@VM.Login" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <label asp-for="@VM.Password">@_localizer["Password"]</label>
                         <input asp-for="@VM.Password" class="form-control" id="Password" name="Password" />
                         <span asp-validation-for="@VM.Password" class="text-danger"></span>
@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <div class="checkbox">
                             <label asp-for="@VM.RememberMe">
-                                <input asp-for="@VM.RememberMe" id="RememberMe" name="RememberMe"  />
+                                <input asp-for="@VM.RememberMe" id="RememberMe" name="RememberMe" />
                                 @_localizer["RememberMe"]
                             </label>
                         </div>

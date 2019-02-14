@@ -12,6 +12,7 @@
     "wwwroot"
   ],
   "files": [
-    "ajaxForm.ts"
+    "ajaxForm.ts",
+    "validationForm.ts"
   ]
 }

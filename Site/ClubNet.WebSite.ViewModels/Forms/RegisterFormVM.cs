@@ -38,6 +38,7 @@
         /// </summary>
         [Required]
         [DataType(DataType.Password)]
+        [Compare(nameof(ConfirmationPassword))]
         public string Password { get; set; }
 
         /// <summary>

@@ -20,6 +20,7 @@
         #region Fields
 
         private readonly IConfigService _defaultConfig;
+        private readonly HttpContext _context;
 
         #endregion
 
@@ -31,6 +32,7 @@
         public RequestServiceImpl(HttpContext context)
         {
             this._defaultConfig = context.RequestServices.GetService(typeof(IConfigService)) as IConfigService;
+            this._context = context;
 
             var featureCulture = context.Features.Get<IRequestCultureFeature>();
             CurrentLanguage = featureCulture.RequestCulture.Culture;

@@ -19,16 +19,19 @@
                 <form method="post" asp-controller="Account" asp-action="RegisterForm" asp-route-lang="@_requestService.CurrentLanguage">
                     <h4>@_localizer["RegisterTitle", _clubDescriptor.DisplayName]</h4>
                     <hr />
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>>
+                    <div class="form-group has-feedback">
                         <label asp-for="ViewModel.Email">@_localizer["Email"]</label>
-                        <input asp-for="ViewModel.Email" class="form-control" name="Email" />
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span> </span>
+                            <input asp-for="ViewModel.Email" class="form-control" name="Email" />
+                        </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <label asp-for="ViewModel.Password">@_localizer["Password"]</label>
-                        <input asp-for="ViewModel.Password" class="form-control" name="Password"/>
+                        <input asp-for="ViewModel.Password" class="form-control" name="Password" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <label asp-for="ViewModel.ConfirmationPassword">@_localizer["ConfirmPassword"]</label>
                         <input asp-for="ViewModel.ConfirmationPassword" class="form-control" name="ConfirmationPassword" />
                     </div>

@@ -1,17 +1,16 @@
 ﻿namespace ClubNet.WebSite.DataLayer.Services
 {
+    using System;
+    using System.Collections.Immutable;
+    using System.Linq;
+    using System.Threading;
+
     using ClubNet.WebSite.DataLayer.Configurations;
     using ClubNet.WebSite.Domain;
 
     using Microsoft.Extensions.Options;
 
     using MongoDB.Driver;
-
-    using System;
-    using System.Collections.Immutable;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Threading;
 
     /// <summary>
     /// Storage provider that connect configuration and <see cref="MongoDBStorageService{TEntity}"/> specific 
