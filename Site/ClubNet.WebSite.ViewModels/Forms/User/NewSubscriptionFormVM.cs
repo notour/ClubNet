@@ -139,7 +139,12 @@
         /// Gets or sets the role collections
         /// </summary>
         [Required]
-        public IEnumerable<string> Roles { get; set; }
+        public IEnumerable<SubscriptionRole> Roles { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the current subscribption concern a competition player
+        /// </summary>
+        public bool IsCompetitionPlayer { get; set; }
 
         #endregion
 

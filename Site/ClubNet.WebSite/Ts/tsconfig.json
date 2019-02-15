@@ -13,6 +13,8 @@
   ],
   "files": [
     "ajaxForm.ts",
-    "validationForm.ts"
+    "validationForm.ts",
+    "selectorHelper.ts",
+    "conditions.ts"
   ]
 }

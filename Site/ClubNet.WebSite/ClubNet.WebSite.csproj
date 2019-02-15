@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Ts\conditions.ts" />
+    <None Remove="Ts\selectorHelper.ts" />
     <None Remove="Ts\validationForm.ts" />
   </ItemGroup>
 
@@ -132,6 +134,8 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="Ts\ajaxForm.ts" />
+    <TypeScriptCompile Include="Ts\conditions.ts" />
+    <TypeScriptCompile Include="Ts\selectorHelper.ts" />
     <TypeScriptCompile Include="Ts\validationForm.ts" />
   </ItemGroup>
 

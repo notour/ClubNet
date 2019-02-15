@@ -1,0 +1,33 @@
+﻿@import "_constants.scss";
+@import "_palette.scss";
+@import "_mixin.scss";
+
+.tag-selector-group {
+    ul {
+        float: left;
+
+        li::after {
+            content: close-quote;
+        }
+
+        li {
+            background-color: $grey-color;
+            padding: .2em .6em .3em;
+            font-size: 75%;
+            font-weight: bold;
+            line-height: 1;
+            color: $primary-color-text;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25em;
+            margin: 0px 2px;
+            display: inline-flex;
+        }
+
+        list-style-type: none;
+    }
+}
+
+.tag-selector {
+}

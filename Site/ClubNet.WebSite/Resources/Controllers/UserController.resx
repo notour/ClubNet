@@ -189,4 +189,22 @@
   <data name="Sexe" xml:space="preserve">
     <value>Sexe</value>
   </data>
+  <data name="SubscriptionRole_AdministratifSupport" xml:space="preserve">
+    <value>Administratif Support</value>
+  </data>
+  <data name="SubscriptionRole_Player" xml:space="preserve">
+    <value>Player</value>
+  </data>
+  <data name="SubscriptionRole_Refere" xml:space="preserve">
+    <value>Refere</value>
+  </data>
+  <data name="SubscriptionRole_TableOfficial" xml:space="preserve">
+    <value>Table Official</value>
+  </data>
+  <data name="SubscriptionRole_Trainer" xml:space="preserve">
+    <value>Trainer</value>
+  </data>
+  <data name="SubscriptionRole_Volunteer" xml:space="preserve">
+    <value>Volunteer</value>
+  </data>
 </root>

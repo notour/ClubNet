@@ -1,4 +1,6 @@
 ﻿@using ClubNet.WebSite.ViewModels.Forms.User;
+@using ClubNet.WebSite.Domain.User;
+
 @model NewSubscriptionFormVM;
 
 @inject IRequestService _requestService;
@@ -6,6 +8,12 @@
 
 @{
 }
+
+<script>
+    function checkIsPlayer() {
+        clubnet.conditions.if($('#roleSelector').find('input'), '@nameof(SubscriptionRole.Player)', $('#competitionPlayer'), '', 'hidden');
+    }
+</script>
 
 @Html.Script(@<script type="text/javascript">clubnet.ajaxForm.initializeFormAjaxPreset("newSubscriptionForm", "/@_requestService.CurrentLanguage/user/NewSubscriptionPresetForm");</script>)
 
@@ -29,12 +37,14 @@
             <div class="col-sm-9">
                 <h4>@_localizer["PlayerInfo"]</h4>
                 <hr />
+
                 <div class="form-group ">
                     <label asp-for="@Model.MemberNumber" class="col-sm-2 control-label text-left-important">@_localizer["MemberNumber"]</label>
                     <div class="col-sm-10">
                         <input asp-for="@Model.MemberNumber" class="form-control sr-only" name="MemberNumber" placeholder="@_localizer["MemberNumber"]" />
                     </div>
                 </div>
+
                 <div class="form-group ">
                     <label asp-for="@Model.FirstName" class="col-sm-2 control-label text-left-important">@_localizer["FirstName"]</label>
                     <div class="col-sm-10 has-feedback">
@@ -68,6 +78,47 @@
                     <div class="col-sm-3 has-feedback">
                         <input asp-for="@Model.BirthPlace" placeholder="@_localizer["BirthPlace"]" class="form-control" name="BirthPlace" />
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <label class="control-label text-left-important">@_localizer["Roles"] : </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <select onchange="clubnet.selectorHelper.tagSelection(this, $('#roleSelector'), 'checkIsPlayer');checkIsPlayer();"
+                                class="form-control tag-selector">
+
+                            <option value="0"> - </option>
+
+                            @foreach (var role in Enum.GetNames(typeof(SubscriptionRole)))
+                            {
+                                if (role != nameof(SubscriptionRole.None))
+                                {
+                                    <option value="@role">@_localizer[nameof(SubscriptionRole) + "_" + role]</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="competitionPlayer" class="checkbox @(Model.Roles == null || !Model.Roles.Contains(SubscriptionRole.Player) ? "hidden" : "")">
+                            <label><input asp-for="@Model.IsCompetitionPlayer" type="checkbox">@_localizer["IsCompetitionPlayer"]</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group tag-selector-group">
+                    <ul id="roleSelector" data-input-target="roles">
+                        @if (Model.Roles != null)
+                        {
+                            @foreach (var currentRole in Model.Roles)
+                            {
+                                <li onclick="this.parentNode.removeChild(this); checkIsPlayer();">
+                                    <input type="hidden" value="@currentRole" name="roles[]" /> 
+                                    @_localizer[nameof(SubscriptionRole) + "_" + currentRole]
+                                </li>
+                            }
+                        }
+                    </ul>
                 </div>
             </div>
         </div>
@@ -164,5 +215,3 @@
 </div>
 
 @Html.PartialScript("_ValidationScriptsPartial");
-
-@Html.Script(@<script type="text/javascript">clubnet.validationForm.ExtendBootstrapDesign($('#newSubscriptionForm'));</script>)

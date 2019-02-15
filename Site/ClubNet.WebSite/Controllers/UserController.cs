@@ -88,6 +88,20 @@
             return View("_UserLayout", pageVm);
         }
 
+        ///// <summary>
+        ///// Result of the current new subscription
+        ///// </summary>
+        //[HttpPost]
+        //public async Task<IActionResult> NewSubscriptionForm([FromBody] NewSubscriptionDto newSubscriptionDto)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+
+        //    }
+
+        //    return LocalizedRedirectToAction("User", nameof(NewSubscription));
+        //}
+
         /// <summary>
         /// Call to complet the <see cref="NewSubscriptionFormVM"/> with previous subscription
         /// </summary>

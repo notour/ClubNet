@@ -275,5 +275,59 @@ namespace ClubNet.WebSite.Resources.Controllers {
                 return ResourceManager.GetString("Sexe", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Administratif Support.
+        /// </summary>
+        internal static string SubscriptionRole_AdministratifSupport {
+            get {
+                return ResourceManager.GetString("SubscriptionRole_AdministratifSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Player.
+        /// </summary>
+        internal static string SubscriptionRole_Player {
+            get {
+                return ResourceManager.GetString("SubscriptionRole_Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refere.
+        /// </summary>
+        internal static string SubscriptionRole_Refere {
+            get {
+                return ResourceManager.GetString("SubscriptionRole_Refere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table Official.
+        /// </summary>
+        internal static string SubscriptionRole_TableOfficial {
+            get {
+                return ResourceManager.GetString("SubscriptionRole_TableOfficial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trainer.
+        /// </summary>
+        internal static string SubscriptionRole_Trainer {
+            get {
+                return ResourceManager.GetString("SubscriptionRole_Trainer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volunteer.
+        /// </summary>
+        internal static string SubscriptionRole_Volunteer {
+            get {
+                return ResourceManager.GetString("SubscriptionRole_Volunteer", resourceCulture);
+            }
+        }
     }
 }
