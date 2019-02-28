@@ -2,38 +2,26 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Runtime.Serialization;
 
+    using ClubNet.WebSite.Domain.User;
+
     [DataContract]
-    public sealed class NewSubscriptionBaseDto : INewSubscriptionBaseDto
+    public sealed class NewSubscriptionDto : INewSubscriptionBaseDto
     {
+        #region Ctor
+
+        /// <summary>
+        /// Initalize a new instance of the class <see cref="NewSubscriptionDto"/>
+        /// </summary>
+        public NewSubscriptionDto()
+        {
+            DataUsageRight = new DataUsageRightFormDto();
+        }
+
+        #endregion
+
         #region Properties
-
-        ///// <summary>
-        ///// Gets a value indicating the subscription season id
-        ///// </summary>
-        //[DataMember]
-        //public Guid SeasonId { get; set; }
-
-        ///// <summary>
-        ///// Gets the member first name
-        ///// </summary>
-        //[DataMember]
-        //public string FirstName { get; set; }
-
-        ///// <summary>
-        ///// Gets the member last name
-        ///// </summary>
-        //[DataMember]
-        //public string LastName { get; set; }
-
-        ///// <summary>
-        ///// Gets the member birth date
-        ///// </summary>
-        //[DataMember]
-        //public DateTime? BirthDate { get; set; }
-
 
         /// <summary>
         /// Gets the member id target by this current subscription

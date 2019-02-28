@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Mvc.Formatters;
     using Microsoft.Net.Http.Headers;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -88,7 +89,7 @@
                     return await InputFormatterResult.SuccessAsync(null);
                 }
 
-                bodyContent = ConvertToJson(formResult);
+                bodyContent = ConvertToJson(formResult).ToString();
             }
 
             if (contentType == FORM_CONTENT_TYPE || contentType == JSON_CONTENT_TYPE)
@@ -106,9 +107,70 @@
         /// <summary>
         /// Convert the key value pair into json string
         /// </summary>
-        private string ConvertToJson(IFormCollection formValues)
+        private JObject ConvertToJson(IFormCollection formValues, string previousPath = null)
         {
-            return "{" + string.Join(", ", formValues.Keys.Cast<string>().Select(k => "\"" + k + "\":\"" + formValues[k].FirstOrDefault() + "\"")) + "}";
+            var obj = new JObject();
+
+            var propKeys = formValues.Keys;
+            var subModelKeys = propKeys.Where(k => k.Contains('.'))
+                                       .ToArray();
+            if (!string.IsNullOrEmpty(previousPath))
+            {
+                propKeys = formValues.Keys.Where(k => k.StartsWith(previousPath))
+                                          .ToArray();
+
+                subModelKeys = propKeys.Where(k => k.Substring(previousPath.Length)
+                                                    .Trim('.')
+                                                    .Contains('.'))
+                                       .ToArray();
+
+            }
+
+            if (subModelKeys.Any())
+            {
+                subModelKeys = subModelKeys.Select(k => k.Split(".".ToArray(), 2, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault())
+                                           .Where(k => k != null)
+                                           .Distinct()
+                                           .ToArray();
+            }
+
+            foreach (var subKey in subModelKeys)
+            {
+                var subOject = ConvertToJson(formValues, (string.IsNullOrEmpty(previousPath)
+                                                                    ? subKey
+                                                                    : previousPath + "." + subKey));
+
+                obj.Add(subKey, subOject);
+            }
+
+            foreach (var key in propKeys.Except(subModelKeys))
+            {
+                var values = formValues[key];
+
+                var propName = key.Replace("[", "")
+                                  .Replace("]", "");
+
+                if (!string.IsNullOrEmpty(previousPath))
+                    propName = propName.Replace(previousPath, "")
+                                       .Trim('.')
+                                       .Trim();
+
+                var isArray = key.EndsWith("[]");
+
+                if (values.Count == 1 && !isArray)
+                {
+                    var val = values.First();
+                    if (val.ToLower() == "on")
+                        val = "true";
+                    obj.Add(propName, val);
+                }
+                else if (isArray)
+                {
+                    obj.Add(propName, new JArray(values));
+                }
+            }
+
+            return obj;
         }
 
         #endregion

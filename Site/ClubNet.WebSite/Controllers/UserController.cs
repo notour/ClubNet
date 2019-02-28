@@ -5,6 +5,10 @@
     using ClubNet.Shared.Api.Dto;
     using ClubNet.WebSite.BusinessLayer.Contracts;
     using ClubNet.WebSite.Common.Contracts;
+    using ClubNet.WebSite.Common.Enums;
+    using ClubNet.WebSite.Common.Errors;
+    using ClubNet.WebSite.Resources;
+    using ClubNet.WebSite.Tools;
     using ClubNet.WebSite.ViewModels;
     using ClubNet.WebSite.ViewModels.Forms.User;
     using ClubNet.WebSite.ViewModels.User;
@@ -20,6 +24,7 @@
     {
         #region Fields
 
+        private readonly IApiService _apiService;
         private readonly IMenuBL _menuBL;
         private readonly IUserBL _userBL;
 
@@ -30,11 +35,17 @@
         /// <summary>
         /// Initialize a new instance of the class <see cref="UserController"/>
         /// </summary>
-        public UserController(IServiceProvider serviceProvider, ILogger<UserController> logger, IResourceService resourceService, IMenuBL menuBL, IUserBL userBL)
+        public UserController(IServiceProvider serviceProvider, 
+                              ILogger<UserController> logger, 
+                              IResourceService resourceService, 
+                              IMenuBL menuBL, 
+                              IUserBL userBL,
+                              IApiService apiService)
             : base(serviceProvider, logger, resourceService)
         {
             this._menuBL = menuBL;
             this._userBL = userBL;
+            this._apiService = apiService;
         }
 
         #endregion
@@ -88,25 +99,42 @@
             return View("_UserLayout", pageVm);
         }
 
-        ///// <summary>
-        ///// Result of the current new subscription
-        ///// </summary>
-        //[HttpPost]
-        //public async Task<IActionResult> NewSubscriptionForm([FromBody] NewSubscriptionDto newSubscriptionDto)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
+        /// <summary>
+        /// Result of the current new subscription
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> NewSubscriptionForm([FromBody] NewSubscriptionDto newSubscriptionDto, [FromBody]string gRecaptchaResponse)
+        {
+            InitializeCurrentViewInfo();
 
-        //    }
+            bool succeed = true;
 
-        //    return LocalizedRedirectToAction("User", nameof(NewSubscription));
-        //}
+            if (ModelState.IsValid)
+            {
+                if (!await ReCaptcha.ValidateAsync(this._apiService.GetPrivateApiKey(Apis.ReCaptcha), gRecaptchaResponse))
+                {
+                    this.ModelState.AddModelError(string.Empty, this.ResourceService.GetString(ErrorCategory.Global, nameof(ErrorMessages.RecaptchaFailed), this.RequestService.CurrentLanguage));
+                    succeed = false;
+                }
+            }
+
+            if (succeed)
+            {
+                SaveMessages();
+
+                return LocalizedRedirectToAction("user", nameof(Subscriptions));
+            }
+
+            SaveModelState();
+
+            return RedirectToAction(nameof(NewSubscription), "User");
+        }
 
         /// <summary>
         /// Call to complet the <see cref="NewSubscriptionFormVM"/> with previous subscription
         /// </summary>
         [HttpPost]
-        public async Task<NewSubscriptionFormVM> NewSubscriptionPresetForm(NewSubscriptionBaseDto subscriptionBaseDto)
+        public async Task<NewSubscriptionFormVM> NewSubscriptionPresetForm(NewSubscriptionDto subscriptionBaseDto)
         {
             var subscriptionFormVM = new NewSubscriptionFormVM(RequestService);
 

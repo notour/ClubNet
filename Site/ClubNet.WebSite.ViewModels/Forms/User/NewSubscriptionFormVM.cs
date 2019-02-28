@@ -75,8 +75,8 @@
         /// Gets or sets the birth date.
         /// </summary>
         [Required]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true)]
-        [DataType(DataType.Text)]
         public DateTime? BirthDate { get; set; }
 
         /// <summary>
@@ -139,7 +139,7 @@
         /// Gets or sets the role collections
         /// </summary>
         [Required]
-        public IEnumerable<SubscriptionRole> Roles { get; set; }
+        public IEnumerable<SubscriptionRoleEnum> Roles { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating if the current subscribption concern a competition player

@@ -1,29 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ClubNet.Shared.Api.Dto;
-using ClubNet.WebSite.Common.Contracts;
-
-namespace ClubNet.WebSite.ViewModels.Forms.User
+﻿namespace ClubNet.Shared.Api.Dto
 {
     /// <summary>
     /// Define the form information giving the usage right on the member informations
     /// </summary>
-    public sealed class DataUsageRightFormVM : BaseFormVM, IDataUsageRightModel
+    public sealed class DataUsageRightFormDto : IDataUsageRightModel
     {
-        #region Fields
-        #endregion
-
-        #region Ctor
-
-        /// <summary>
-        /// Initiazalize a new instance of the class <see cref="DataUsageRightFormVM"/>
-        /// </summary>
-        public DataUsageRightFormVM(IRequestService requestService)
-            : base(requestService)
-        {
-        }
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -49,7 +30,6 @@ namespace ClubNet.WebSite.ViewModels.Forms.User
         /// <summary>
         /// Gets or sets a value indicating that the member have correclty read on confirm understand the impact of his choice
         /// </summary>
-        [Required]
         public bool HaveBeenReaded { get; set; }
 
         #endregion
