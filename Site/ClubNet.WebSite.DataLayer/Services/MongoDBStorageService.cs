@@ -1,5 +1,12 @@
 ﻿namespace ClubNet.WebSite.DataLayer.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using System.Linq.Expressions;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     using ClubNet.Framework.Memory;
     using ClubNet.WebSite.Common.Exceptions;
     using ClubNet.WebSite.Domain;
@@ -7,13 +14,6 @@
     using MongoDB.Bson;
     using MongoDB.Bson.Serialization;
     using MongoDB.Driver;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Immutable;
-    using System.Linq.Expressions;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Storage service dedicated to the mongo db DataBases

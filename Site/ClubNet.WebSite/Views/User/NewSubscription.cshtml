@@ -21,10 +21,11 @@
     <h3>@_localizer["NewSubscription"]</h3>
     <hr />
     <br />
+
     <form class="form-horizontal"
           id="newSubscriptionForm"
           asp-controller="User"
-          asp-action="NewSubscriptionForm"
+          asp-action="SubmitNewSubscriptionForm"
           asp-route-lang="@_requestService.CurrentLanguage">
 
         <input type="hidden" value="@Model.SeasonId" data-ajax-trigger="true" name="SeasonId" />
@@ -204,6 +205,10 @@
             <div class="checkbox has-feedback">
                 <label><input name="DataUsageRight.HaveBeenReaded" required type="checkbox">@_localizer["GDRPHaveBeenReaded"]</label>
             </div>
+
+            <div class="checkbox">
+                <label><input name="submitSubscription" required type="checkbox">@_localizer["SubmitSubscription"]</label>
+            </div>
         </div>
 
         <br />
@@ -214,7 +219,7 @@
 
         <div class="form-group">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input class="col-xs-offset-10" type="submit" value="@_localizer["SubmitInscription"]" />
+            <input type="submit" value="@_localizer["SubmitInscription"]" />
         </div>
     </form>
 </div>

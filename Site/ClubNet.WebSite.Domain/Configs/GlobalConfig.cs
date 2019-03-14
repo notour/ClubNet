@@ -1,8 +1,6 @@
-﻿using ClubNet.WebSite.Domain.Security;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
+﻿using System.Runtime.Serialization;
+
+using ClubNet.WebSite.Domain.Security;
 
 namespace ClubNet.WebSite.Domain.Configs
 {
@@ -45,29 +43,29 @@ namespace ClubNet.WebSite.Domain.Configs
         /// <summary>
         /// Create a new <see cref="GlobalConfig"/>
         /// </summary>
-        public static GlobalConfig Create(string theme, string configName, SecurityCriteria securityCriteria)
+        public static GlobalConfig Create(string theme, string configName, SecurityCriteria securityCriteria, bool isDraft)
         {
             var cfg = new GlobalConfig();
-            cfg.ImplCreate(theme, configName, securityCriteria);
+            cfg.ImplCreate(theme, configName, securityCriteria, isDraft);
             return cfg;
         }
 
         /// <summary>
         /// Update the current entity
         /// </summary>
-        private void ImplCreate(string theme, string configName, SecurityCriteria securityCriteria)
+        private void ImplCreate(string theme, string configName, SecurityCriteria securityCriteria, bool isDraft)
         {
             SetData(theme, configName);
-            base.Create(securityCriteria);
+            base.Create(securityCriteria, isDraft);
         }
 
         /// <summary>
         /// Update the current entity
         /// </summary>
-        public void Update(string theme, string configName, SecurityCriteria securityCriteria)
+        public void Update(string theme, string configName, SecurityCriteria securityCriteria, bool isDraft)
         {
             SetData(theme, configName);
-            base.Update(securityCriteria);
+            base.Update(securityCriteria, isDraft);
         }
 
         /// <summary>

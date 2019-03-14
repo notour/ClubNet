@@ -2,6 +2,8 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+
+    using ClubNet.Shared.Api.Dto;
     using ClubNet.WebSite.ViewModels.Forms.User;
     using ClubNet.WebSite.ViewModels.User;
 
@@ -20,7 +22,12 @@
         /// <summary>
         /// Get a new subscription form configured
         /// </summary>
-        Task<NewSubscriptionFormVM> GetNewSubscriptionFormVM(CancellationToken timeout);
+        Task<NewSubscriptionFormVM> GetNewSubscriptionFormVMAsync(CancellationToken timeout);
+
+        /// <summary>
+        /// Save the new subscription. If <paramref name="justSave"/> is false then the subscription is also submit to validation
+        /// </summary>
+        Task SaveNewSubscriptionAsync(NewSubscriptionDto newSubscriptionDto, bool justSave, CancellationToken cancellationToken);
 
         #endregion
     }

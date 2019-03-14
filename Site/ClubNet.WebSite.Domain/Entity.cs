@@ -1,9 +1,11 @@
 ﻿namespace ClubNet.WebSite.Domain
 {
-    using ClubNet.WebSite.Domain.Security;
-    using MongoDB.Bson.Serialization.Attributes;
     using System;
     using System.Runtime.Serialization;
+
+    using ClubNet.WebSite.Domain.Security;
+
+    using MongoDB.Bson.Serialization.Attributes;
 
     /// <summary>
     /// Define an entity savable
@@ -38,7 +40,7 @@
         [BsonElement]
         [BsonRequired]
         [DataMember(IsRequired = true)]
-        public TEntityType EntityType { get; }
+        public TEntityType EntityType { get; private set; }
 
         /// <summary>
         /// Gets the entity security criteria
@@ -66,6 +68,12 @@
         [BsonElement]
         public DateTime UpdatedOn { get; private set; }
 
+        /// <summary>
+        /// Gets a value indicating if this document is a draft
+        /// </summary>
+        [BsonElement]
+        public bool IsDraft { get; private set; }
+
         #endregion
 
         #region Methods
@@ -73,28 +81,29 @@
         /// <summary>
         /// Update the current entity
         /// </summary>
-        protected void Create(SecurityCriteria securityCriteria)
+        protected void Create(SecurityCriteria securityCriteria, bool isDraft)
         {
-            SetData(Guid.NewGuid(), securityCriteria);
+            SetData(Guid.NewGuid(), securityCriteria, isDraft);
             CreatedOn = DateTime.UtcNow;
         }
 
         /// <summary>
         /// Update the current entity
         /// </summary>
-        protected void Update(SecurityCriteria securityCriteria)
+        protected void Update(SecurityCriteria securityCriteria, bool isDraft)
         {
-            SetData(this.Id, securityCriteria);
+            SetData(this.Id, securityCriteria, isDraft);
         }
 
         /// <summary>
         /// Initialize the entity data
         /// </summary>
-        private void SetData(Guid id, SecurityCriteria securityCriteria)
+        private void SetData(Guid id, SecurityCriteria securityCriteria, bool isDraft)
         {
             Id = id;
             SecurityCriteria = securityCriteria;
             UpdatedOn = DateTime.UtcNow;
+            IsDraft = isDraft;
         }
 
         #endregion

@@ -1,8 +1,10 @@
 ﻿namespace ClubNet.WebSite.Domain.Configs.Menus
 {
-    using ClubNet.WebSite.Domain.Security;
-    using MongoDB.Bson.Serialization.Attributes;
     using System.Runtime.Serialization;
+
+    using ClubNet.WebSite.Domain.Security;
+
+    using MongoDB.Bson.Serialization.Attributes;
 
     /// <summary>
     /// Define a menu item used to navigate to a specific link
@@ -55,18 +57,19 @@
         /// <summary>
         /// Create a new <see cref="Menu"/>
         /// </summary>
-        public static MenuLinkItem Create(string name, 
+        public static MenuLinkItem Create(string name,
                                             LocalizedString label,
                                             string glyphicon,
-                                            LocalizedString description, 
-                                            string controller, 
-                                            string action, 
-                                            string url, 
-                                            SecurityCriteria securityCriteria)
+                                            LocalizedString description,
+                                            string controller,
+                                            string action,
+                                            string url,
+                                            SecurityCriteria securityCriteria,
+                                            bool isDraft)
         {
             var inst = new MenuLinkItem();
             SetData(controller, action, url, inst);
-            inst.Create(name, label, glyphicon, description, securityCriteria);
+            inst.Create(name, label, glyphicon, description, securityCriteria, isDraft);
 
             return inst;
         }
@@ -81,10 +84,11 @@
                            string controller,
                            string action,
                            string url,
-                           SecurityCriteria securityCriteria)
+                           SecurityCriteria securityCriteria,
+                           bool isDraft)
         {
             SetData(controller, action, url, this);
-            this.Update(name, label, glyphicon, description, securityCriteria);
+            this.Update(name, label, glyphicon, description, securityCriteria, isDraft);
         }
 
         /// <summary>

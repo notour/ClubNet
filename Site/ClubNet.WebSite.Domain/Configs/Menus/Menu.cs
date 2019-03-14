@@ -1,9 +1,11 @@
 ﻿namespace ClubNet.WebSite.Domain.Configs.Menus
 {
-    using ClubNet.WebSite.Domain.Security;
-    using MongoDB.Bson.Serialization.Attributes;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+
+    using ClubNet.WebSite.Domain.Security;
+
+    using MongoDB.Bson.Serialization.Attributes;
 
     /// <summary>
     /// Define a specific menu
@@ -41,11 +43,11 @@
         /// <summary>
         /// Create a new <see cref="Menu"/>
         /// </summary>
-        public static Menu Create(string name, LocalizedString label, string glyphicon, LocalizedString description, IEnumerable<MenuItem> items, SecurityCriteria securityCriteria)
+        public static Menu Create(string name, LocalizedString label, string glyphicon, LocalizedString description, IEnumerable<MenuItem> items, SecurityCriteria securityCriteria, bool isDraft)
         {
             var inst = new Menu();
             inst.Items = items;
-            inst.Create(name, label, glyphicon, description, securityCriteria);
+            inst.Create(name, label, glyphicon, description, securityCriteria, isDraft);
 
             return inst;
         }
@@ -53,10 +55,10 @@
         /// <summary>
         /// Create a new <see cref="Menu"/>
         /// </summary>
-        public void Update(string name, LocalizedString label, string glyphicon, LocalizedString description, IEnumerable<MenuItem> items, SecurityCriteria securityCriteria)
+        public void Update(string name, LocalizedString label, string glyphicon, LocalizedString description, IEnumerable<MenuItem> items, SecurityCriteria securityCriteria, bool isDraft)
         {
             this.Items = items;
-            this.Update(name, label, glyphicon, description, securityCriteria);
+            this.Update(name, label, glyphicon, description, securityCriteria, isDraft);
         }
 
         #endregion

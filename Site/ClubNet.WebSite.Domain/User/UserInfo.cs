@@ -2,13 +2,17 @@
 {
     using System;
     using System.Globalization;
+
     using ClubNet.WebSite.Common;
 
     using Microsoft.AspNetCore.Identity;
 
+    using MongoDB.Bson.Serialization.Attributes;
+
     /// <summary>
     /// Define all the user informations
     /// </summary>
+    [BsonDiscriminator]
     public class UserInfo : IdentityUser<Guid>, IUserInfo, IEntity
     {
         #region Ctor

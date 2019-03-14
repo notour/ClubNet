@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+
     using ClubNet.Shared.Api.Dto;
     using ClubNet.WebSite.BusinessLayer.Contracts;
     using ClubNet.WebSite.Common.Contracts;
@@ -12,6 +13,7 @@
     using ClubNet.WebSite.ViewModels;
     using ClubNet.WebSite.ViewModels.Forms.User;
     using ClubNet.WebSite.ViewModels.User;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -35,10 +37,10 @@
         /// <summary>
         /// Initialize a new instance of the class <see cref="UserController"/>
         /// </summary>
-        public UserController(IServiceProvider serviceProvider, 
-                              ILogger<UserController> logger, 
-                              IResourceService resourceService, 
-                              IMenuBL menuBL, 
+        public UserController(IServiceProvider serviceProvider,
+                              ILogger<UserController> logger,
+                              IResourceService resourceService,
+                              IMenuBL menuBL,
                               IUserBL userBL,
                               IApiService apiService)
             : base(serviceProvider, logger, resourceService)
@@ -94,7 +96,7 @@
 
             await InitializeCommonViewModelAsync(pageVm);
 
-            pageVm.AddViewModel<NewSubscriptionFormVM>("NewSubscription", await this._userBL.GetNewSubscriptionFormVM(timeout));
+            pageVm.AddViewModel<NewSubscriptionFormVM>("NewSubscription", await this._userBL.GetNewSubscriptionFormVMAsync(timeout));
 
             return View("_UserLayout", pageVm);
         }
@@ -103,7 +105,7 @@
         /// Result of the current new subscription
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> NewSubscriptionForm([FromBody] NewSubscriptionDto newSubscriptionDto, [FromBody]string gRecaptchaResponse)
+        public async Task<IActionResult> SubmitNewSubscriptionForm([FromBody] NewSubscriptionDto newSubscriptionDto, [FromBody]string gRecaptchaResponse, [FromBody]bool submitSubscription)
         {
             InitializeCurrentViewInfo();
 
@@ -120,9 +122,12 @@
 
             if (succeed)
             {
+                await this._userBL.SaveNewSubscriptionAsync(newSubscriptionDto, !submitSubscription, base.RequestService.CancellationToken);
+
                 SaveMessages();
 
-                return LocalizedRedirectToAction("user", nameof(Subscriptions));
+                if (submitSubscription)
+                    return LocalizedRedirectToAction("user", nameof(Subscriptions));
             }
 
             SaveModelState();

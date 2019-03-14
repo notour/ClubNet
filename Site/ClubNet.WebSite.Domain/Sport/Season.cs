@@ -1,10 +1,10 @@
 ﻿namespace ClubNet.WebSite.Domain.Sport
 {
     using System;
-    using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using System.Text;
+
     using ClubNet.WebSite.Domain.Security;
+
     using MongoDB.Bson.Serialization.Attributes;
 
     /// <summary>
@@ -54,10 +54,10 @@
         /// <summary>
         /// Create a new season object
         /// </summary>
-        public static Season Create(DateTime start, DateTime end, DateTime subscriptionOpenDate, SecurityCriteria securityCriteria)
+        public static Season Create(DateTime start, DateTime end, DateTime subscriptionOpenDate, SecurityCriteria securityCriteria, bool isDraft)
         {
             var inst = new Season();
-            inst.Create(securityCriteria);
+            inst.Create(securityCriteria, isDraft);
             inst.SetData(start, end, subscriptionOpenDate);
             return inst;
         }
@@ -65,9 +65,9 @@
         /// <summary>
         /// Create a new season object
         /// </summary>
-        public void Update(DateTime start, DateTime end, DateTime subscriptionOpenDate, SecurityCriteria securityCriteria)
+        public void Update(DateTime start, DateTime end, DateTime subscriptionOpenDate, SecurityCriteria securityCriteria, bool isDraft)
         {
-            this.Update(securityCriteria);
+            this.Update(securityCriteria, isDraft);
             this.SetData(start, end, subscriptionOpenDate);
         }
 

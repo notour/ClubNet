@@ -38,18 +38,18 @@
         /// <summary>
         /// Create a new file info
         /// </summary>
-        protected void Create(string originalPath, SecurityCriteria securityCriteria)
+        protected void Create(string originalPath, SecurityCriteria securityCriteria, bool isDraft)
         {
-            base.Create(securityCriteria);
+            base.Create(securityCriteria, isDraft);
             OriginalPath = originalPath;
         }
 
         /// <summary>
         /// Update the current file info
         /// </summary>
-        protected void Update(string originalPath, SecurityCriteria securityCriteria)
+        protected void Update(string originalPath, SecurityCriteria securityCriteria, bool isDraft)
         {
-            base.Update(securityCriteria);
+            base.Update(securityCriteria, isDraft);
             OriginalPath = originalPath;
         }
 
